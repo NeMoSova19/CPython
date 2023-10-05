@@ -30,3 +30,5 @@
 *.exe
 *.out
 *.app
+/.vs/CPython
+/x64/Release/microsoft/STL
