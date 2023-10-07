@@ -68,142 +68,69 @@ public:
 };
 
 
-
-template<class... T>
-struct Print {
-	Print() = delete;
-	Print(Print&&) = delete;
-	
-	Print(T... t) {
-		_print(t...);
-	}
-	/*void operator ()(T ...t) {
-		_print(t...);
-	}
-	
-	enum Preset {
-		standart,
-		fast,
-		beautiful
-	};
-
-	static inline Print Settings(Preset pres) {
-		Print prt;
-		prt.preset = pres;
-		return prt;
-	}*/
-
-private:
-	//Preset preset{ standart };
-
-private:
-	template<typename R> void _print(R t) {
-		std::cout << t;
-	}
-	template<typename R, typename P> void _print(std::pair<R,P> t) {
-		_print(t.first); _print(t.second);
-	}
-	template<typename R, typename P> void _print(std::map<R, P> v) {
-		for (auto i : v) _print(i);
-	}
-	template<typename R> void _print(std::vector<R> v) {
-		for (auto i : v) _print(i);
-	}
-	template<typename R> void _print(std::list<R> v) {
-		for (auto i : v) _print(i);
-	}
-	template<typename R> void _print(std::set<R> v) {
-		for (auto i : v) _print(i);
-	}
-	template<typename R> void _print(std::queue<R> v) {
-		for (auto i : v) _print(i);
-	}
-	template<typename R> void _print(std::deque<R> v) {
-		for (auto i : v) _print(i);
-	}
-	template<typename R> void _print(std::stack<R> v) {
-		for (auto i : v) _print(i);
-	}
-	template<typename R, size_t N> void _print(std::array<R, N> v) {
-		for (auto i : v) _print(i);
-	}
-	template<typename R, typename... P> void _print(R v, P... w) {
-		_print(v); _print(w...);
-	}
-};
-//
-//template<typename T> void Print(T t);
-//template<typename T, typename... Args> void Print(T t, Args... args);
-//template<class T1, class T2> void Print(std::pair<T1, T2> p);
-//template<class T> void Print(std::vector<T> v);
-//
-//
-//
-//template <typename T> void Print(T t) { std::cout << t; }
-//
-//template<typename T, typename... Args> void Print(T t, Args... args)
-//{
-//	Print(t); std::cout << ' '; Print(args...);
-//}
-//
-//template <class T1, class T2> void Print(std::pair<T1, T2> p) {
-//	std::cout << "[";  Print(p.first); std::cout << ", "; Print(p.second); std::cout << "]";
-//}
-//
-//template<class T> void Print(std::vector<T> v) {
-//	std::cout << "[";
-//	auto i = v.begin();
-//	for (size_t _i = 0; _i < v.size() - 1; _i++) {
-//		Print(*i);  std::cout << ", ";
-//		i++;
+// WIP WIP WIP WIP WIP WIP WIP WIP
+//template<class... T>
+//struct Print {
+//	Print() = delete;
+//	Print(Print&&) = delete;
+//	
+//	Print(T... t) {
+//		_print(t...);
 //	}
-//	Print(*i);
-//	std::cout << "]";
-//}
-//
-////WIP
-////template<typename... Args> void Print(std::tuple<Args...> v) {
-////	std::cout << "[";
-////	auto i = v.begin();
-////	for (size_t _i = 0; _i < v.size() - 1; _i++) {
-////		Print(*i);  std::cout << ", ";
-////		i++;
-////	}
-////	Print(*i);
-////	std::cout << "]";
-////}
-////WIP
-//
-//template<class T, size_t N> void Print(std::array<T, N> v) {
-//	std::cout << "[";
-//	auto i = v.begin();
-//	for (size_t _i = 0; _i < N - 1; _i++) {
-//		Print(*i);  std::cout << ", ";
-//		i++;
+//	/*void operator ()(T ...t) {
+//		_print(t...);
 //	}
-//	Print(*i);
-//	std::cout << "]";
-//}
+//	
+//	enum Preset {
+//		standart,
+//		fast,
+//		beautiful
+//	};
 //
-//template<class T1, class T2> void Print(std::map<T1, T2> v) {
-//	std::cout << "{\n";
-//	for (auto u : v) {
-//		std::cout << "    ";
-//		Print(u.first);  
-//		std::cout << ": ";
-//		Print(u.second);  
-//		std::cout << "\n";
+//	static inline Print Settings(Preset pres) {
+//		Print prt;
+//		prt.preset = pres;
+//		return prt;
+//	}*/
+//
+//private:
+//	//Preset preset{ standart };
+//
+//private:
+//	template<typename R> void _print(R t) {
+//		std::cout << t;
 //	}
-//	std::cout << "}";
-//}
-
-/*
-map - { } - key : val
-arrays - [ ]
-pair - < >
-*/
-
-
+//	template<typename R, typename P> void _print(std::pair<R,P> t) {
+//		_print(t.first); _print(t.second);
+//	}
+//	template<typename R, typename P> void _print(std::map<R, P> v) {
+//		for (auto i : v) _print(i);
+//	}
+//	template<typename R> void _print(std::vector<R> v) {
+//		for (auto i : v) _print(i);
+//	}
+//	template<typename R> void _print(std::list<R> v) {
+//		for (auto i : v) _print(i);
+//	}
+//	template<typename R> void _print(std::set<R> v) {
+//		for (auto i : v) _print(i);
+//	}
+//	template<typename R> void _print(std::queue<R> v) {
+//		for (auto i : v) _print(i);
+//	}
+//	template<typename R> void _print(std::deque<R> v) {
+//		for (auto i : v) _print(i);
+//	}
+//	template<typename R> void _print(std::stack<R> v) {
+//		for (auto i : v) _print(i);
+//	}
+//	template<typename R, size_t N> void _print(std::array<R, N> v) {
+//		for (auto i : v) _print(i);
+//	}
+//	template<typename R, typename... P> void _print(R v, P... w) {
+//		_print(v); _print(w...);
+//	}
+//};
 
 
 
