@@ -20,6 +20,7 @@ private:
 	size_t _Size{1};
 public:
 	Input(std::string s = "", size_t Size = 1) : _Size(Size) { std::cout << s; }
+	Input(size_t Size) : _Size(Size) {  }
 	template<typename T> operator T() { T v; std::cin >> v; return v; }
 	template<typename T1, typename T2> operator std::pair<T1, T2>() {
 		std::pair<T1, T2> v;
