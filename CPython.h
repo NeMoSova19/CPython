@@ -2,7 +2,6 @@
 #include <iostream>
 #include <string>
 #include <sstream>
-#include <tuple>
 #include <array>
 #include <vector>
 #include <list>
@@ -15,11 +14,16 @@
 #include <deque>
 #include <stack>
 
-struct Input {
+#include <type_traits>
+
+
+
+class Input {
 private:
-	size_t _Size{1};
+	static inline size_t npos{ (size_t)-1 };
+	size_t _Size{npos};
 public:
-	Input(std::string s = "", size_t Size = 1) : _Size(Size) { std::cout << s; }
+	Input(std::string s = "", size_t Size = npos) : _Size(Size) { std::cout << s; }
 	Input(size_t Size) : _Size(Size) {  }
 	template<typename T> operator T() { T v; std::cin >> v; return v; }
 	template<typename T1, typename T2> operator std::pair<T1, T2>() {
@@ -27,19 +31,14 @@ public:
 		v.first = Input(); v.second = Input();
 		return v;
 	}
-	
-	//WIP
-	//template<typename... Args> operator std::tuple<Args...>() {
-	//	std::tuple<Args...> v;
-	//	for (size_t i = 0; i < _Size; i++) {
-	//		v[0];
-	//	}
-	//	return v;
-	//} 
-	//WIP
-
 	template<typename T1, typename T2> operator std::map<T1, T2>() {
 		std::map<T1, T2> v;
+		if (_Size == 0) return v;
+		if (_Size == npos) {
+			T1 t1 = Input(); T2 t2 = Input();
+			v.insert({ t1, t2 });
+			return v;
+		}
 		for (size_t i = 0; i < _Size; i++) {
 			T1 t1 = Input(); T2 t2 = Input();
 			v.insert({ t1, t2 });
@@ -48,6 +47,11 @@ public:
 	}
 	template<typename T1, typename T2> operator std::unordered_map<T1, T2>() {
 		std::unordered_map<T1, T2> v;
+		if (_Size == npos) {
+			T1 t1 = Input(); T2 t2 = Input();
+			v.insert({ t1, t2 });
+			return v;
+		}
 		for (size_t i = 0; i < _Size; i++) {
 			T1 t1 = Input(); T2 t2 = Input();
 			v.insert({ t1, t2 });
@@ -56,131 +60,184 @@ public:
 	}
 	template<typename T, size_t N> operator std::array<T, N>() {
 		std::array<T, N> v;
-		for (size_t i = 0; i < N; i++) v[i] = Input();
+		if (_Size >= N) for (size_t i = 0; i < N; i++) v[i] = Input();
+		else for (size_t i = 0; i < _Size; i++) v[i] = Input();
 		return v;
 	}
 	template<typename T> operator std::vector<T>() {
+		//vector<vector<vector<...>>> not working. WIP
 		std::vector<T> v;
-		//T x = Input();
-		//v.push_back(x);
-		std::string s;
-		char c = std::cin.get();
-		std::getline(std::cin, s);
-		if (c != '\n') s = c + s;
-		std::stringstream ss(s);
-		//if (_Size == 1);
-		T t;
-		while (ss >> t) v.push_back(t);
+		if (_Size == npos) {
+			std::string s;
+			char c = std::cin.get();
+			std::getline(std::cin, s);
+			if (c != '\n') s = c + s;
+			std::stringstream ss(s);
+			T t;
+			while (ss >> t) v.push_back(t);
+			return v;
+		}
+		for (size_t i = 0; i < _Size; i++) v.push_back(Input());
 		return v;
 	}
 	template<typename T> operator std::list<T>() {
+		//list<list<list<...>>> not working. WIP
 		std::list<T> v;
-		std::string s;
-		char c = std::cin.get();
-		std::getline(std::cin, s);
-		if (c != '\n') s = c + s;
-		std::stringstream ss(s);
-		T t;
-		while (ss >> t) v.push_back(t);
+		if (_Size == npos) {
+			std::string s;
+			char c = std::cin.get();
+			std::getline(std::cin, s);
+			if (c != '\n') s = c + s;
+			std::stringstream ss(s);
+			T t;
+			while (ss >> t) v.push_back(t);
+			return v;
+		}
+		for (size_t i = 0; i < _Size; i++) v.push_back(Input());
 		return v;
 	}
 	template<typename T> operator std::forward_list<T>() {
+		//forward_list<forward_list<forward_list<...>>> not working. WIP
 		std::forward_list<T> v;
-		std::string s;
-		char c = std::cin.get();
-		std::getline(std::cin, s);
-		if (c != '\n') s = c + s;
-		std::stringstream ss(s);
-		T t;
-		while (ss >> t) v.push_front(t);
+		if (_Size == npos) {
+			std::string s;
+			char c = std::cin.get();
+			std::getline(std::cin, s);
+			if (c != '\n') s = c + s;
+			std::stringstream ss(s);
+			T t;
+			while (ss >> t) v.push_front(t);
+			return v;
+		}
+		for (size_t i = 0; i < _Size; i++) v.push_front(Input());
 		return v;
 	}
 	template<typename T> operator std::set<T>() {
+		//set<set<set<...>>> not working. WIP
 		std::set<T> v;
-		std::string s;
-		char c = std::cin.get();
-		std::getline(std::cin, s);
-		if (c != '\n') s = c + s;
-		std::stringstream ss(s);
-		T t;
-		while (ss >> t) v.insert(t);
+		if (_Size == npos) {
+			std::string s;
+			char c = std::cin.get();
+			std::getline(std::cin, s);
+			if (c != '\n') s = c + s;
+			std::stringstream ss(s);
+			T t;
+			while (ss >> t) v.insert(t);
+			return v;
+		}
+		for (size_t i = 0; i < _Size; i++) v.insert(Input());
 		return v;
 	}
 	template<typename T> operator std::multiset<T>() {
+		//multiset<multiset<multiset<...>>> not working. WIP
 		std::multiset<T> v;
-		std::string s;
-		char c = std::cin.get();
-		std::getline(std::cin, s);
-		if (c != '\n') s = c + s;
-		std::stringstream ss(s);
-		T t;
-		while (ss >> t) v.insert(t);
+		if (_Size == npos) {
+			std::string s;
+			char c = std::cin.get();
+			std::getline(std::cin, s);
+			if (c != '\n') s = c + s;
+			std::stringstream ss(s);
+			T t;
+			while (ss >> t) v.insert(t);
+			return v;
+		}
+		for (size_t i = 0; i < _Size; i++) v.insert(Input());
 		return v;
 	}
 	template<typename T> operator std::unordered_set<T>() {
+		//unordered_set<unordered_set<unordered_set<...>>> not working. WIP
 		std::unordered_set<T> v;
-		std::string s;
-		char c = std::cin.get();
-		std::getline(std::cin, s);
-		if (c != '\n') s = c + s;
-		std::stringstream ss(s);
-		T t;
-		while (ss >> t) v.insert(t);
+		if (_Size == npos) {
+			std::string s;
+			char c = std::cin.get();
+			std::getline(std::cin, s);
+			if (c != '\n') s = c + s;
+			std::stringstream ss(s);
+			T t;
+			while (ss >> t) v.insert(t);
+			return v;
+		}
+		for (size_t i = 0; i < _Size; i++) v.insert(Input());
 		return v;
 	}
 	template<typename T> operator std::unordered_multiset<T>() {
+		//unordered_multiset<unordered_multiset<unordered_multiset<...>>> not working. WIP
 		std::unordered_multiset<T> v;
-		std::string s;
-		char c = std::cin.get();
-		std::getline(std::cin, s);
-		if (c != '\n') s = c + s;
-		std::stringstream ss(s);
-		T t;
-		while (ss >> t) v.insert(t);
+		if (_Size == npos) {
+			std::string s;
+			char c = std::cin.get();
+			std::getline(std::cin, s);
+			if (c != '\n') s = c + s;
+			std::stringstream ss(s);
+			T t;
+			while (ss >> t) v.insert(t);
+			return v;
+		}
+		for (size_t i = 0; i < _Size; i++) v.insert(Input());
 		return v;
 	}
 	template<typename T> operator std::queue<T>() {
+		//queue<queue<queue<...>>> not working. WIP
 		std::queue<T> v;
-		std::string s;
-		char c = std::cin.get();
-		std::getline(std::cin, s);
-		if (c != '\n') s = c + s;
-		std::stringstream ss(s);
-		T t;
-		while (ss >> t) v.push(t);
+		if (_Size == npos) {
+			std::string s;
+			char c = std::cin.get();
+			std::getline(std::cin, s);
+			if (c != '\n') s = c + s;
+			std::stringstream ss(s);
+			T t;
+			while (ss >> t) v.push(t);
+			return v;
+		}
+		for (size_t i = 0; i < _Size; i++) v.push(Input());
 		return v;
 	}
 	template<typename T> operator std::priority_queue<T>() {
+		//priority_queue<priority_queue<priority_queue<...>>> not working. WIP
 		std::priority_queue<T> v;
-		std::string s;
-		char c = std::cin.get();
-		std::getline(std::cin, s);
-		if (c != '\n') s = c + s;
-		std::stringstream ss(s);
-		T t;
-		while (ss >> t) v.push(t);
+		if (_Size == npos) {
+			std::string s;
+			char c = std::cin.get();
+			std::getline(std::cin, s);
+			if (c != '\n') s = c + s;
+			std::stringstream ss(s);
+			T t;
+			while (ss >> t) v.push(t);
+			return v;
+		}
+		for (size_t i = 0; i < _Size; i++) v.push(Input());
 		return v;
 	}
 	template<typename T> operator std::deque<T>() {
+		//deque<deque<deque<...>>> not working. WIP
 		std::deque<T> v;
-		std::string s;
-		char c = std::cin.get();
-		std::getline(std::cin, s);
-		if (c != '\n') s = c + s;
-		std::stringstream ss(s);
-		T t;
-		while (ss >> t) v.push_back(t);
+		if (_Size == npos) {
+			std::string s;
+			char c = std::cin.get();
+			std::getline(std::cin, s);
+			if (c != '\n') s = c + s;
+			std::stringstream ss(s);
+			T t;
+			while (ss >> t) v.push_back(t);
+			return v;
+		}
+		for (size_t i = 0; i < _Size; i++) v.push_back(Input());
 		return v;
 	}
 	template<typename T> operator std::stack<T>() {
+		//stack<stack<stack<...>>> not working. WIP
 		std::stack<T> v;
-		std::string s;
-		char c = std::cin.get();
-		std::getline(std::cin, s);
-		if (c != '\n') s = c + s;
-		std::stringstream ss(s);
-		T t;
-		while (ss >> t) v.push(t);
+		if (_Size == npos) {
+			std::string s;
+			char c = std::cin.get();
+			std::getline(std::cin, s);
+			if (c != '\n') s = c + s;
+			std::stringstream ss(s);
+			T t;
+			while (ss >> t) v.push(t);
+			return v;
+		}
+		for (size_t i = 0; i < _Size; i++) v.push(Input());
 		return v;
 	}
 
@@ -244,19 +301,6 @@ template<class T> void Print(std::vector<T> v) {
 	Print(*i);
 	std::cout << "]";
 }
-
-//WIP
-//template<typename... Args> void Print(std::tuple<Args...> v) {
-//	std::cout << "[";
-//	auto i = v.begin();
-//	for (size_t _i = 0; _i < v.size() - 1; _i++) {
-//		Print(*i);  std::cout << ", ";
-//		i++;
-//	}
-//	Print(*i);
-//	std::cout << "]";
-//}
-//WIP
 
 template<class T, size_t N> void Print(std::array<T, N> v) {
 	std::cout << "[";
