@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include <string>
+#include <array>
 #include <vector>
 #include <sstream>
 #include <list>
@@ -14,7 +15,10 @@
 #include <stack>
 
 struct Input {
-	Input(std::string s = "") { std::cout << s; }
+private:
+	size_t _Size{1};
+public:
+	Input(std::string s = "", size_t Size = 1) : _Size(Size) { std::cout << s; }
 	template<typename T> operator T() { T v; std::cin >> v; return v; }
 	template<typename T1, typename T2> operator std::pair<T1, T2>() {
 		std::pair<T1, T2> v;
@@ -23,23 +27,35 @@ struct Input {
 	}
 	template<typename T1, typename T2> operator std::map<T1, T2>() {
 		std::map<T1, T2> v;
-		T1 t1 = Input(); T2 t2 = Input();
-		v.insert({ t1, t2 });
+		for (size_t i = 0; i < _Size; i++) {
+			T1 t1 = Input(); T2 t2 = Input();
+			v.insert({ t1, t2 });
+		}
 		return v;
 	}
 	template<typename T1, typename T2> operator std::unordered_map<T1, T2>() {
 		std::unordered_map<T1, T2> v;
-		T1 t1 = Input(); T2 t2 = Input();
-		v.insert({ t1, t2 });
+		for (size_t i = 0; i < _Size; i++) {
+			T1 t1 = Input(); T2 t2 = Input();
+			v.insert({ t1, t2 });
+		}
+		return v;
+	}
+	template<typename T, size_t N> operator std::array<T, N>() {
+		std::array<T, N> v;
+		for (size_t i = 0; i < N; i++) v[i] = Input();
 		return v;
 	}
 	template<typename T> operator std::vector<T>() {
 		std::vector<T> v;
+		//T x = Input();
+		//v.push_back(x);
 		std::string s;
 		char c = std::cin.get();
 		std::getline(std::cin, s);
 		if (c != '\n') s = c + s;
 		std::stringstream ss(s);
+		//if (_Size == 1);
 		T t;
 		while (ss >> t) v.push_back(t);
 		return v;
@@ -155,17 +171,6 @@ struct Input {
 		return v;
 	}
 
-	//Input(std::string s = "", auto function = [](){}, size_t size = 1) {
-		//std::cout << s; 
-	    //return function(size);
-	//}
-
-
-	//template<typename T> stati std::vector<T> Vector(size_t size) {
-	//	std::vector<T> v;
-	//	for (size_t i = 1; i < size; i++) v = Input();
-	//	return v;
-	//}
 
 	template<typename T> auto operator +(T t) { T v; std::cin >> v; return v + t; }
 	template<typename T> auto operator -(T t) { T v; std::cin >> v; return v - t; }
@@ -192,7 +197,6 @@ struct Input {
 	template<typename T> auto operator &&(T t) { T v; std::cin >> v; return v && t; }
 	template<typename T> auto operator ||(T t) { T v; std::cin >> v; return v || t; }
 };
-
 
 template<typename T> void Print(T t);
 template<typename T, typename... Args> void Print(T t, Args... args);
@@ -222,6 +226,18 @@ template<class T> void Print(std::vector<T> v) {
 	Print(*i);
 	std::cout << "]";
 }
+
+template<class T, size_t N> void Print(std::array<T, N> v) {
+	std::cout << "[";
+	auto i = v.begin();
+	for (size_t _i = 0; _i < N - 1; _i++) {
+		Print(*i);  std::cout << ", ";
+		i++;
+	}
+	Print(*i);
+	std::cout << "]";
+}
+
 template<class T1, class T2> void Print(std::map<T1, T2> v) {
 	std::cout << "{\n";
 	for (auto u : v) {
