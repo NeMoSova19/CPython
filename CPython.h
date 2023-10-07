@@ -4,6 +4,7 @@
 #include <vector>
 #include <sstream>
 #include <list>
+#include <forward_list>
 #include <set>
 #include <unordered_set>
 #include <map>
@@ -54,6 +55,17 @@ struct Input {
 		while (ss >> t) v.push_back(t);
 		return v;
 	}
+	template<typename T> operator std::forward_list<T>() {
+		std::forward_list<T> v;
+		std::string s;
+		char c = std::cin.get();
+		std::getline(std::cin, s);
+		if (c != '\n') s = c + s;
+		std::stringstream ss(s);
+		T t;
+		while (ss >> t) v.push_front(t);
+		return v;
+	}
 	template<typename T> operator std::set<T>() {
 		std::set<T> v;
 		std::string s;
@@ -87,8 +99,30 @@ struct Input {
 		while (ss >> t) v.insert(t);
 		return v;
 	}
+	template<typename T> operator std::unordered_multiset<T>() {
+		std::unordered_multiset<T> v;
+		std::string s;
+		char c = std::cin.get();
+		std::getline(std::cin, s);
+		if (c != '\n') s = c + s;
+		std::stringstream ss(s);
+		T t;
+		while (ss >> t) v.insert(t);
+		return v;
+	}
 	template<typename T> operator std::queue<T>() {
 		std::queue<T> v;
+		std::string s;
+		char c = std::cin.get();
+		std::getline(std::cin, s);
+		if (c != '\n') s = c + s;
+		std::stringstream ss(s);
+		T t;
+		while (ss >> t) v.push(t);
+		return v;
+	}
+	template<typename T> operator std::priority_queue<T>() {
+		std::priority_queue<T> v;
 		std::string s;
 		char c = std::cin.get();
 		std::getline(std::cin, s);
@@ -122,9 +156,8 @@ struct Input {
 	}
 
 	//Input(std::string s = "", auto function = [](){}, size_t size = 1) {
-	//	std::cout << s; 
-	////	//return function(size);
-
+		//std::cout << s; 
+	    //return function(size);
 	//}
 
 
