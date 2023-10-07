@@ -16,8 +16,6 @@
 
 #include <type_traits>
 
-
-
 class Input {
 private:
 	static inline size_t npos{ (size_t)-1 };
