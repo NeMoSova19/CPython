@@ -1,9 +1,10 @@
 #pragma once
 #include <iostream>
 #include <string>
+#include <sstream>
+#include <tuple>
 #include <array>
 #include <vector>
-#include <sstream>
 #include <list>
 #include <forward_list>
 #include <set>
@@ -25,6 +26,17 @@ public:
 		v.first = Input(); v.second = Input();
 		return v;
 	}
+	
+	//WIP
+	//template<typename... Args> operator std::tuple<Args...>() {
+	//	std::tuple<Args...> v;
+	//	for (size_t i = 0; i < _Size; i++) {
+	//		v[0];
+	//	}
+	//	return v;
+	//} 
+	//WIP
+
 	template<typename T1, typename T2> operator std::map<T1, T2>() {
 		std::map<T1, T2> v;
 		for (size_t i = 0; i < _Size; i++) {
@@ -171,6 +183,11 @@ public:
 		return v;
 	}
 
+	//template<typename T, typename... Args> auto operator [](size_t Size) {
+	//	T v[Size] ;
+	//	for (size_t i = 0; i < Size; i++) v[i] = Input();
+	//	return v;
+	//}
 
 	template<typename T> auto operator +(T t) { T v; std::cin >> v; return v + t; }
 	template<typename T> auto operator -(T t) { T v; std::cin >> v; return v - t; }
@@ -226,6 +243,19 @@ template<class T> void Print(std::vector<T> v) {
 	Print(*i);
 	std::cout << "]";
 }
+
+//WIP
+//template<typename... Args> void Print(std::tuple<Args...> v) {
+//	std::cout << "[";
+//	auto i = v.begin();
+//	for (size_t _i = 0; _i < v.size() - 1; _i++) {
+//		Print(*i);  std::cout << ", ";
+//		i++;
+//	}
+//	Print(*i);
+//	std::cout << "]";
+//}
+//WIP
 
 template<class T, size_t N> void Print(std::array<T, N> v) {
 	std::cout << "[";
