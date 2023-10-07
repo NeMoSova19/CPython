@@ -142,6 +142,7 @@
     <ClInclude Include="CPython.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CPython.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
