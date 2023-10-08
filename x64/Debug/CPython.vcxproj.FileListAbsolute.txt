@@ -1,1 +1,1 @@
-C:\Users\sssr2\source\repos\CPython\x64\Debug\CPython.exe
+C:\Users\sssr2\source\repos\CPython\x64\Debug\CPython.lib
