@@ -285,65 +285,106 @@ public:
 
 // WIP WIP WIP WIP WIP WIP WIP WIP
 struct STD {
-	STD() = delete;
-	STD(STD&&) = delete;
 	
 template<typename... T>
 	static inline void Print(T... t) {
-		_print(t...);
+		_print(standart, t...);
 	}
-	/*void operator ()(T ...t) {
-		_print(t...);
-	}
-	
+
 	enum Preset {
 		standart,
 		fast,
 		beautiful
 	};
 
-	static inline Print Settings(Preset pres) {
-		Print prt;
-		prt.preset = pres;
-		return prt;
-	}*/
-
+template<typename... T>
+	static inline void Print(Preset pres, T... t) {
+		_print(pres, t...);
+	}
+	
 private:
-	//Preset preset{ standart };
 
-private:
-	template<typename R> static inline void _print(R t) {
+	template<typename R> static inline void _print(Preset pres, R t) {
 		std::cout << t;
 	}
-	template<typename R, typename P> void _print(std::pair<R,P> t) {
-		_print(t.first); _print(t.second);
+	template<typename R, typename P> void _print(Preset pres, std::pair<R,P> t) {
+		_print(pres, t.first); _print(pres, t.second);
 	}
-	template<typename R, typename P> void _print(std::map<R, P> v) {
-		for (auto i : v) _print(i);
+	template<typename R, typename P> void _print(Preset pres, std::map<R, P> v) {
+		for (auto i : v) _print(pres, i);
 	}
-	template<typename R> static inline void _print(std::vector<R> v) {
-		for (auto i : v) _print(i);
+	template<typename R> static inline void _print(Preset pres, std::vector<R> v) {
+		switch (pres)
+		{
+		case STD::fast:
+			break;
+		case STD::standart:
+		case STD::beautiful:
+			std::cout << '[';
+				break;
+		}
+		
+		int cnt{ 0 };
+		for (auto i : v) {
+			_print(pres, i);
+			
+			if (cnt+1 < v.size()) {
+				switch (pres)
+				{
+				case STD::fast:
+					std::cout << ' ';
+					break;
+				case STD::standart:
+				case STD::beautiful:
+					std::cout << ", ";
+					break;
+				}
+			}
+
+			cnt++;
+		}
+
+		switch (pres)
+		{
+		case STD::fast: 
+			break;
+		case STD::standart: 
+		case STD::beautiful:
+			std::cout << ']';
+				break;
+		}
 	}
-	template<typename R> static inline void _print(std::list<R> v) {
-		for (auto i : v) _print(i);
+	template<typename R> static inline void _print(Preset pres, std::list<R> v) {
+		for (auto i : v) _print(pres, i);
 	}
-	template<typename R> static inline void _print(std::set<R> v) {
-		for (auto i : v) _print(i);
+	template<typename R> static inline void _print(Preset pres, std::set<R> v) {
+		for (auto i : v) _print(pres, i);
 	}
-	template<typename R> static inline void _print(std::queue<R> v) {
-		for (auto i : v) _print(i);
+	template<typename R> static inline void _print(Preset pres, std::queue<R> v) {
+		for (auto i : v) _print(pres, i);
 	}
-	template<typename R> static inline void _print(std::deque<R> v) {
-		for (auto i : v) _print(i);
+	template<typename R> static inline void _print(Preset pres, std::deque<R> v) {
+		for (auto i : v) _print(pres, i);
 	}
-	template<typename R> void _print(std::stack<R> v) {
-		for (auto i : v) _print(i);
+	template<typename R> void _print(Preset pres, std::stack<R> v) {
+		for (auto i : v) _print(pres, i);
 	}
-	template<typename R, size_t N> static inline void _print(std::array<R, N> v) {
-		for (auto i : v) _print(i);
+	template<typename R, size_t N> static inline void _print(Preset pres, std::array<R, N> v) {
+		for (auto i : v) _print(pres, i);
 	}
-	template<typename R, typename... P> static inline void _print(R v, P... w) {
-		_print(v); _print(w...);
+	template<typename R, typename... P> static inline void _print(Preset pres, R v, P... w) {
+		_print(pres, v);
+		switch (pres)
+		{
+		case STD::fast:
+			std::cout << ' ';
+			break;
+		case STD::standart:
+		case STD::beautiful:
+			std::cout << ", ";
+			break;
+		}
+		_print(pres, w...);
 	}
 };
 #define Print(a) STD::Print(a)
