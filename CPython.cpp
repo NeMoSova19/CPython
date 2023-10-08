@@ -1,29 +1,30 @@
 #include "CPython.h"
-
-
+#include <iostream>
+#include <sstream>
+#include <type_traits>
 
 Input::Input(std::string s, size_t Size) : _Size(Size) { std::cout << s; }
 Input::Input(size_t Size) : _Size(Size) {  }
 template<typename T> Input::operator T() { T v; std::cin >> v; return v; }
 template<typename T1, typename T2> Input::operator std::pair<T1, T2>() {
-		std::pair<T1, T2> v;
-		v.first = Input(); v.second = Input();
-		return v;
-	}
+	std::pair<T1, T2> v;
+	v.first = Input(); v.second = Input();
+	return v;
+}
 template<typename T1, typename T2> Input::operator std::map<T1, T2>() {
-		std::map<T1, T2> v;
-		if (_Size == 0) return v;
-		if (_Size == npos) {
-			T1 t1 = Input(); T2 t2 = Input();
-			v.insert({ t1, t2 });
-			return v;
-		}
-		for (size_t i = 0; i < _Size; i++) {
-			T1 t1 = Input(); T2 t2 = Input();
-			v.insert({ t1, t2 });
-		}
+	std::map<T1, T2> v;
+	if (_Size == 0) return v;
+	if (_Size == npos) {
+		T1 t1 = Input(); T2 t2 = Input();
+		v.insert({ t1, t2 });
 		return v;
 	}
+	for (size_t i = 0; i < _Size; i++) {
+		T1 t1 = Input(); T2 t2 = Input();
+		v.insert({ t1, t2 });
+	}
+	return v;
+}
 template<typename T1, typename T2> Input::operator std::unordered_map<T1, T2>() {
 		std::unordered_map<T1, T2> v;
 		if (_Size == npos) {
@@ -43,8 +44,8 @@ template<typename T, size_t N> Input::operator std::array<T, N>() {
 		else for (size_t i = 0; i < _Size; i++) v[i] = Input();
 		return v;
 	}
-template<typename T> Input::operator std::vector<T>() {
 		//vector<vector<vector<...>>> not working. WIP
+template<typename T> Input::operator std::vector<T>() {
 		std::vector<T> v;
 		static_assert(!std::is_class<T>::value, "Error: Multidimensional vectors dont work, WIP");
 		if (_Size == npos) {
@@ -60,8 +61,8 @@ template<typename T> Input::operator std::vector<T>() {
 		for (size_t i = 0; i < _Size; i++) v.push_back(Input());
 		return v;
 	}
-template<typename T> Input::operator std::list<T>() {
 		//list<list<list<...>>> not working. WIP
+template<typename T> Input::operator std::list<T>() {
 		std::list<T> v;
 		static_assert(!std::is_class<T>::value, "Error: Multidimensional lists dont work, WIP");
 		if (_Size == npos) {
@@ -77,8 +78,8 @@ template<typename T> Input::operator std::list<T>() {
 		for (size_t i = 0; i < _Size; i++) v.push_back(Input());
 		return v;
 	}
-template<typename T> Input::operator std::forward_list<T>() {
 		//forward_list<forward_list<forward_list<...>>> not working. WIP
+template<typename T> Input::operator std::forward_list<T>() {
 		std::forward_list<T> v;
 		static_assert(!std::is_class<T>::value, "Error: Multidimensional forward_lists dont work, WIP");
 		if (_Size == npos) {
@@ -94,8 +95,8 @@ template<typename T> Input::operator std::forward_list<T>() {
 		for (size_t i = 0; i < _Size; i++) v.push_front(Input());
 		return v;
 	}
-template<typename T> Input::operator std::set<T>() {
 		//set<set<set<...>>> not working. WIP
+template<typename T> Input::operator std::set<T>() {
 		std::set<T> v;
 		static_assert(!std::is_class<T>::value, "Error: Multidimensional sets dont work, WIP");
 		if (_Size == npos) {
@@ -111,8 +112,8 @@ template<typename T> Input::operator std::set<T>() {
 		for (size_t i = 0; i < _Size; i++) v.insert(Input());
 		return v;
 	}
-template<typename T> Input::operator std::multiset<T>() {
 		//multiset<multiset<multiset<...>>> not working. WIP
+template<typename T> Input::operator std::multiset<T>() {
 		std::multiset<T> v;
 		static_assert(!std::is_class<T>::value, "Error: Multidimensional multisets dont work, WIP");
 		if (_Size == npos) {
@@ -128,8 +129,8 @@ template<typename T> Input::operator std::multiset<T>() {
 		for (size_t i = 0; i < _Size; i++) v.insert(Input());
 		return v;
 	}
-template<typename T> Input::operator std::unordered_set<T>() {
 		//unordered_set<unordered_set<unordered_set<...>>> not working. WIP
+template<typename T> Input::operator std::unordered_set<T>() {
 		std::unordered_set<T> v;
 		static_assert(!std::is_class<T>::value, "Error: Multidimensional unordered_sets dont work, WIP");
 		if (_Size == npos) {
@@ -145,8 +146,8 @@ template<typename T> Input::operator std::unordered_set<T>() {
 		for (size_t i = 0; i < _Size; i++) v.insert(Input());
 		return v;
 	}
-template<typename T> Input::operator std::unordered_multiset<T>() {
 		//unordered_multiset<unordered_multiset<unordered_multiset<...>>> not working. WIP
+template<typename T> Input::operator std::unordered_multiset<T>() {
 		std::unordered_multiset<T> v;
 		static_assert(!std::is_class<T>::value, "Error: Multidimensional unordered_multisets dont work, WIP");
 		if (_Size == npos) {
@@ -162,8 +163,8 @@ template<typename T> Input::operator std::unordered_multiset<T>() {
 		for (size_t i = 0; i < _Size; i++) v.insert(Input());
 		return v;
 	}
-template<typename T> Input::operator std::queue<T>() {
 		//queue<queue<queue<...>>> not working. WIP
+template<typename T> Input::operator std::queue<T>() {
 		std::queue<T> v;
 		static_assert(!std::is_class<T>::value, "Error: Multidimensional queues dont work, WIP");
 		if (_Size == npos) {
@@ -179,8 +180,8 @@ template<typename T> Input::operator std::queue<T>() {
 		for (size_t i = 0; i < _Size; i++) v.push(Input());
 		return v;
 	}
-template<typename T> Input::operator std::priority_queue<T>() {
 		//priority_queue<priority_queue<priority_queue<...>>> not working. WIP
+template<typename T> Input::operator std::priority_queue<T>() {
 		std::priority_queue<T> v;
 		static_assert(!std::is_class<T>::value, "Error: Multidimensional priority_queues dont work, WIP");
 		if (_Size == npos) {
@@ -196,8 +197,8 @@ template<typename T> Input::operator std::priority_queue<T>() {
 		for (size_t i = 0; i < _Size; i++) v.push(Input());
 		return v;
 	}
-template<typename T> Input::operator std::deque<T>() {
 		//deque<deque<deque<...>>> not working. WIP
+template<typename T> Input::operator std::deque<T>() {
 		std::deque<T> v;
 		static_assert(!std::is_class<T>::value, "Error: Multidimensional deques dont work, WIP");
 		if (_Size == npos) {
@@ -213,8 +214,8 @@ template<typename T> Input::operator std::deque<T>() {
 		for (size_t i = 0; i < _Size; i++) v.push_back(Input());
 		return v;
 	}
-template<typename T> Input::operator std::stack<T>() {
 		//stack<stack<stack<...>>> not working. WIP
+template<typename T> Input::operator std::stack<T>() {
 		std::stack<T> v;
 		static_assert(!std::is_class<T>::value, "Error: Multidimensional stacks dont work, WIP");
 		if (_Size == npos) {

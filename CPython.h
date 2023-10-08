@@ -1,7 +1,5 @@
 #pragma once
-#include <iostream>
 #include <string>
-#include <sstream>
 #include <array>
 #include <vector>
 #include <list>
@@ -13,10 +11,9 @@
 #include <queue>
 #include <deque>
 #include <stack>
-#include <type_traits>
 
 class Input {
-private:
+	Input(Input&&) = delete;
 	static inline size_t npos{ (size_t)-1 };
 	size_t _Size{npos};
 public:
@@ -38,9 +35,6 @@ public:
 	template<typename T> operator std::priority_queue<T>();
 	template<typename T> operator std::deque<T>();
 	template<typename T> operator std::stack<T>();
-
-
-
 	template<typename T> auto operator +(T t);
 	template<typename T> auto operator -(T t);
 	template<typename T> auto operator ~();
