@@ -28,6 +28,13 @@ public:
 	Input(std::string Text = "", size_t Size = npos, bool Flag = false) : _Size(Size), _Flag(Flag) { std::cout << Text; }
 	Input(size_t Size) : _Size(Size) {  }
 	Input(size_t Size, bool Flag) : _Size(Size), _Flag(Flag) {  }
+	std::string StoSS() {
+		std::string s;
+		char c = std::cin.get();
+		std::getline(std::cin, s);
+		if (c != '\n') s = c + s;
+		return s;
+	}
 	template<typename T> operator T() { T v; std::cin >> v; return v; }
 	template<typename T1, typename T2> operator std::pair<T1, T2>() {
 		std::pair<T1, T2> v;
@@ -67,65 +74,25 @@ public:
 		else for (size_t i = 0; i < _Size; i++) v[i] = Input();
 		return v;
 	}
-	
-	
-	
-	template<typename T> std::vector<T> InputVector(std::vector<T> v) {
-		std::string s;
-		char c = std::cin.get();
-		std::getline(std::cin, s);
-		if (c != '\n') s = c + s;
-		std::stringstream ss(s);
-		T t;
-		while (ss >> t) v.push_back(t);
-		return v;
-	}
-	
-	
 	//vector<vector<vector<...>>> not working. WIP
 	template<typename T> operator std::vector<T>() {
 		std::vector<T> v;
-		//static_assert(!(), "Error: Multidimensional vectors dont work, WIP");
-		if (_Size != npos) {
-			for (size_t i = 0; i < _Size; i++) v.push_back(Input(_Size));
-			return v;
-		}
-		if ((!std::is_class<T>::value || typeid(std::string) == typeid(T))) {
-			v = InputVector(v);
-		}
-		for (size_t i = 0; i < _Size; i++) v.push_back(Input());
-		return v;
-	}
-
-	/*
-	std::vector<T> v;
 		static_assert(!(std::is_class<T>::value && typeid(std::string) != typeid(T)), "Error: Multidimensional vectors dont work, WIP");
 		if (_Size == npos) {
-			std::string s;
-			char c = std::cin.get();
-			std::getline(std::cin, s);
-			if (c != '\n') s = c + s;
-			std::stringstream ss(s);
+			std::stringstream ss(StoSS());
 			T t;
 			while (ss >> t) v.push_back(t);
 			return v;
 		}
 		for (size_t i = 0; i < _Size; i++) v.push_back(Input());
 		return v;
-	
-	*/
-
-
+	}
 	//list<list<list<...>>> not working. WIP
 	template<typename T> operator std::list<T>() {
 		std::list<T> v;
 		static_assert(!(std::is_class<T>::value && typeid(std::string) != typeid(T)), "Error: Multidimensional lists dont work, WIP");
 		if (_Size == npos) {
-			std::string s;
-			char c = std::cin.get();
-			std::getline(std::cin, s);
-			if (c != '\n') s = c + s;
-			std::stringstream ss(s);
+			std::stringstream ss(StoSS());
 			T t;
 			while (ss >> t) v.push_back(t);
 			return v;
@@ -138,11 +105,7 @@ public:
 		std::forward_list<T> v;
 		static_assert(!(std::is_class<T>::value && typeid(std::string) != typeid(T)), "Error: Multidimensional forward_lists dont work, WIP");
 		if (_Size == npos) {
-			std::string s;
-			char c = std::cin.get();
-			std::getline(std::cin, s);
-			if (c != '\n') s = c + s;
-			std::stringstream ss(s);
+			std::stringstream ss(StoSS());
 			T t;
 			while (ss >> t) v.push_front(t);
 			return v;
@@ -155,11 +118,7 @@ public:
 		std::set<T> v;
 		static_assert(!(std::is_class<T>::value && typeid(std::string) != typeid(T)), "Error: Multidimensional sets dont work, WIP");
 		if (_Size == npos) {
-			std::string s;
-			char c = std::cin.get();
-			std::getline(std::cin, s);
-			if (c != '\n') s = c + s;
-			std::stringstream ss(s);
+			std::stringstream ss(StoSS());
 			T t;
 			while (ss >> t) v.insert(t);
 			return v;
@@ -172,11 +131,7 @@ public:
 		std::multiset<T> v;
 		static_assert(!(std::is_class<T>::value && typeid(std::string) != typeid(T)), "Error: Multidimensional multisets dont work, WIP");
 		if (_Size == npos) {
-			std::string s;
-			char c = std::cin.get();
-			std::getline(std::cin, s);
-			if (c != '\n') s = c + s;
-			std::stringstream ss(s);
+			std::stringstream ss(StoSS());
 			T t;
 			while (ss >> t) v.insert(t);
 			return v;
@@ -189,11 +144,7 @@ public:
 		std::unordered_set<T> v;
 		static_assert(!(std::is_class<T>::value && typeid(std::string) != typeid(T)), "Error: Multidimensional unordered_sets dont work, WIP");
 		if (_Size == npos) {
-			std::string s;
-			char c = std::cin.get();
-			std::getline(std::cin, s);
-			if (c != '\n') s = c + s;
-			std::stringstream ss(s);
+			std::stringstream ss(StoSS());
 			T t;
 			while (ss >> t) v.insert(t);
 			return v;
@@ -206,11 +157,7 @@ public:
 		std::unordered_multiset<T> v;
 		static_assert(!(std::is_class<T>::value && typeid(std::string) != typeid(T)), "Error: Multidimensional unordered_multisets dont work, WIP");
 		if (_Size == npos) {
-			std::string s;
-			char c = std::cin.get();
-			std::getline(std::cin, s);
-			if (c != '\n') s = c + s;
-			std::stringstream ss(s);
+			std::stringstream ss(StoSS());
 			T t;
 			while (ss >> t) v.insert(t);
 			return v;
@@ -223,11 +170,7 @@ public:
 		std::queue<T> v;
 		static_assert(!(std::is_class<T>::value && typeid(std::string) != typeid(T)), "Error: Multidimensional queues dont work, WIP");
 		if (_Size == npos) {
-			std::string s;
-			char c = std::cin.get();
-			std::getline(std::cin, s);
-			if (c != '\n') s = c + s;
-			std::stringstream ss(s);
+			std::stringstream ss(StoSS());
 			T t;
 			while (ss >> t) v.push(t);
 			return v;
@@ -240,11 +183,7 @@ public:
 		std::priority_queue<T> v;
 		static_assert(!(std::is_class<T>::value && typeid(std::string) != typeid(T)), "Error: Multidimensional priority_queues dont work, WIP");
 		if (_Size == npos) {
-			std::string s;
-			char c = std::cin.get();
-			std::getline(std::cin, s);
-			if (c != '\n') s = c + s;
-			std::stringstream ss(s);
+			std::stringstream ss(StoSS());
 			T t;
 			while (ss >> t) v.push(t);
 			return v;
@@ -257,11 +196,7 @@ public:
 		std::deque<T> v;
 		static_assert(!(std::is_class<T>::value && typeid(std::string) != typeid(T)), "Error: Multidimensional deques dont work, WIP");
 		if (_Size == npos) {
-			std::string s;
-			char c = std::cin.get();
-			std::getline(std::cin, s);
-			if (c != '\n') s = c + s;
-			std::stringstream ss(s);
+			std::stringstream ss(StoSS());
 			T t;
 			while (ss >> t) v.push_back(t);
 			return v;
@@ -274,11 +209,7 @@ public:
 		std::stack<T> v;
 		static_assert(!(std::is_class<T>::value && typeid(std::string) != typeid(T)), "Error: Multidimensional stacks dont work, WIP");
 		if (_Size == npos) {
-			std::string s;
-			char c = std::cin.get();
-			std::getline(std::cin, s);
-			if (c != '\n') s = c + s;
-			std::stringstream ss(s);
+			std::stringstream ss(StoSS());
 			T t;
 			while (ss >> t) v.push(t);
 			return v;
