@@ -20,7 +20,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\Libraries\CPython.h">
+    <ClInclude Include="CPython.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>

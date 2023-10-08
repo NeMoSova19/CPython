@@ -1,3 +1,0 @@
-﻿  main.cpp
-C:\Users\sssr2\source\repos\CPython\main.cpp(9,8): error C2371: a: переопределение; различные базовые типы
-C:\Users\sssr2\source\repos\CPython\main.cpp(7): message : см. объявление "a"
