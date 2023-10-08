@@ -344,10 +344,39 @@ private:
 	template<typename R> static inline void _print(Preset pres, R t) {
 		std::cout << t;
 	}
-	template<typename R, typename P> void _print(Preset pres, std::pair<R,P> t) {
-		_print(pres, t.first); _print(pres, t.second);
+	template<typename R, typename P> static inline void _print(Preset pres, std::pair<R,P> t) {
+		switch (pres)
+		{
+		case STD::fast:
+			break;
+		case STD::standart:
+		case STD::beautiful:
+			std::cout << '<';
+			break;
+		}
+		_print(pres, t.first); 
+		switch (pres)
+		{
+		case STD::fast:
+			std::cout << ' ';
+			break;
+		case STD::standart:
+		case STD::beautiful:
+			std::cout << ", ";
+			break;
+		}
+		_print(pres, t.second);
+		switch (pres)
+		{
+		case STD::fast:
+			break;
+		case STD::standart:
+		case STD::beautiful:
+			std::cout << '>';
+			break;
+		}
 	}
-	template<typename R, typename P> void _print(Preset pres, std::map<R, P> v) {
+	template<typename R, typename P> static inline void _print(Preset pres, std::map<R, P> v) {
 		for (auto i : v) _print(pres, i);
 	}
 	template<typename R> static inline void _print(Preset pres, std::vector<R> v) {
@@ -424,7 +453,7 @@ private:
 		_print(pres, w...);
 	}
 };
-#define Print(a) STD::Print(a)
+//#define Print(a) STD::Print(a)
 
 
 
