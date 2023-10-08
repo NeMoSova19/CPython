@@ -391,7 +391,6 @@ private:
 
 
 class In {
-
 	template<typename T1, typename T2> operator std::pair<T1, T2>() {
 		std::pair<T1, T2> v;
 		
@@ -412,67 +411,57 @@ class In {
 		
 		return v;
 	}
-	//vector<vector<vector<...>>> not working. WIP
 	template<typename T> operator std::vector<T>() {
 		std::vector<T> v;
 		
 		return v;
 	}
-	//list<list<list<...>>> not working. WIP
 	template<typename T> operator std::list<T>() {
 		std::list<T> v;
 		
 		return v;
 	}
-	//forward_list<forward_list<forward_list<...>>> not working. WIP
 	template<typename T> operator std::forward_list<T>() {
 		std::forward_list<T> v;
 		
 		return v;
 	}
-	//set<set<set<...>>> not working. WIP
 	template<typename T> operator std::set<T>() {
 		std::set<T> v;
 		
 		return v;
 	}
-	//multiset<multiset<multiset<...>>> not working. WIP
 	template<typename T> operator std::multiset<T>() {
 		std::multiset<T> v;
 		
 		return v;
 	}
-	//unordered_set<unordered_set<unordered_set<...>>> not working. WIP
 	template<typename T> operator std::unordered_set<T>() {
 		std::unordered_set<T> v;
 		
 		return v;
 	}
-	//unordered_multiset<unordered_multiset<unordered_multiset<...>>> not working. WIP
 	template<typename T> operator std::unordered_multiset<T>() {
 		std::unordered_multiset<T> v;
 		
 		return v;
 	}
-	//queue<queue<queue<...>>> not working. WIP
 	template<typename T> operator std::queue<T>() {
 		std::queue<T> v;
 		
 		return v;
 	}
-	//priority_queue<priority_queue<priority_queue<...>>> not working. WIP
 	template<typename T> operator std::priority_queue<T>() {
 		std::priority_queue<T> v;
 		
 		return v;
 	}
-	//deque<deque<deque<...>>> not working. WIP
 	template<typename T> operator std::deque<T>() {
 		std::deque<T> v;
 		
 		return v;
 	}
-	//stack<stack<stack<...>>> not working. WIP
+	
 	template<typename T> operator std::stack<T>() {
 		std::stack<T> v;
 		
@@ -511,7 +500,7 @@ template<typename T, typename C> bool in(T t, C container) {
 #define t not in container !in(t, container)
 
 
-		//static_assert(!(std::is_class<C>::value && typeid(std::string) != typeid(T)), "Error: Multidimensional containers dont work, WIP");
+//static_assert(!(std::is_class<C>::value && typeid(std::string) != typeid(T)), "Error: Multidimensional containers dont work, WIP");
 
 /*
 
