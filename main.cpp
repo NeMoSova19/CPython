@@ -6,7 +6,7 @@ int main() {
 	
 	int a = Input();
 	
-	Print b(a);
+	Print(a);
 
 	return 0;
 }
