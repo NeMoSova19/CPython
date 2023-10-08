@@ -6,7 +6,7 @@ int main() {
 	
 	int a = Input();
 	
-	Print(a);
+	STD::Print(a);
 
 	return 0;
 }

@@ -282,13 +282,14 @@ public:
 	template<typename T> auto operator ||(T t) { T v; std::cin >> v; return v || t; }
 };
 
+
 // WIP WIP WIP WIP WIP WIP WIP WIP
-template<typename... T>
-struct Print {
-	Print() = delete;
-	Print(Print&&) = delete;
+struct STD {
+	STD() = delete;
+	STD(STD&&) = delete;
 	
-	Print(T... t) {
+template<typename... T>
+	static inline void Print(T... t) {
 		_print(t...);
 	}
 	/*void operator ()(T ...t) {
@@ -311,7 +312,7 @@ private:
 	//Preset preset{ standart };
 
 private:
-	template<typename R> void _print(R t) {
+	template<typename R> static inline void _print(R t) {
 		std::cout << t;
 	}
 	template<typename R, typename P> void _print(std::pair<R,P> t) {
@@ -320,28 +321,28 @@ private:
 	template<typename R, typename P> void _print(std::map<R, P> v) {
 		for (auto i : v) _print(i);
 	}
-	template<typename R> void _print(std::vector<R> v) {
+	template<typename R> static inline void _print(std::vector<R> v) {
 		for (auto i : v) _print(i);
 	}
-	template<typename R> void _print(std::list<R> v) {
+	template<typename R> static inline void _print(std::list<R> v) {
 		for (auto i : v) _print(i);
 	}
-	template<typename R> void _print(std::set<R> v) {
+	template<typename R> static inline void _print(std::set<R> v) {
 		for (auto i : v) _print(i);
 	}
-	template<typename R> void _print(std::queue<R> v) {
+	template<typename R> static inline void _print(std::queue<R> v) {
 		for (auto i : v) _print(i);
 	}
-	template<typename R> void _print(std::deque<R> v) {
+	template<typename R> static inline void _print(std::deque<R> v) {
 		for (auto i : v) _print(i);
 	}
 	template<typename R> void _print(std::stack<R> v) {
 		for (auto i : v) _print(i);
 	}
-	template<typename R, size_t N> void _print(std::array<R, N> v) {
+	template<typename R, size_t N> static inline void _print(std::array<R, N> v) {
 		for (auto i : v) _print(i);
 	}
-	template<typename R, typename... P> void _print(R v, P... w) {
+	template<typename R, typename... P> static inline void _print(R v, P... w) {
 		_print(v); _print(w...);
 	}
 };
