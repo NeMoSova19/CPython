@@ -1,5 +1,6 @@
 #include "CPython.h"
 
+
 using namespace std;
 
 struct MyStruct {
@@ -12,18 +13,14 @@ bool q(T t) {
 	return is_arithmetic<T>::value;
 }
 
+//__declspec(deprecated("** this is a deprecated function **")) void func2(int) {}
+
 
 int main() {
 	
-	//MyStruct g;for (size_t i = 0; i < _Size; i++) v.push_back(_Size);
-	//cout << q(g);
-
-	vector<vector<int>> v;
-	for (size_t i = 0; i < 5; i++)
-	{
-		v.push_back(Input());
-	}
-	STD::Print(v);
+	int a = 1, b = 3;
+	
+	a in b;
 
 	return 0;
 }

@@ -16,18 +16,14 @@
 #include <deque>
 #include <stack>
 
+
+/// Input() - Ввод 1 значения или контейнера до \n или размером Size
 /// Text : Сообщение, которое выводится;
-/// Size : Размер контейнира (Flag == false);
-/// Flag : true - Для многомерного контейнира.
+/// Size : Ввод Size переменных в контейнер
 class Input {
 	Input(Input&&) = delete;
 	static inline size_t npos{ (size_t)-1 };
 	size_t _Size{npos};
-	bool _Flag = false;
-public:
-	Input(std::string Text = "", size_t Size = npos, bool Flag = false) : _Size(Size), _Flag(Flag) { std::cout << Text; }
-	Input(size_t Size) : _Size(Size) {  }
-	Input(size_t Size, bool Flag) : _Size(Size), _Flag(Flag) {  }
 	std::string StoSS() {
 		std::string s;
 		char c = std::cin.get();
@@ -35,6 +31,9 @@ public:
 		if (c != '\n') s = c + s;
 		return s;
 	}
+public:
+	Input(std::string Text = "", size_t Size = npos) : _Size(Size) { std::cout << Text; }
+	Input(size_t Size) : _Size(Size) {  }
 	template<typename T> operator T() { T v; std::cin >> v; return v; }
 	template<typename T1, typename T2> operator std::pair<T1, T2>() {
 		std::pair<T1, T2> v;
@@ -43,7 +42,6 @@ public:
 	}
 	template<typename T1, typename T2> operator std::map<T1, T2>() {
 		std::map<T1, T2> v;
-		if (_Size == 0) return v;
 		if (_Size == npos) {
 			T1 t1 = Input(); T2 t2 = Input();
 			v.insert({ t1, t2 });
@@ -86,6 +84,7 @@ public:
 		}
 		for (size_t i = 0; i < _Size; i++) v.push_back(Input());
 		return v;
+		
 	}
 	//list<list<list<...>>> not working. WIP
 	template<typename T> operator std::list<T>() {
@@ -217,13 +216,6 @@ public:
 		for (size_t i = 0; i < _Size; i++) v.push(Input());
 		return v;
 	}
-
-	//template<typename T, typename... Args> auto Input::operator [](size_t Size) {
-	//	T v[Size] ;
-	//	for (size_t i = 0; i < Size; i++) v[i] = Input();
-	//	return v;
-	//}
-
 	template<typename T> auto operator +(T t) { T v; std::cin >> v; return v + t; }
 	template<typename T> auto operator -(T t) { T v; std::cin >> v; return v - t; }
 	template<typename T> auto operator ~() { T v; std::cin >> v; return ~v; }
@@ -384,7 +376,7 @@ private:
 		_print(pres, w...);
 	}
 };
-//#define Print(a) STD::Print(a)
+#define Print(a) STD::Print(a)
 
 
 
@@ -470,18 +462,8 @@ public:
 
 };
 
-template<typename T1, typename T2> struct InHelp {
-	InHelp(T2& m = NULL) : in_m(m) {}
-	const T1& m_in;
-	const T2& in_m;
-	template<typename T> bool operator *(const T& what) const {
-		m_in = what;
-		return 0;
-	}
 
 
-};
-#define in 
 
 
 //#define in InSearch::in(t, container)

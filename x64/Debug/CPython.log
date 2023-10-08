@@ -1,1 +1,6 @@
-﻿  CPython.vcxproj -> C:\Users\sssr2\source\repos\CPython\x64\Debug\CPython.exe
+﻿  main.cpp
+C:\Users\sssr2\source\repos\CPython\CPython.h(469,10): error C3861: cout: идентификатор не найден
+C:\Users\sssr2\source\repos\CPython\CPython.h(467,7): message : Сообщение диагностики возникло в созданной компилятором функции "auto OP_IN_HELP::operator *(const TWhat &) const"
+C:\Users\sssr2\source\repos\CPython\CPython.h(469,10): error C2065: cout: необъявленный идентификатор
+C:\Users\sssr2\source\repos\CPython\CPython.h(467,7): message : Сообщение диагностики возникло в созданной компилятором функции "auto OP_IN_HELP::operator *(const TWhat &) const"
+C:\Users\sssr2\source\repos\CPython\main.cpp(23,4): error C2677: бинарный "*": не найден глобальный оператор, принимающий тип "OP_IN_HELP" (или приемлемое преобразование отсутствует)
