@@ -16,13 +16,18 @@
 #include <deque>
 #include <stack>
 
+/// Text : Сообщение, которое выводится;
+/// Size : Размер контейнира (Flag == false);
+/// Flag : true - Для многомерного контейнира.
 class Input {
 	Input(Input&&) = delete;
 	static inline size_t npos{ (size_t)-1 };
 	size_t _Size{npos};
+	bool _Flag = false;
 public:
-	Input(std::string s = "", size_t Size = npos) : _Size(Size) { std::cout << s; }
+	Input(std::string Text = "", size_t Size = npos, bool Flag = false) : _Size(Size), _Flag(Flag) { std::cout << Text; }
 	Input(size_t Size) : _Size(Size) {  }
+	Input(size_t Size, bool Flag) : _Size(Size), _Flag(Flag) {  }
 	template<typename T> operator T() { T v; std::cin >> v; return v; }
 	template<typename T1, typename T2> operator std::pair<T1, T2>() {
 		std::pair<T1, T2> v;
@@ -62,9 +67,38 @@ public:
 		else for (size_t i = 0; i < _Size; i++) v[i] = Input();
 		return v;
 	}
+	
+	
+	
+	template<typename T> std::vector<T> InputVector(std::vector<T> v) {
+		std::string s;
+		char c = std::cin.get();
+		std::getline(std::cin, s);
+		if (c != '\n') s = c + s;
+		std::stringstream ss(s);
+		T t;
+		while (ss >> t) v.push_back(t);
+		return v;
+	}
+	
+	
 	//vector<vector<vector<...>>> not working. WIP
 	template<typename T> operator std::vector<T>() {
 		std::vector<T> v;
+		//static_assert(!(), "Error: Multidimensional vectors dont work, WIP");
+		if (_Size != npos) {
+			for (size_t i = 0; i < _Size; i++) v.push_back(Input(_Size));
+			return v;
+		}
+		if ((!std::is_class<T>::value || typeid(std::string) == typeid(T))) {
+			v = InputVector(v);
+		}
+		for (size_t i = 0; i < _Size; i++) v.push_back(Input());
+		return v;
+	}
+
+	/*
+	std::vector<T> v;
 		static_assert(!(std::is_class<T>::value && typeid(std::string) != typeid(T)), "Error: Multidimensional vectors dont work, WIP");
 		if (_Size == npos) {
 			std::string s;
@@ -78,7 +112,10 @@ public:
 		}
 		for (size_t i = 0; i < _Size; i++) v.push_back(Input());
 		return v;
-	}
+	
+	*/
+
+
 	//list<list<list<...>>> not working. WIP
 	template<typename T> operator std::list<T>() {
 		std::list<T> v;
@@ -390,114 +427,105 @@ private:
 #define Print(a) STD::Print(a)
 
 
-class In {
-	template<typename T1, typename T2> operator std::pair<T1, T2>() {
+
+
+class InSearch {
+	template<typename T1, typename T2> bool _in(std::pair<T1, T2> V) {
 		std::pair<T1, T2> v;
 		
 		return v;
 	}
-	template<typename T1, typename T2> operator std::map<T1, T2>() {
+	template<typename T1, typename T2> bool _in(std::map<T1, T2> V) {
 		std::map<T1, T2> v;
 		
 		return v;
 	}
-	template<typename T1, typename T2> operator std::unordered_map<T1, T2>() {
+	template<typename T1, typename T2> bool _in(std::unordered_map<T1, T2> V) {
 		std::unordered_map<T1, T2> v;
 		
 		return v;
 	}
-	template<typename T, size_t N> operator std::array<T, N>() {
+	template<typename T, size_t N> bool _in(std::array<T, N> V) {
 		std::array<T, N> v;
 		
 		return v;
 	}
-	template<typename T> operator std::vector<T>() {
+	template<typename T> bool _in(std::vector<T> V) {
 		std::vector<T> v;
 		
 		return v;
 	}
-	template<typename T> operator std::list<T>() {
+	template<typename T> bool _in(std::list<T> V) {
 		std::list<T> v;
 		
 		return v;
 	}
-	template<typename T> operator std::forward_list<T>() {
+	template<typename T> bool _in(std::forward_list<T> V) {
 		std::forward_list<T> v;
 		
 		return v;
 	}
-	template<typename T> operator std::set<T>() {
+	template<typename T> bool _in(std::set<T> V) {
 		std::set<T> v;
 		
 		return v;
 	}
-	template<typename T> operator std::multiset<T>() {
+	template<typename T> bool _in(std::multiset<T> V) {
 		std::multiset<T> v;
 		
 		return v;
 	}
-	template<typename T> operator std::unordered_set<T>() {
+	template<typename T> bool _in(std::unordered_set<T> V) {
 		std::unordered_set<T> v;
 		
 		return v;
 	}
-	template<typename T> operator std::unordered_multiset<T>() {
+	template<typename T> bool _in(std::unordered_multiset<T> V) {
 		std::unordered_multiset<T> v;
 		
 		return v;
 	}
-	template<typename T> operator std::queue<T>() {
-		std::queue<T> v;
-		
-		return v;
-	}
-	template<typename T> operator std::priority_queue<T>() {
-		std::priority_queue<T> v;
-		
-		return v;
-	}
-	template<typename T> operator std::deque<T>() {
-		std::deque<T> v;
-		
-		return v;
-	}
-	
-	template<typename T> operator std::stack<T>() {
-		std::stack<T> v;
-		
-		return v;
-	}
-
-
-
-};
-
-
-template<typename T, typename C> bool in(T t, C container) {
-	if (!std::is_class<C>::value) {
-		if (typeid(std::vector) == typeid(T)) {
-
+public:
+	template<typename T, typename C> bool _in_(T t, C container) {
+		if (!std::is_class<C>::value) {
 			
+
+
+
+			return 0;
 		}
+
+		if (typeid(std::string) != typeid(T)) {
+
+
+		}
+		//text.find()
+
 
 
 
 		return 0;
 	}
 
-	if (typeid(std::string) != typeid(T)) {
 
+};
 
+template<typename T1, typename T2> struct InHelp {
+	InHelp(T2& m = NULL) : in_m(m) {}
+	const T1& m_in;
+	const T2& in_m;
+	template<typename T> bool operator *(const T& what) const {
+		m_in = what;
+		return 0;
 	}
-	//text.find()
 
 
+};
+#define in 
 
-	
-	return 0;
-}
-#define t in container in(t, container)
-#define t not in container !in(t, container)
+
+//#define in InSearch::in(t, container)
+//#define t not in container !InSearch::in(t, container)
 
 
 //static_assert(!(std::is_class<C>::value && typeid(std::string) != typeid(T)), "Error: Multidimensional containers dont work, WIP");
