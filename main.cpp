@@ -4,9 +4,11 @@ using namespace std;
 
 int main() {
 	
-	int a = Input();
+	vector<string> a = Input();
 	
-	STD::Print(a);
+	cout << a[0] << endl;
+
+	Print(a);
 
 	return 0;
 }

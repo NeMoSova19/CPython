@@ -65,7 +65,7 @@ public:
 	//vector<vector<vector<...>>> not working. WIP
 	template<typename T> operator std::vector<T>() {
 		std::vector<T> v;
-		static_assert(!std::is_class<T>::value, "Error: Multidimensional vectors dont work, WIP");
+		static_assert(!(std::is_class<T>::value && typeid(std::string) != typeid(T)), "Error: Multidimensional vectors dont work, WIP");
 		if (_Size == npos) {
 			std::string s;
 			char c = std::cin.get();
@@ -82,7 +82,7 @@ public:
 	//list<list<list<...>>> not working. WIP
 	template<typename T> operator std::list<T>() {
 		std::list<T> v;
-		static_assert(!std::is_class<T>::value, "Error: Multidimensional lists dont work, WIP");
+		static_assert(!(std::is_class<T>::value && typeid(std::string) != typeid(T)), "Error: Multidimensional lists dont work, WIP");
 		if (_Size == npos) {
 			std::string s;
 			char c = std::cin.get();
@@ -99,7 +99,7 @@ public:
 	//forward_list<forward_list<forward_list<...>>> not working. WIP
 	template<typename T> operator std::forward_list<T>() {
 		std::forward_list<T> v;
-		static_assert(!std::is_class<T>::value, "Error: Multidimensional forward_lists dont work, WIP");
+		static_assert(!(std::is_class<T>::value && typeid(std::string) != typeid(T)), "Error: Multidimensional forward_lists dont work, WIP");
 		if (_Size == npos) {
 			std::string s;
 			char c = std::cin.get();
@@ -116,7 +116,7 @@ public:
 	//set<set<set<...>>> not working. WIP
 	template<typename T> operator std::set<T>() {
 		std::set<T> v;
-		static_assert(!std::is_class<T>::value, "Error: Multidimensional sets dont work, WIP");
+		static_assert(!(std::is_class<T>::value && typeid(std::string) != typeid(T)), "Error: Multidimensional sets dont work, WIP");
 		if (_Size == npos) {
 			std::string s;
 			char c = std::cin.get();
@@ -133,7 +133,7 @@ public:
 	//multiset<multiset<multiset<...>>> not working. WIP
 	template<typename T> operator std::multiset<T>() {
 		std::multiset<T> v;
-		static_assert(!std::is_class<T>::value, "Error: Multidimensional multisets dont work, WIP");
+		static_assert(!(std::is_class<T>::value && typeid(std::string) != typeid(T)), "Error: Multidimensional multisets dont work, WIP");
 		if (_Size == npos) {
 			std::string s;
 			char c = std::cin.get();
@@ -150,7 +150,7 @@ public:
 	//unordered_set<unordered_set<unordered_set<...>>> not working. WIP
 	template<typename T> operator std::unordered_set<T>() {
 		std::unordered_set<T> v;
-		static_assert(!std::is_class<T>::value, "Error: Multidimensional unordered_sets dont work, WIP");
+		static_assert(!(std::is_class<T>::value && typeid(std::string) != typeid(T)), "Error: Multidimensional unordered_sets dont work, WIP");
 		if (_Size == npos) {
 			std::string s;
 			char c = std::cin.get();
@@ -167,7 +167,7 @@ public:
 	//unordered_multiset<unordered_multiset<unordered_multiset<...>>> not working. WIP
 	template<typename T> operator std::unordered_multiset<T>() {
 		std::unordered_multiset<T> v;
-		static_assert(!std::is_class<T>::value, "Error: Multidimensional unordered_multisets dont work, WIP");
+		static_assert(!(std::is_class<T>::value && typeid(std::string) != typeid(T)), "Error: Multidimensional unordered_multisets dont work, WIP");
 		if (_Size == npos) {
 			std::string s;
 			char c = std::cin.get();
@@ -184,7 +184,7 @@ public:
 	//queue<queue<queue<...>>> not working. WIP
 	template<typename T> operator std::queue<T>() {
 		std::queue<T> v;
-		static_assert(!std::is_class<T>::value, "Error: Multidimensional queues dont work, WIP");
+		static_assert(!(std::is_class<T>::value && typeid(std::string) != typeid(T)), "Error: Multidimensional queues dont work, WIP");
 		if (_Size == npos) {
 			std::string s;
 			char c = std::cin.get();
@@ -201,7 +201,7 @@ public:
 	//priority_queue<priority_queue<priority_queue<...>>> not working. WIP
 	template<typename T> operator std::priority_queue<T>() {
 		std::priority_queue<T> v;
-		static_assert(!std::is_class<T>::value, "Error: Multidimensional priority_queues dont work, WIP");
+		static_assert(!(std::is_class<T>::value && typeid(std::string) != typeid(T)), "Error: Multidimensional priority_queues dont work, WIP");
 		if (_Size == npos) {
 			std::string s;
 			char c = std::cin.get();
@@ -218,7 +218,7 @@ public:
 	//deque<deque<deque<...>>> not working. WIP
 	template<typename T> operator std::deque<T>() {
 		std::deque<T> v;
-		static_assert(!std::is_class<T>::value, "Error: Multidimensional deques dont work, WIP");
+		static_assert(!(std::is_class<T>::value && typeid(std::string) != typeid(T)), "Error: Multidimensional deques dont work, WIP");
 		if (_Size == npos) {
 			std::string s;
 			char c = std::cin.get();
@@ -235,7 +235,7 @@ public:
 	//stack<stack<stack<...>>> not working. WIP
 	template<typename T> operator std::stack<T>() {
 		std::stack<T> v;
-		static_assert(!std::is_class<T>::value, "Error: Multidimensional stacks dont work, WIP");
+		static_assert(!(std::is_class<T>::value && typeid(std::string) != typeid(T)), "Error: Multidimensional stacks dont work, WIP");
 		if (_Size == npos) {
 			std::string s;
 			char c = std::cin.get();
@@ -346,15 +346,145 @@ private:
 		_print(v); _print(w...);
 	}
 };
+#define Print(a) STD::Print(a)
+
+
+class In {
+
+	template<typename T1, typename T2> operator std::pair<T1, T2>() {
+		std::pair<T1, T2> v;
+		
+		return v;
+	}
+	template<typename T1, typename T2> operator std::map<T1, T2>() {
+		std::map<T1, T2> v;
+		
+		return v;
+	}
+	template<typename T1, typename T2> operator std::unordered_map<T1, T2>() {
+		std::unordered_map<T1, T2> v;
+		
+		return v;
+	}
+	template<typename T, size_t N> operator std::array<T, N>() {
+		std::array<T, N> v;
+		
+		return v;
+	}
+	//vector<vector<vector<...>>> not working. WIP
+	template<typename T> operator std::vector<T>() {
+		std::vector<T> v;
+		
+		return v;
+	}
+	//list<list<list<...>>> not working. WIP
+	template<typename T> operator std::list<T>() {
+		std::list<T> v;
+		
+		return v;
+	}
+	//forward_list<forward_list<forward_list<...>>> not working. WIP
+	template<typename T> operator std::forward_list<T>() {
+		std::forward_list<T> v;
+		
+		return v;
+	}
+	//set<set<set<...>>> not working. WIP
+	template<typename T> operator std::set<T>() {
+		std::set<T> v;
+		
+		return v;
+	}
+	//multiset<multiset<multiset<...>>> not working. WIP
+	template<typename T> operator std::multiset<T>() {
+		std::multiset<T> v;
+		
+		return v;
+	}
+	//unordered_set<unordered_set<unordered_set<...>>> not working. WIP
+	template<typename T> operator std::unordered_set<T>() {
+		std::unordered_set<T> v;
+		
+		return v;
+	}
+	//unordered_multiset<unordered_multiset<unordered_multiset<...>>> not working. WIP
+	template<typename T> operator std::unordered_multiset<T>() {
+		std::unordered_multiset<T> v;
+		
+		return v;
+	}
+	//queue<queue<queue<...>>> not working. WIP
+	template<typename T> operator std::queue<T>() {
+		std::queue<T> v;
+		
+		return v;
+	}
+	//priority_queue<priority_queue<priority_queue<...>>> not working. WIP
+	template<typename T> operator std::priority_queue<T>() {
+		std::priority_queue<T> v;
+		
+		return v;
+	}
+	//deque<deque<deque<...>>> not working. WIP
+	template<typename T> operator std::deque<T>() {
+		std::deque<T> v;
+		
+		return v;
+	}
+	//stack<stack<stack<...>>> not working. WIP
+	template<typename T> operator std::stack<T>() {
+		std::stack<T> v;
+		
+		return v;
+	}
+
+
+
+};
 
 
 template<typename T, typename C> bool in(T t, C container) {
+	if (!std::is_class<C>::value) {
+		if (typeid(std::vector) == typeid(T)) {
+
+			
+		}
 
 
+
+		return 0;
+	}
+
+	if (typeid(std::string) != typeid(T)) {
+
+
+	}
+	//text.find()
+
+
+
+	
+	return 0;
 }
+#define t in container in(t, container)
+#define t not in container !in(t, container)
 
 
-#define in(t, container) t in container
-#define in(t, container) t not in container
+		//static_assert(!(std::is_class<C>::value && typeid(std::string) != typeid(T)), "Error: Multidimensional containers dont work, WIP");
 
+/*
 
+<string>
+<array>
+<vector>
+<list>
+<forward_list>
+<set>
+<unordered_set>
+<map>
+<unordered_map>
+<queue>
+<deque>
+<stack>
+
+*/

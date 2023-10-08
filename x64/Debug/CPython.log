@@ -1,3 +1,4 @@
 ﻿  main.cpp
-C:\Users\sssr2\source\repos\CPython\main.cpp(9,8): error C2371: a: переопределение; различные базовые типы
-C:\Users\sssr2\source\repos\CPython\main.cpp(7): message : см. объявление "a"
+C:\Users\sssr2\source\repos\CPython\CPython.h(356,5): error C2760: синтаксическая ошибка: непредвиденный элемент ".". Ожидается "объявление"
+C:\Users\sssr2\source\repos\CPython\CPython.h(376,1): warning C4005: t: изменение макроопределения
+C:\Users\sssr2\source\repos\CPython\CPython.h(375): message : см. предыдущее определение "t"
