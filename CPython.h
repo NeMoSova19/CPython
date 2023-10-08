@@ -346,10 +346,14 @@ private:
 	}
 };
 
-class In {
-	In(In&&) = delete;
-	
+
+template<typename T, typename C> bool in(T t, C container) {
 
 
-};
+}
+
+
+#define in(t, container) t in container
+#define in(t, container) t not in container
+
 
