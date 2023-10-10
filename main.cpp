@@ -24,9 +24,6 @@ bool q2(T const& t) {
 
 int main() {
 	
-	//vector<vector<vector<int>>> v = Input(2);
-	//STD::Print(v); cout << '\n';
-
 	std::unordered_map<std::string, std::string> some_map =
 	{
 		{ "black", "white" },
@@ -34,16 +31,11 @@ int main() {
 		{ "day", "night" }
 	};
 
-	//pair<int, char> p = { 6, 'c'};
-	//cout << 'c' in p << '\n';
-
-	char l[6];
-	cout << q(l);
+	vector<char> p = { 'a', 'b', 'd', 'e', 'f'};
+	Print('c' in p);
 
 	
-	
-	vector<int> a = Input(4);
-	Print(a, 1, 2, 3, "hello world");
+	Print(some_map);
 
 	return 0;
 }

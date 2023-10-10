@@ -306,6 +306,9 @@ private:
 	template<typename R> void _print(R t) {
 		std::cout << t;
 	}
+	template<> void _print(bool t) {
+		std::cout << std::boolalpha << t;
+	}
 	template<typename R, typename P> void _print(std::pair<R,P> t) {
 		std::cout << '<';
 		_print(t.first);
@@ -526,7 +529,11 @@ namespace _In {
 	template<typename Search, typename T> bool _in(Search t, std::vector<T> V) {
 		std::vector<T> v;
 
-		return v;
+		if constexpr (typeid(Search) != typeid(T)) return false;
+		for (auto i : V) {
+			if (t == i) return true;
+		}
+		return false;
 	}
 	template<typename Search, typename T> bool _in(Search t, std::list<T> V) {
 		std::list<T> v;
