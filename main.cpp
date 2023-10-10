@@ -10,7 +10,7 @@ struct MyStruct {
 
 template<typename T>
 bool q(T t) {
-	return is_arithmetic<T>::value;
+	return std::is_class<T>::value;
 }
 
 //__declspec(deprecated("** this is a deprecated function **")) void func2(int) {}
@@ -19,8 +19,9 @@ bool q(T t) {
 int main() {
 	
 	
-
-	vector<vector<vector<int>>> v = Input(2);
+	
+	
+	vector<vector<vector<int>>> v = Input();
 
 	Print(v);
 
