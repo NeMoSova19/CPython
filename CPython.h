@@ -36,7 +36,6 @@ class Input {
 public:
 	Input(std::string Text = "", size_t Size = npos) : _Size(Size) { std::cout << Text; }
 	Input(size_t Size) : _Size(Size) {  }
-
 	template<typename T> operator T() { T v; std::cin >> v; return v; }
 	template<typename T> auto operator +(T t) { T v; std::cin >> v; return v + t; }
 	template<typename T> auto operator -(T t) { T v; std::cin >> v; return v - t; }
@@ -62,13 +61,11 @@ public:
 	template<typename T> auto operator |(T t) { T v; std::cin >> v; return v | t; }
 	template<typename T> auto operator &&(T t) { T v; std::cin >> v; return v && t; }
 	template<typename T> auto operator ||(T t) { T v; std::cin >> v; return v || t; }
-
 	template<typename T1, typename T2> operator std::pair<T1, T2>() {
 		std::pair<T1, T2> v;
 		v.first = Input(); v.second = Input();
 		return v;
 	}
-
 	template<typename T1, typename T2> operator std::map<T1, T2>() {
 		std::map<T1, T2> v;
 		if (_Size == npos) {
@@ -82,7 +79,6 @@ public:
 		}
 		return v;
 	}
-
 	template<typename T1, typename T2> operator std::unordered_map<T1, T2>() {
 		std::unordered_map<T1, T2> v;
 		if (_Size == npos) {
@@ -96,14 +92,12 @@ public:
 		}
 		return v;
 	}
-
 	template<typename T, size_t N> operator std::array<T, N>() {
 		std::array<T, N> v;
 		if (_Size >= N) for (size_t i = 0; i < N; i++) v[i] = Input();
 		else for (size_t i = 0; i < _Size; i++) v[i] = Input();
 		return v;
 	}
-
 	template<typename T> operator std::vector<T>() {
 		std::vector<T> v;
 		if (_Size != npos) {
@@ -119,7 +113,6 @@ public:
 		v.push_back(Input());
 		return v;
 	}
-	
 	template<typename T> operator std::list<T>() {
 		std::list<T> v;
 		if (_Size != npos) {
@@ -135,7 +128,6 @@ public:
 		v.push_back(Input());
 		return v;
 	}
-
 	template<typename T> operator std::forward_list<T>() {
 		std::forward_list<T> v;
 		if (_Size != npos) {
@@ -151,11 +143,13 @@ public:
 		v.push_front(Input());
 		return v;
 	}
-
 	template<typename T> operator std::set<T>() {
 		std::set<T> v;
 		if (_Size != npos) {
-			for (size_t i = 0; i < _Size; i++) v.insert(Input(_Size));
+			for (size_t i = 0; i < _Size; i++) {
+				T t = Input(_Size);
+				v.insert(t);
+			}
 			return v;
 		}
 		if constexpr (!std::is_class<T>::value || typeid(T) == typeid(std::string)) {
@@ -164,14 +158,17 @@ public:
 			while (ss >> t) v.insert(t);
 			return v;
 		}
-		v.insert(Input());
+		T t = Input();
+		v.insert(t);
 		return v;
 	}
-
 	template<typename T> operator std::multiset<T>() {
 		std::multiset<T> v;
 		if (_Size != npos) {
-			for (size_t i = 0; i < _Size; i++) v.insert(Input(_Size));
+			for (size_t i = 0; i < _Size; i++) {
+				T t = Input(_Size);
+				v.insert(t);
+			}
 			return v;
 		}
 		if constexpr (!std::is_class<T>::value || typeid(T) == typeid(std::string)) {
@@ -180,14 +177,18 @@ public:
 			while (ss >> t) v.insert(t);
 			return v;
 		}
-		v.insert(Input());
+		T t = Input();
+		v.insert(t);
+		return v;
 		return v;
 	}
-
 	template<typename T> operator std::unordered_set<T>() {
 		std::unordered_set<T> v;
 		if (_Size != npos) {
-			for (size_t i = 0; i < _Size; i++) v.insert(Input(_Size));
+			for (size_t i = 0; i < _Size; i++) {
+				T t = Input(_Size);
+				v.insert(t);
+			}
 			return v;
 		}
 		if constexpr (!std::is_class<T>::value || typeid(T) == typeid(std::string)) {
@@ -196,14 +197,18 @@ public:
 			while (ss >> t) v.insert(t);
 			return v;
 		}
-		v.insert(Input());
+		T t = Input();
+		v.insert(t);
+		return v;
 		return v;
 	}
-
 	template<typename T> operator std::unordered_multiset<T>() {
 		std::unordered_multiset<T> v;
 		if (_Size != npos) {
-			for (size_t i = 0; i < _Size; i++) v.insert(Input(_Size));
+			for (size_t i = 0; i < _Size; i++) {
+				T t = Input(_Size);
+				v.insert(t);
+			}
 			return v;
 		}
 		if constexpr (!std::is_class<T>::value || typeid(T) == typeid(std::string)) {
@@ -212,10 +217,11 @@ public:
 			while (ss >> t) v.insert(t);
 			return v;
 		}
-		v.insert(Input());
+		T t = Input();
+		v.insert(t);
+		return v;
 		return v;
     }
-
 	template<typename T> operator std::queue<T>() {
 		std::queue<T> v;
 		if (_Size != npos) {
@@ -231,7 +237,6 @@ public:
 		v.push(Input());
 		return v;
 	}
-
 	template<typename T> operator std::priority_queue<T>() {
 		std::priority_queue<T> v;
 		if (_Size != npos) {
@@ -247,7 +252,6 @@ public:
 		v.push(Input());
 		return v;
 	}
-
 	template<typename T> operator std::deque<T>() {
 		std::deque<T> v;
 		if (_Size != npos) {
@@ -263,7 +267,6 @@ public:
 		v.push_back(Input());
 		return v;		
 	}
-
 	template<typename T> operator std::stack<T>() {
 		std::stack<T> v;
 		if (_Size != npos) {

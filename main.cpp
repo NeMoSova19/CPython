@@ -18,12 +18,18 @@ bool q(T t) {
 
 int main() {
 	
-	
-	
-	
-	vector<vector<vector<int>>> v = Input();
+	queue<queue<int>> v = Input(3);
 
-	Print(v);
+	//for (size_t i = 0; i < 3; i++)
+	//{
+	//	set<int> s;
+	//	for(size_t j = 0; j < 4; j++){
+	//		s.insert((int)Input());
+	//	}
+	//	v.insert(s);
+	//}
+
+	//Print(v);
 
 	return 0;
 }
