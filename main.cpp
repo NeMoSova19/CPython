@@ -58,6 +58,8 @@ int main() {
 
 	
 	
+	vector<int> a = Input(4);
+	Print(a, 1, 2, 3, "hello world");
 
 	return 0;
 }
