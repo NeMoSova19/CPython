@@ -287,187 +287,208 @@ public:
 
 // WIP WIP WIP WIP WIP WIP WIP WIP
 struct STD {
-	
-template<typename... T>
-	static inline void Print(T... t) {
-		_print(standart, t...);
-	}
-
-	enum Preset {
-		standart,
-		fast,
-		beautiful
-	};
+	STD(STD&&) = delete;
 
 template<typename... T>
-	static inline void Print(Preset pres, T... t) {
-		_print(pres, t...);
+	STD(T... t) {
+		_print(t...);
 	}
+
+	~STD()
+	{
+		std::cout << end;
+	}
+
+	std::string end{ '\n' };
+	std::string separator{ ", "};
 	
 private:
-
-	template<typename R> static inline void _print(Preset pres, R t) {
+	template<typename R> void _print(R t) {
 		std::cout << t;
 	}
-	template<typename R, typename P> static inline void _print(Preset pres, std::pair<R,P> t) {
-		switch (pres)
-		{
-		case STD::fast:
-			break;
-		case STD::standart:
-		case STD::beautiful:
-			std::cout << '<';
-			break;
-		}
-		_print(pres, t.first); 
-		switch (pres)
-		{
-		case STD::fast:
-			std::cout << ' ';
-			break;
-		case STD::standart:
-		case STD::beautiful:
-			std::cout << ", ";
-			break;
-		}
-		_print(pres, t.second);
-		switch (pres)
-		{
-		case STD::fast:
-			break;
-		case STD::standart:
-		case STD::beautiful:
-			std::cout << '>';
-			break;
-		}
+	template<typename R, typename P> void _print(std::pair<R,P> t) {
+		std::cout << '<';
+		_print(t.first);
+		std::cout << separator;
+		_print(t.second);
+		std::cout << '>';
 	}
-	template<typename R, typename P> static inline void _print(Preset pres, std::map<R, P> v) {
-		for (auto i : v) _print(pres, i);
-	}
-	template<typename R, typename P> static inline void _print(Preset pres, std::unordered_map<R, P> v) {
-		for (auto i : v) _print(pres, i);
-	}
-	template<typename R> static inline void _print(Preset pres, std::vector<R> v) {
-		switch (pres)
-		{
-		case STD::fast:
-			break;
-		case STD::standart:
-		case STD::beautiful:
-			std::cout << '[';
-				break;
-		}
-		
+	template<typename R, typename P> void _print(std::map<R, P> v) {
+		std::cout << '{';
 		int cnt{ 0 };
 		for (auto i : v) {
-			_print(pres, i);
-			
-			if (cnt+1 < v.size()) {
-				switch (pres)
-				{
-				case STD::fast:
-					std::cout << ' ';
-					break;
-				case STD::standart:
-				case STD::beautiful:
-					std::cout << ", ";
-					break;
-				}
-			}
-
-			cnt++;
-		}
-
-		switch (pres)
-		{
-		case STD::fast: 
-			break;
-		case STD::standart: 
-		case STD::beautiful:
-			std::cout << ']';
-				break;
-		}
-	}
-	template<typename R, size_t N> static inline void _print(Preset pres, std::array<R, N> v) {
-		switch (pres)
-		{
-		case STD::fast:
-			break;
-		case STD::standart:
-		case STD::beautiful:
-			std::cout << '[';
-			break;
-		}
-
-		int cnt{ 0 };
-		for (auto i : v) {
-			_print(pres, i);
-
+			_print(i);
 			if (cnt + 1 < v.size()) {
-				switch (pres)
-				{
-				case STD::fast:
-					std::cout << ' ';
-					break;
-				case STD::standart:
-				case STD::beautiful:
-					std::cout << ", ";
-					break;
-				}
+				std::cout << separator;
 			}
-
 			cnt++;
 		}
-
-		switch (pres)
-		{
-		case STD::fast:
-			break;
-		case STD::standart:
-		case STD::beautiful:
-			std::cout << ']';
-			break;
+		std::cout << '}';
+	}
+	template<typename R, typename P> void _print(std::unordered_map<R, P> v) {
+		std::cout << '{';
+		int cnt{ 0 };
+		for (auto i : v) {
+			_print(i);
+			if (cnt + 1 < v.size()) {
+				std::cout << separator;
+			}
+			cnt++;
 		}
+		std::cout << '}';
 	}
-	template<typename R> static inline void _print(Preset pres, std::list<R> v) {
-		for (auto i : v) _print(pres, i);
+	template<typename R, size_t N> void _print(std::array<R, N> v) {
+		std::cout << '[';
+		int cnt{ 0 };
+		for (auto i : v) {
+			_print(i);
+			if (cnt + 1 < v.size()) {
+				std::cout << separator;
+			}
+			cnt++;
+		}
+		std::cout << ']';
 	}
-	template<typename R> static inline void _print(Preset pres, std::set<R> v) {
-		for (auto i : v) _print(pres, i);
+	template<typename R> void _print(std::vector<R> v) {
+		std::cout << '[';
+		int cnt{ 0 };
+		for (auto i : v) {
+			_print(i);
+			if (cnt+1 < v.size()) {
+				std::cout << separator;
+			}
+			cnt++;
+		}
+		std::cout << ']';
 	}
-	template<typename R> static inline void _print(Preset pres, std::queue<R> v) {
-		std::queue<R> vnew = v;
-		while(!vnew.empty()) {
-			_print(pres, vnew.front());
+	template<typename R> void _print(std::list<R> v) {
+		std::cout << '[';
+		int cnt{ 0 };
+		for (auto i : v) {
+			_print(i);
+			if (cnt + 1 < v.size()) {
+				std::cout << separator;
+			}
+			cnt++;
+		}
+		std::cout << ']';
+	}
+	template<typename R> void _print(std::forward_list<R> v) {
+		std::cout << '[';
+		int cnt{ 0 };
+		for (auto i : v) {
+			_print(i);
+			if (cnt + 1 < v.size()) {
+				std::cout << separator;
+			}
+			cnt++;
+		}
+		std::cout << ']';
+	}
+	template<typename R> void _print(std::set<R> v) {
+		std::cout << '[';
+		int cnt{ 0 };
+		for (auto i : v) {
+			_print(i);
+			if (cnt + 1 < v.size()) {
+				std::cout << separator;
+			}
+			cnt++;
+		}
+		std::cout << ']';
+	}
+	template<typename R> void _print(std::multiset<R> v) {
+		std::cout << '[';
+		int cnt{ 0 };
+		for (auto i : v) {
+			_print(i);
+			if (cnt + 1 < v.size()) {
+				std::cout << separator;
+			}
+			cnt++;
+		}
+		std::cout << ']';
+	}
+	template<typename R> void _print(std::unordered_set<R> v) {
+		std::cout << '[';
+		int cnt{ 0 };
+		for (auto i : v) {
+			_print(i);
+			if (cnt + 1 < v.size()) {
+				std::cout << separator;
+			}
+			cnt++;
+		}
+		std::cout << ']';
+	}
+	template<typename R> void _print(std::unordered_multiset<R> v) {
+		std::cout << '[';
+		int cnt{ 0 };
+		for (auto i : v) {
+			_print(i);
+			if (cnt + 1 < v.size()) {
+				std::cout << separator;
+			}
+			cnt++;
+		}
+		std::cout << ']';
+	}
+	template<typename R> void _print(std::queue<R> v) {
+		std::cout << '[';
+		auto vnew = v;
+		while (true) {
+			_print(vnew.front());
 			vnew.pop();
+			if (vnew.empty()) break;
+			std::cout << separator;
 		}
+		std::cout << ']';
 	}
-	template<typename R> static inline void _print(Preset pres, std::deque<R> v) {
-		std::deque<R> vnew = v;
-		while (!vnew.empty()) {
-			_print(pres, vnew.front());
-			vnew.pop_front();
+	template<typename R> void _print(std::priority_queue<R> v) {
+		std::cout << '[';
+		auto vnew = v;
+		while(true) {
+			_print(vnew.front());
+			vnew.pop();
+			if (vnew.empty()) break;
+			std::cout << separator;
 		}
+		std::cout << ']';
 	}
-	template<typename R> void _print(Preset pres, std::stack<R> v) {
-		for (auto i : v) _print(pres, i);
-	}
-	template<typename R, typename... P> static inline void _print(Preset pres, R v, P... w) {
-		_print(pres, v);
-		switch (pres)
-		{
-		case STD::fast:
-			std::cout << ' ';
-			break;
-		case STD::standart:
-		case STD::beautiful:
-			std::cout << ", ";
-			break;
+	template<typename R> void _print(std::deque<R> v) {
+		std::cout << '[';
+		int cnt{ 0 };
+		for (auto i : v) {
+			_print(i);
+			if (cnt + 1 < v.size()) {
+				std::cout << separator;
+			}
+			cnt++;
 		}
-		_print(pres, w...);
+		std::cout << ']';
+	}
+	template<typename R> void _print(std::stack<R> v) {
+		std::cout << '[';
+		auto vnew = v;
+		while (true) {
+			_print(vnew.top());
+			vnew.pop();
+			if (vnew.empty()) break;
+			std::cout << separator;
+		}
+		std::cout << ']';
+	}
+	template<typename R, typename... P> void _print(R v, P... w) {
+		_print(v);
+		std::cout << separator;
+		_print(w...);
 	}
 };
-//#define Print(a) STD::Print(a)
+
+template<typename ...T>
+void Print(T... tmp) {
+	STD st(tmp...);
+}
 
 
 

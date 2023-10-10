@@ -13,23 +13,14 @@ bool q(T t) {
 	return std::is_class<T>::value;
 }
 
+
 //__declspec(deprecated("** this is a deprecated function **")) void func2(int) {}
 
 
 int main() {
 	
-	array<int, 8> v = Input();
-
-	//for (size_t i = 0; i < 3; i++)
-	//{
-	//	set<int> s;
-	//	for(size_t j = 0; j < 4; j++){
-	//		s.insert((int)Input());
-	//	}
-	//	v.insert(s);
-	//}
-
-	STD::Print(v); cout << '\n';
+	vector<int> a = Input(4);
+	Print(a, 1, 2, 3, "hello world");
 
 	return 0;
 }
