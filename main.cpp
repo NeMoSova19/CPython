@@ -10,26 +10,38 @@ struct MyStruct {
 
 template<typename T>
 bool q(T t) {
-	return std::is_class<T>::value;
+	return 0;
 }
+
+template<typename T>
+bool q2(T const& t) {
+	return sizeof(T) == sizeof(char[]);
+}
+
 
 //__declspec(deprecated("** this is a deprecated function **")) void func2(int) {}
 
 
 int main() {
 	
-	array<int, 8> v = Input();
+	//vector<vector<vector<int>>> v = Input(2);
+	//STD::Print(v); cout << '\n';
 
-	//for (size_t i = 0; i < 3; i++)
-	//{
-	//	set<int> s;
-	//	for(size_t j = 0; j < 4; j++){
-	//		s.insert((int)Input());
-	//	}
-	//	v.insert(s);
-	//}
+	std::unordered_map<std::string, std::string> some_map =
+	{
+		{ "black", "white" },
+		{ "cat", "dog" },
+		{ "day", "night" }
+	};
 
-	STD::Print(v); cout << '\n';
+	//pair<int, char> p = { 6, 'c'};
+	//cout << 'c' in p << '\n';
+
+	char l[6];
+	cout << q(l);
+
+	
+	
 
 	return 0;
 }
