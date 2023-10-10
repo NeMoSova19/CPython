@@ -31,8 +31,10 @@ int main() {
 		{ "day", "night" }
 	};
 
-	vector<char> p = { 'a', 'b', 'd', 'e', 'f'};
-	Print('c' in p);
+	//vector<char> p = { 'a', 'b', 'd', 'e', 'f'};
+	//Print('c' in p);
+
+
 	pair<int, string> p = { 6, "sddj" }, pnew = { 6, "sddj" };
 
 	pair<int, char> p1 = { -56, '0'};
@@ -50,15 +52,11 @@ int main() {
 
 	char l[6];
 	
-
-
-
-	cout << a1 in aa;
+	Print(a1 in aa);
 
 	
-	
-	vector<int> a = Input(4);
-	Print(a, 1, 2, 3, "hello world");
+	//vector<int> a = Input(4);
+	//Print(a, 1, 2, 3, "hello world");
 
 	return 0;
 }
