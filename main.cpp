@@ -14,8 +14,8 @@ bool q(T t) {
 }
 
 template<typename T>
-bool q2(T const& t) {
-	return sizeof(T) == sizeof(char[]);
+bool q2(T &t) {
+	return is_array(T);
 }
 
 
@@ -34,11 +34,27 @@ int main() {
 		{ "day", "night" }
 	};
 
-	//pair<int, char> p = { 6, 'c'};
-	//cout << 'c' in p << '\n';
+	pair<int, string> p = { 6, "sddj" }, pnew = { 6, "sddj" };
+
+	pair<int, char> p1 = { -56, '0'};
+
+	pair<pair<int, char>, pair<int, char>> pp = { { 6, 'c'} , { 90, '3'} };
+	
+	array<int, 5> a = { 5, -4, 2, 4, 3 };
+
+	array<array<int, 3>, 3> aa;
+	aa[0] = { 4, 5, 10 };
+	aa[1] = { 90, -34, 7 };
+	aa[2] = { -56, -45, 4 };
+
+	array<int, 3> a1 = { 4, 5, 10 };
 
 	char l[6];
-	cout << q(l);
+	
+
+
+
+	cout << a1 in aa;
 
 	
 	

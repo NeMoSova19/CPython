@@ -16,9 +16,6 @@
 #include <deque>
 #include <stack>
 
-
-//static_assert(!(std::is_class<T>::value && typeid(std::string) != typeid(T)), "Error: Multidimensional vectors dont work, WIP");
-
 /// Input() - Ввод 1 значения или контейнера до n или размером Size
 /// Text : Сообщение, которое выводится;
 /// Size : Ввод Size переменных в контейнер
@@ -473,96 +470,118 @@ private:
 
 
 
-
+/// <summary>
+/// Not working
+/// </summary>
 namespace _In {
 	class OperatorIn {};
 
-
-
-	template<typename Search, typename T> bool _in(Search t, T V) {
-		return t == V;
-	}
-	template<typename Search, typename T1, typename T2> bool _in(Search t, std::pair<T1, T2> V) {
-		if constexpr (typeid(Search) == typeid(T1)) return _in(t, V.first);
-		if constexpr (typeid(Search) == typeid(T2)) return _in(t, V.second);
-		return false;
-	}
-	template<typename Search, typename T1, typename T2> bool _in(Search t, std::map<T1, T2> V) {
-		std::map<T1, T2> v;
-
-		return v;
-	}
-	template<typename Search, typename T1, typename T2> bool _in(Search t, std::unordered_map<T1, T2> V) {
-		std::unordered_map<T1, T2> v;
-
-		return v;
-	}
-	template<typename Search, typename T, size_t N> bool _in(Search t, std::array<T, N> V) {
-		std::array<T, N> v;
-
-		return v;
-	}
-	template<typename Search, typename T> bool _in(Search t, std::vector<T> V) {
-		std::vector<T> v;
-
-		return v;
-	}
-	template<typename Search, typename T> bool _in(Search t, std::list<T> V) {
-		std::list<T> v;
-
-		return v;
-	}
-	template<typename Search, typename T> bool _in(Search t, std::forward_list<T> V) {
-		std::forward_list<T> v;
-
-		return v;
-	}
-	template<typename Search, typename T> bool _in(Search t, std::set<T> V) {
-		std::set<T> v;
-
-		return v;
-	}
-	template<typename Search, typename T> bool _in(Search t, std::multiset<T> V) {
-		std::multiset<T> v;
-
-		return v;
-	}
-	template<typename Search, typename T> bool _in(Search t, std::unordered_set<T> V) {
-		std::unordered_set<T> v;
-		
-		return v;
-	}
-	template<typename Search, typename T> bool _in(Search t, std::unordered_multiset<T> V) {
-		std::unordered_multiset<T> v;
-
-		return v;
-	}
-
-
-
-	bool operator_in(const std::string& key, const std::unordered_map<std::string, std::string>& data)
-	{
-		return data.find(key) != data.end();
-	}
-
-
-
-
-
-	template<typename T>
+	template<typename Tin>
 	struct InSearch {
-		const T& m_in;
-		InSearch(const T& val) : m_in(val) {};
+		const Tin& m_in;
+		InSearch(const Tin& val) : m_in(val) {};
+		template<typename T> bool operator *(T& what) { return _in(m_in, what); }
 
+		template<typename T1, typename T2> bool _in(std::pair<T1, T2> p1, std::pair<T1, T2> p2) {
+			return (p1.first == p2.first) && (p1.second == p2.second);
+		}
+		
+		template<typename Search, typename T1, typename T2> bool _in(Search t, std::pair<T1, T2> V) {
+			if constexpr (typeid(Search) == typeid(T1)) return _in(t, V.first);
+			if constexpr (typeid(Search) == typeid(T2)) return _in(t, V.second);
+			return false;
+		}
+		
+		template<typename Search, typename T1, typename T2> bool _in(Search t, std::map<T1, T2> V) {
+			std::map<T1, T2> v;
 
-		// Версия для C++14
-		template<typename TWhat> bool operator *(const TWhat& what) const {
-			return _in(m_in, what);
+			return v;
+		}
+		
+		template<typename Search, typename T1, typename T2> bool _in(Search t, std::unordered_map<T1, T2> V) {
+			std::unordered_map<T1, T2> v;
+
+			return v;
+		}
+		
+		template<typename T, size_t N1, size_t N2> bool _in(std::array<T, N1> V1, std::array<T, N2> V2) {
+			if (N1 != N2) return false;
+			bool opt = true;
+			for (size_t i = 0; i < N1; i++) {
+				opt &= _in(V1[i], V2[i]);
+				if (!opt) return false;
+			}
+			return opt;
+		}
+		template<typename Search, typename T, size_t N> bool _in(Search t, std::array<T, N> V) {
+			bool opt = false;
+			if (typeid(Search) == typeid(T)) {
+				for (size_t i = 0; i < N; i++) {
+					opt |= _in(t, V[i]);
+					if (opt) return true;
+				}
+			};
+			return opt;
+		}
+	
+		template<typename T> bool _in(std::vector<T> V1, std::vector<T> V2) {
+			if (V1.size() != V2.size()) return false;
+			bool opt = true;
+			for (size_t i = 0; i < V1.size(); i++) {
+				opt &= _in(V1[i], V2[i]);
+				if (!opt) return false;
+			}
+			return opt;
+		}
+		template<typename Search, typename T> bool _in(Search t, std::vector<T> V) {
+			bool opt = false;
+			if (typeid(Search) == typeid(T)) {
+				for (size_t i = 0; i < V.size(); i++) {
+					opt |= _in(t, V[i]);
+					if (opt) return true;
+				}
+			};
+			return opt;
 		}
 
-		//template<typename TWhat> auto operator *(TWhat& what) const -> decltype(operator_in(m_in, what)){
-		//	return operator_in(m_in, what);
-		//}
+		template<typename Search, typename T> bool _in(Search t, std::list<T> V) {
+			std::list<T> v;
+
+			return v;
+		}
+		
+		template<typename Search, typename T> bool _in(Search t, std::forward_list<T> V) {
+			std::forward_list<T> v;
+
+			return v;
+		}
+		
+		template<typename Search, typename T> bool _in(Search t, std::set<T> V) {
+			std::set<T> v;
+
+			return v;
+		}
+		
+		template<typename Search, typename T> bool _in(Search t, std::multiset<T> V) {
+			std::multiset<T> v;
+
+			return v;
+		}
+		
+		template<typename Search, typename T> bool _in(Search t, std::unordered_set<T> V) {
+			std::unordered_set<T> v;
+
+			return v;
+		}
+		
+		template<typename Search, typename T> bool _in(Search t, std::unordered_multiset<T> V) {
+			std::unordered_multiset<T> v;
+
+			return v;
+		}
+		
+		template<typename Search, typename T> bool _in(Search t, T V) { return t == V; }
+
 	};
 	template<typename T> InSearch<T> operator *(const T& data, const OperatorIn&) { return InSearch<T>(data); }
 }
@@ -572,14 +591,6 @@ namespace _In {
 
 
 
-
-
-
-
-
-
-//#define in InSearch::in(t, container)
-//#define t not in container !InSearch::in(t, container)
 
 
 //static_assert(!(std::is_class<C>::value && typeid(std::string) != typeid(T)), "Error: Multidimensional containers dont work, WIP");
