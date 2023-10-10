@@ -344,6 +344,9 @@ private:
 	template<typename R, typename P> static inline void _print(Preset pres, std::map<R, P> v) {
 		for (auto i : v) _print(pres, i);
 	}
+	template<typename R, typename P> static inline void _print(Preset pres, std::unordered_map<R, P> v) {
+		for (auto i : v) _print(pres, i);
+	}
 	template<typename R> static inline void _print(Preset pres, std::vector<R> v) {
 		switch (pres)
 		{
@@ -385,6 +388,47 @@ private:
 				break;
 		}
 	}
+	template<typename R, size_t N> static inline void _print(Preset pres, std::array<R, N> v) {
+		switch (pres)
+		{
+		case STD::fast:
+			break;
+		case STD::standart:
+		case STD::beautiful:
+			std::cout << '[';
+			break;
+		}
+
+		int cnt{ 0 };
+		for (auto i : v) {
+			_print(pres, i);
+
+			if (cnt + 1 < v.size()) {
+				switch (pres)
+				{
+				case STD::fast:
+					std::cout << ' ';
+					break;
+				case STD::standart:
+				case STD::beautiful:
+					std::cout << ", ";
+					break;
+				}
+			}
+
+			cnt++;
+		}
+
+		switch (pres)
+		{
+		case STD::fast:
+			break;
+		case STD::standart:
+		case STD::beautiful:
+			std::cout << ']';
+			break;
+		}
+	}
 	template<typename R> static inline void _print(Preset pres, std::list<R> v) {
 		for (auto i : v) _print(pres, i);
 	}
@@ -392,15 +436,20 @@ private:
 		for (auto i : v) _print(pres, i);
 	}
 	template<typename R> static inline void _print(Preset pres, std::queue<R> v) {
-		for (auto i : v) _print(pres, i);
+		std::queue<R> vnew = v;
+		while(!vnew.empty()) {
+			_print(pres, vnew.front());
+			vnew.pop();
+		}
 	}
 	template<typename R> static inline void _print(Preset pres, std::deque<R> v) {
-		for (auto i : v) _print(pres, i);
+		std::deque<R> vnew = v;
+		while (!vnew.empty()) {
+			_print(pres, vnew.front());
+			vnew.pop_front();
+		}
 	}
 	template<typename R> void _print(Preset pres, std::stack<R> v) {
-		for (auto i : v) _print(pres, i);
-	}
-	template<typename R, size_t N> static inline void _print(Preset pres, std::array<R, N> v) {
 		for (auto i : v) _print(pres, i);
 	}
 	template<typename R, typename... P> static inline void _print(Preset pres, R v, P... w) {
@@ -418,7 +467,7 @@ private:
 		_print(pres, w...);
 	}
 };
-#define Print(a) STD::Print(a)
+//#define Print(a) STD::Print(a)
 
 
 

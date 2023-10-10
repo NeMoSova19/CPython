@@ -18,7 +18,7 @@ bool q(T t) {
 
 int main() {
 	
-	queue<queue<int>> v = Input(3);
+	array<int, 8> v = Input();
 
 	//for (size_t i = 0; i < 3; i++)
 	//{
@@ -29,7 +29,7 @@ int main() {
 	//	v.insert(s);
 	//}
 
-	//Print(v);
+	STD::Print(v); cout << '\n';
 
 	return 0;
 }
