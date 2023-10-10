@@ -1,6 +1,434 @@
 ﻿  main.cpp
-C:\Users\sssr2\source\repos\CPython\CPython.h(469,10): error C3861: cout: идентификатор не найден
-C:\Users\sssr2\source\repos\CPython\CPython.h(467,7): message : Сообщение диагностики возникло в созданной компилятором функции "auto OP_IN_HELP::operator *(const TWhat &) const"
-C:\Users\sssr2\source\repos\CPython\CPython.h(469,10): error C2065: cout: необъявленный идентификатор
-C:\Users\sssr2\source\repos\CPython\CPython.h(467,7): message : Сообщение диагностики возникло в созданной компилятором функции "auto OP_IN_HELP::operator *(const TWhat &) const"
-C:\Users\sssr2\source\repos\CPython\main.cpp(23,4): error C2677: бинарный "*": не найден глобальный оператор, принимающий тип "OP_IN_HELP" (или приемлемое преобразование отсутствует)
+C:\Users\sssr2\source\repos\CPython\CPython.h(640,1): error C2440: приведение типов: невозможно преобразовать "Input" в "std::string"
+C:\Users\sssr2\source\repos\CPython\CPython.h(640,1): message : Ни один конструктор не смог принять исходный тип, либо разрешение перегрузки конструктора неоднозначно
+C:\Users\sssr2\source\repos\CPython\CPython.h(948,1): error C2668: std::_Hash<std::_Uset_traits<_Kty,std::_Uhash_compare<_Kty,_Hasher,_Keyeq>,_Alloc,true>>::insert: неоднозначный вызов перегруженной функции
+          with
+          [
+              _Kty=int8_t,
+              _Hasher=std::hash<int8_t>,
+              _Keyeq=std::equal_to<int8_t>,
+              _Alloc=std::allocator<int8_t>
+          ]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\xhash(1492,88): message : может быть "std::_List_const_iterator<std::_List_val<std::_List_simple_types<_Ty>>> std::_Hash<std::_Uset_traits<_Kty,std::_Uhash_compare<_Kty,_Hasher,_Keyeq>,_Alloc,true>>::insert(std::_Node_handle<std::_List_node<_Ty,std::_Default_allocator_traits<_Alloc>::void_pointer>,_Alloc,std::_Node_handle_set_base,_Kty> &&)"
+          with
+          [
+              _Ty=int8_t,
+              _Kty=int8_t,
+              _Hasher=std::hash<int8_t>,
+              _Keyeq=std::equal_to<int8_t>,
+              _Alloc=std::allocator<int8_t>
+          ]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\xhash(941,10): message : или       "void std::_Hash<std::_Uset_traits<_Kty,std::_Uhash_compare<_Kty,_Hasher,_Keyeq>,_Alloc,true>>::insert(std::initializer_list<_Ty>)"
+          with
+          [
+              _Kty=int8_t,
+              _Hasher=std::hash<int8_t>,
+              _Keyeq=std::equal_to<int8_t>,
+              _Alloc=std::allocator<int8_t>,
+              _Ty=int8_t
+          ]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\xhash(919,59): message : или       "std::_List_const_iterator<std::_List_val<std::_List_simple_types<_Ty>>> std::_Hash<std::_Uset_traits<_Kty,std::_Uhash_compare<_Kty,_Hasher,_Keyeq>,_Alloc,true>>::insert(signed char &&)"
+          with
+          [
+              _Ty=int8_t,
+              _Kty=int8_t,
+              _Hasher=std::hash<int8_t>,
+              _Keyeq=std::equal_to<int8_t>,
+              _Alloc=std::allocator<int8_t>
+          ]
+C:\Users\sssr2\source\repos\CPython\CPython.h(948,1): message : при попытке сопоставить список аргументов "(Input)"
+C:\Users\sssr2\source\repos\CPython\CPython.h(959,1): error C2668: std::_Hash<std::_Uset_traits<_Kty,std::_Uhash_compare<_Kty,_Hasher,_Keyeq>,_Alloc,true>>::insert: неоднозначный вызов перегруженной функции
+          with
+          [
+              _Kty=int16_t,
+              _Hasher=std::hash<int16_t>,
+              _Keyeq=std::equal_to<int16_t>,
+              _Alloc=std::allocator<int16_t>
+          ]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\xhash(1492,88): message : может быть "std::_List_const_iterator<std::_List_val<std::_List_simple_types<_Ty>>> std::_Hash<std::_Uset_traits<_Kty,std::_Uhash_compare<_Kty,_Hasher,_Keyeq>,_Alloc,true>>::insert(std::_Node_handle<std::_List_node<_Ty,std::_Default_allocator_traits<_Alloc>::void_pointer>,_Alloc,std::_Node_handle_set_base,_Kty> &&)"
+          with
+          [
+              _Ty=int16_t,
+              _Kty=int16_t,
+              _Hasher=std::hash<int16_t>,
+              _Keyeq=std::equal_to<int16_t>,
+              _Alloc=std::allocator<int16_t>
+          ]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\xhash(941,10): message : или       "void std::_Hash<std::_Uset_traits<_Kty,std::_Uhash_compare<_Kty,_Hasher,_Keyeq>,_Alloc,true>>::insert(std::initializer_list<_Ty>)"
+          with
+          [
+              _Kty=int16_t,
+              _Hasher=std::hash<int16_t>,
+              _Keyeq=std::equal_to<int16_t>,
+              _Alloc=std::allocator<int16_t>,
+              _Ty=int16_t
+          ]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\xhash(919,59): message : или       "std::_List_const_iterator<std::_List_val<std::_List_simple_types<_Ty>>> std::_Hash<std::_Uset_traits<_Kty,std::_Uhash_compare<_Kty,_Hasher,_Keyeq>,_Alloc,true>>::insert(short &&)"
+          with
+          [
+              _Ty=int16_t,
+              _Kty=int16_t,
+              _Hasher=std::hash<int16_t>,
+              _Keyeq=std::equal_to<int16_t>,
+              _Alloc=std::allocator<int16_t>
+          ]
+C:\Users\sssr2\source\repos\CPython\CPython.h(959,1): message : при попытке сопоставить список аргументов "(Input)"
+C:\Users\sssr2\source\repos\CPython\CPython.h(970,1): error C2668: std::_Hash<std::_Uset_traits<_Kty,std::_Uhash_compare<_Kty,_Hasher,_Keyeq>,_Alloc,true>>::insert: неоднозначный вызов перегруженной функции
+          with
+          [
+              _Kty=int32_t,
+              _Hasher=std::hash<int>,
+              _Keyeq=std::equal_to<int32_t>,
+              _Alloc=std::allocator<int>
+          ]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\xhash(1492,88): message : может быть "std::_List_const_iterator<std::_List_val<std::_List_simple_types<_Ty>>> std::_Hash<std::_Uset_traits<_Kty,std::_Uhash_compare<_Kty,_Hasher,_Keyeq>,_Alloc,true>>::insert(std::_Node_handle<std::_List_node<_Ty,std::_Default_allocator_traits<_Alloc>::void_pointer>,_Alloc,std::_Node_handle_set_base,_Kty> &&)"
+          with
+          [
+              _Ty=int32_t,
+              _Kty=int32_t,
+              _Hasher=std::hash<int>,
+              _Keyeq=std::equal_to<int32_t>,
+              _Alloc=std::allocator<int>
+          ]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\xhash(941,10): message : или       "void std::_Hash<std::_Uset_traits<_Kty,std::_Uhash_compare<_Kty,_Hasher,_Keyeq>,_Alloc,true>>::insert(std::initializer_list<_Ty>)"
+          with
+          [
+              _Kty=int32_t,
+              _Hasher=std::hash<int>,
+              _Keyeq=std::equal_to<int32_t>,
+              _Alloc=std::allocator<int>,
+              _Ty=int32_t
+          ]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\xhash(919,59): message : или       "std::_List_const_iterator<std::_List_val<std::_List_simple_types<_Ty>>> std::_Hash<std::_Uset_traits<_Kty,std::_Uhash_compare<_Kty,_Hasher,_Keyeq>,_Alloc,true>>::insert(int &&)"
+          with
+          [
+              _Ty=int32_t,
+              _Kty=int32_t,
+              _Hasher=std::hash<int>,
+              _Keyeq=std::equal_to<int32_t>,
+              _Alloc=std::allocator<int>
+          ]
+C:\Users\sssr2\source\repos\CPython\CPython.h(970,1): message : при попытке сопоставить список аргументов "(Input)"
+C:\Users\sssr2\source\repos\CPython\CPython.h(981,1): error C2668: std::_Hash<std::_Uset_traits<_Kty,std::_Uhash_compare<_Kty,_Hasher,_Keyeq>,_Alloc,true>>::insert: неоднозначный вызов перегруженной функции
+          with
+          [
+              _Kty=int64_t,
+              _Hasher=std::hash<int64_t>,
+              _Keyeq=std::equal_to<int64_t>,
+              _Alloc=std::allocator<int64_t>
+          ]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\xhash(1492,88): message : может быть "std::_List_const_iterator<std::_List_val<std::_List_simple_types<_Ty>>> std::_Hash<std::_Uset_traits<_Kty,std::_Uhash_compare<_Kty,_Hasher,_Keyeq>,_Alloc,true>>::insert(std::_Node_handle<std::_List_node<_Ty,std::_Default_allocator_traits<_Alloc>::void_pointer>,_Alloc,std::_Node_handle_set_base,_Kty> &&)"
+          with
+          [
+              _Ty=int64_t,
+              _Kty=int64_t,
+              _Hasher=std::hash<int64_t>,
+              _Keyeq=std::equal_to<int64_t>,
+              _Alloc=std::allocator<int64_t>
+          ]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\xhash(941,10): message : или       "void std::_Hash<std::_Uset_traits<_Kty,std::_Uhash_compare<_Kty,_Hasher,_Keyeq>,_Alloc,true>>::insert(std::initializer_list<_Ty>)"
+          with
+          [
+              _Kty=int64_t,
+              _Hasher=std::hash<int64_t>,
+              _Keyeq=std::equal_to<int64_t>,
+              _Alloc=std::allocator<int64_t>,
+              _Ty=int64_t
+          ]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\xhash(919,59): message : или       "std::_List_const_iterator<std::_List_val<std::_List_simple_types<_Ty>>> std::_Hash<std::_Uset_traits<_Kty,std::_Uhash_compare<_Kty,_Hasher,_Keyeq>,_Alloc,true>>::insert(__int64 &&)"
+          with
+          [
+              _Ty=int64_t,
+              _Kty=int64_t,
+              _Hasher=std::hash<int64_t>,
+              _Keyeq=std::equal_to<int64_t>,
+              _Alloc=std::allocator<int64_t>
+          ]
+C:\Users\sssr2\source\repos\CPython\CPython.h(981,1): message : при попытке сопоставить список аргументов "(Input)"
+C:\Users\sssr2\source\repos\CPython\CPython.h(992,1): error C2668: std::_Hash<std::_Uset_traits<_Kty,std::_Uhash_compare<_Kty,_Hasher,_Keyeq>,_Alloc,true>>::insert: неоднозначный вызов перегруженной функции
+          with
+          [
+              _Kty=uint8_t,
+              _Hasher=std::hash<uint8_t>,
+              _Keyeq=std::equal_to<uint8_t>,
+              _Alloc=std::allocator<uint8_t>
+          ]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\xhash(1492,88): message : может быть "std::_List_const_iterator<std::_List_val<std::_List_simple_types<_Ty>>> std::_Hash<std::_Uset_traits<_Kty,std::_Uhash_compare<_Kty,_Hasher,_Keyeq>,_Alloc,true>>::insert(std::_Node_handle<std::_List_node<_Ty,std::_Default_allocator_traits<_Alloc>::void_pointer>,_Alloc,std::_Node_handle_set_base,_Kty> &&)"
+          with
+          [
+              _Ty=uint8_t,
+              _Kty=uint8_t,
+              _Hasher=std::hash<uint8_t>,
+              _Keyeq=std::equal_to<uint8_t>,
+              _Alloc=std::allocator<uint8_t>
+          ]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\xhash(941,10): message : или       "void std::_Hash<std::_Uset_traits<_Kty,std::_Uhash_compare<_Kty,_Hasher,_Keyeq>,_Alloc,true>>::insert(std::initializer_list<_Ty>)"
+          with
+          [
+              _Kty=uint8_t,
+              _Hasher=std::hash<uint8_t>,
+              _Keyeq=std::equal_to<uint8_t>,
+              _Alloc=std::allocator<uint8_t>,
+              _Ty=uint8_t
+          ]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\xhash(919,59): message : или       "std::_List_const_iterator<std::_List_val<std::_List_simple_types<_Ty>>> std::_Hash<std::_Uset_traits<_Kty,std::_Uhash_compare<_Kty,_Hasher,_Keyeq>,_Alloc,true>>::insert(unsigned char &&)"
+          with
+          [
+              _Ty=uint8_t,
+              _Kty=uint8_t,
+              _Hasher=std::hash<uint8_t>,
+              _Keyeq=std::equal_to<uint8_t>,
+              _Alloc=std::allocator<uint8_t>
+          ]
+C:\Users\sssr2\source\repos\CPython\CPython.h(992,1): message : при попытке сопоставить список аргументов "(Input)"
+C:\Users\sssr2\source\repos\CPython\CPython.h(1003,1): error C2668: std::_Hash<std::_Uset_traits<_Kty,std::_Uhash_compare<_Kty,_Hasher,_Keyeq>,_Alloc,true>>::insert: неоднозначный вызов перегруженной функции
+          with
+          [
+              _Kty=uint16_t,
+              _Hasher=std::hash<uint16_t>,
+              _Keyeq=std::equal_to<uint16_t>,
+              _Alloc=std::allocator<uint16_t>
+          ]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\xhash(1492,88): message : может быть "std::_List_const_iterator<std::_List_val<std::_List_simple_types<_Ty>>> std::_Hash<std::_Uset_traits<_Kty,std::_Uhash_compare<_Kty,_Hasher,_Keyeq>,_Alloc,true>>::insert(std::_Node_handle<std::_List_node<_Ty,std::_Default_allocator_traits<_Alloc>::void_pointer>,_Alloc,std::_Node_handle_set_base,_Kty> &&)"
+          with
+          [
+              _Ty=uint16_t,
+              _Kty=uint16_t,
+              _Hasher=std::hash<uint16_t>,
+              _Keyeq=std::equal_to<uint16_t>,
+              _Alloc=std::allocator<uint16_t>
+          ]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\xhash(941,10): message : или       "void std::_Hash<std::_Uset_traits<_Kty,std::_Uhash_compare<_Kty,_Hasher,_Keyeq>,_Alloc,true>>::insert(std::initializer_list<_Ty>)"
+          with
+          [
+              _Kty=uint16_t,
+              _Hasher=std::hash<uint16_t>,
+              _Keyeq=std::equal_to<uint16_t>,
+              _Alloc=std::allocator<uint16_t>,
+              _Ty=uint16_t
+          ]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\xhash(919,59): message : или       "std::_List_const_iterator<std::_List_val<std::_List_simple_types<_Ty>>> std::_Hash<std::_Uset_traits<_Kty,std::_Uhash_compare<_Kty,_Hasher,_Keyeq>,_Alloc,true>>::insert(unsigned short &&)"
+          with
+          [
+              _Ty=uint16_t,
+              _Kty=uint16_t,
+              _Hasher=std::hash<uint16_t>,
+              _Keyeq=std::equal_to<uint16_t>,
+              _Alloc=std::allocator<uint16_t>
+          ]
+C:\Users\sssr2\source\repos\CPython\CPython.h(1003,1): message : при попытке сопоставить список аргументов "(Input)"
+C:\Users\sssr2\source\repos\CPython\CPython.h(1014,1): error C2668: std::_Hash<std::_Uset_traits<_Kty,std::_Uhash_compare<_Kty,_Hasher,_Keyeq>,_Alloc,true>>::insert: неоднозначный вызов перегруженной функции
+          with
+          [
+              _Kty=uint32_t,
+              _Hasher=std::hash<uint32_t>,
+              _Keyeq=std::equal_to<uint32_t>,
+              _Alloc=std::allocator<uint32_t>
+          ]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\xhash(1492,88): message : может быть "std::_List_const_iterator<std::_List_val<std::_List_simple_types<_Ty>>> std::_Hash<std::_Uset_traits<_Kty,std::_Uhash_compare<_Kty,_Hasher,_Keyeq>,_Alloc,true>>::insert(std::_Node_handle<std::_List_node<_Ty,std::_Default_allocator_traits<_Alloc>::void_pointer>,_Alloc,std::_Node_handle_set_base,_Kty> &&)"
+          with
+          [
+              _Ty=uint32_t,
+              _Kty=uint32_t,
+              _Hasher=std::hash<uint32_t>,
+              _Keyeq=std::equal_to<uint32_t>,
+              _Alloc=std::allocator<uint32_t>
+          ]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\xhash(941,10): message : или       "void std::_Hash<std::_Uset_traits<_Kty,std::_Uhash_compare<_Kty,_Hasher,_Keyeq>,_Alloc,true>>::insert(std::initializer_list<_Ty>)"
+          with
+          [
+              _Kty=uint32_t,
+              _Hasher=std::hash<uint32_t>,
+              _Keyeq=std::equal_to<uint32_t>,
+              _Alloc=std::allocator<uint32_t>,
+              _Ty=uint32_t
+          ]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\xhash(919,59): message : или       "std::_List_const_iterator<std::_List_val<std::_List_simple_types<_Ty>>> std::_Hash<std::_Uset_traits<_Kty,std::_Uhash_compare<_Kty,_Hasher,_Keyeq>,_Alloc,true>>::insert(unsigned int &&)"
+          with
+          [
+              _Ty=uint32_t,
+              _Kty=uint32_t,
+              _Hasher=std::hash<uint32_t>,
+              _Keyeq=std::equal_to<uint32_t>,
+              _Alloc=std::allocator<uint32_t>
+          ]
+C:\Users\sssr2\source\repos\CPython\CPython.h(1014,1): message : при попытке сопоставить список аргументов "(Input)"
+C:\Users\sssr2\source\repos\CPython\CPython.h(1025,1): error C2668: std::_Hash<std::_Uset_traits<_Kty,std::_Uhash_compare<_Kty,_Hasher,_Keyeq>,_Alloc,true>>::insert: неоднозначный вызов перегруженной функции
+          with
+          [
+              _Kty=uint64_t,
+              _Hasher=std::hash<uint64_t>,
+              _Keyeq=std::equal_to<uint64_t>,
+              _Alloc=std::allocator<uint64_t>
+          ]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\xhash(1492,88): message : может быть "std::_List_const_iterator<std::_List_val<std::_List_simple_types<_Ty>>> std::_Hash<std::_Uset_traits<_Kty,std::_Uhash_compare<_Kty,_Hasher,_Keyeq>,_Alloc,true>>::insert(std::_Node_handle<std::_List_node<_Ty,std::_Default_allocator_traits<_Alloc>::void_pointer>,_Alloc,std::_Node_handle_set_base,_Kty> &&)"
+          with
+          [
+              _Ty=uint64_t,
+              _Kty=uint64_t,
+              _Hasher=std::hash<uint64_t>,
+              _Keyeq=std::equal_to<uint64_t>,
+              _Alloc=std::allocator<uint64_t>
+          ]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\xhash(941,10): message : или       "void std::_Hash<std::_Uset_traits<_Kty,std::_Uhash_compare<_Kty,_Hasher,_Keyeq>,_Alloc,true>>::insert(std::initializer_list<_Ty>)"
+          with
+          [
+              _Kty=uint64_t,
+              _Hasher=std::hash<uint64_t>,
+              _Keyeq=std::equal_to<uint64_t>,
+              _Alloc=std::allocator<uint64_t>,
+              _Ty=uint64_t
+          ]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\xhash(919,59): message : или       "std::_List_const_iterator<std::_List_val<std::_List_simple_types<_Ty>>> std::_Hash<std::_Uset_traits<_Kty,std::_Uhash_compare<_Kty,_Hasher,_Keyeq>,_Alloc,true>>::insert(unsigned __int64 &&)"
+          with
+          [
+              _Ty=uint64_t,
+              _Kty=uint64_t,
+              _Hasher=std::hash<uint64_t>,
+              _Keyeq=std::equal_to<uint64_t>,
+              _Alloc=std::allocator<uint64_t>
+          ]
+C:\Users\sssr2\source\repos\CPython\CPython.h(1025,1): message : при попытке сопоставить список аргументов "(Input)"
+C:\Users\sssr2\source\repos\CPython\CPython.h(1036,1): error C2668: std::_Hash<std::_Uset_traits<_Kty,std::_Uhash_compare<_Kty,_Hasher,_Keyeq>,_Alloc,true>>::insert: неоднозначный вызов перегруженной функции
+          with
+          [
+              _Kty=float_t,
+              _Hasher=std::hash<float>,
+              _Keyeq=std::equal_to<float_t>,
+              _Alloc=std::allocator<float_t>
+          ]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\xhash(1492,88): message : может быть "std::_List_const_iterator<std::_List_val<std::_List_simple_types<_Ty>>> std::_Hash<std::_Uset_traits<_Kty,std::_Uhash_compare<_Kty,_Hasher,_Keyeq>,_Alloc,true>>::insert(std::_Node_handle<std::_List_node<_Ty,std::_Default_allocator_traits<_Alloc>::void_pointer>,_Alloc,std::_Node_handle_set_base,_Kty> &&)"
+          with
+          [
+              _Ty=float_t,
+              _Kty=float_t,
+              _Hasher=std::hash<float>,
+              _Keyeq=std::equal_to<float_t>,
+              _Alloc=std::allocator<float_t>
+          ]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\xhash(941,10): message : или       "void std::_Hash<std::_Uset_traits<_Kty,std::_Uhash_compare<_Kty,_Hasher,_Keyeq>,_Alloc,true>>::insert(std::initializer_list<_Ty>)"
+          with
+          [
+              _Kty=float_t,
+              _Hasher=std::hash<float>,
+              _Keyeq=std::equal_to<float_t>,
+              _Alloc=std::allocator<float_t>,
+              _Ty=float_t
+          ]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\xhash(919,59): message : или       "std::_List_const_iterator<std::_List_val<std::_List_simple_types<_Ty>>> std::_Hash<std::_Uset_traits<_Kty,std::_Uhash_compare<_Kty,_Hasher,_Keyeq>,_Alloc,true>>::insert(float &&)"
+          with
+          [
+              _Ty=float_t,
+              _Kty=float_t,
+              _Hasher=std::hash<float>,
+              _Keyeq=std::equal_to<float_t>,
+              _Alloc=std::allocator<float_t>
+          ]
+C:\Users\sssr2\source\repos\CPython\CPython.h(1036,1): message : при попытке сопоставить список аргументов "(Input)"
+C:\Users\sssr2\source\repos\CPython\CPython.h(1047,1): error C2668: std::_Hash<std::_Uset_traits<_Kty,std::_Uhash_compare<_Kty,_Hasher,_Keyeq>,_Alloc,true>>::insert: неоднозначный вызов перегруженной функции
+          with
+          [
+              _Kty=double_t,
+              _Hasher=std::hash<double>,
+              _Keyeq=std::equal_to<double_t>,
+              _Alloc=std::allocator<double_t>
+          ]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\xhash(1492,88): message : может быть "std::_List_const_iterator<std::_List_val<std::_List_simple_types<_Ty>>> std::_Hash<std::_Uset_traits<_Kty,std::_Uhash_compare<_Kty,_Hasher,_Keyeq>,_Alloc,true>>::insert(std::_Node_handle<std::_List_node<_Ty,std::_Default_allocator_traits<_Alloc>::void_pointer>,_Alloc,std::_Node_handle_set_base,_Kty> &&)"
+          with
+          [
+              _Ty=double_t,
+              _Kty=double_t,
+              _Hasher=std::hash<double>,
+              _Keyeq=std::equal_to<double_t>,
+              _Alloc=std::allocator<double_t>
+          ]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\xhash(941,10): message : или       "void std::_Hash<std::_Uset_traits<_Kty,std::_Uhash_compare<_Kty,_Hasher,_Keyeq>,_Alloc,true>>::insert(std::initializer_list<_Ty>)"
+          with
+          [
+              _Kty=double_t,
+              _Hasher=std::hash<double>,
+              _Keyeq=std::equal_to<double_t>,
+              _Alloc=std::allocator<double_t>,
+              _Ty=double_t
+          ]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\xhash(919,59): message : или       "std::_List_const_iterator<std::_List_val<std::_List_simple_types<_Ty>>> std::_Hash<std::_Uset_traits<_Kty,std::_Uhash_compare<_Kty,_Hasher,_Keyeq>,_Alloc,true>>::insert(double &&)"
+          with
+          [
+              _Ty=double_t,
+              _Kty=double_t,
+              _Hasher=std::hash<double>,
+              _Keyeq=std::equal_to<double_t>,
+              _Alloc=std::allocator<double_t>
+          ]
+C:\Users\sssr2\source\repos\CPython\CPython.h(1047,1): message : при попытке сопоставить список аргументов "(Input)"
+C:\Users\sssr2\source\repos\CPython\CPython.h(1058,1): error C2668: std::_Hash<std::_Uset_traits<_Kty,std::_Uhash_compare<_Kty,_Hasher,_Keyeq>,_Alloc,true>>::insert: неоднозначный вызов перегруженной функции
+          with
+          [
+              _Kty=bool,
+              _Hasher=std::hash<bool>,
+              _Keyeq=std::equal_to<bool>,
+              _Alloc=std::allocator<bool>
+          ]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\xhash(1492,88): message : может быть "std::_List_const_iterator<std::_List_val<std::_List_simple_types<_Ty>>> std::_Hash<std::_Uset_traits<_Kty,std::_Uhash_compare<_Kty,_Hasher,_Keyeq>,_Alloc,true>>::insert(std::_Node_handle<std::_List_node<_Ty,std::_Default_allocator_traits<_Alloc>::void_pointer>,_Alloc,std::_Node_handle_set_base,_Kty> &&)"
+          with
+          [
+              _Ty=bool,
+              _Kty=bool,
+              _Hasher=std::hash<bool>,
+              _Keyeq=std::equal_to<bool>,
+              _Alloc=std::allocator<bool>
+          ]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\xhash(941,10): message : или       "void std::_Hash<std::_Uset_traits<_Kty,std::_Uhash_compare<_Kty,_Hasher,_Keyeq>,_Alloc,true>>::insert(std::initializer_list<bool>)"
+          with
+          [
+              _Kty=bool,
+              _Hasher=std::hash<bool>,
+              _Keyeq=std::equal_to<bool>,
+              _Alloc=std::allocator<bool>
+          ]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\xhash(919,59): message : или       "std::_List_const_iterator<std::_List_val<std::_List_simple_types<_Ty>>> std::_Hash<std::_Uset_traits<_Kty,std::_Uhash_compare<_Kty,_Hasher,_Keyeq>,_Alloc,true>>::insert(bool &&)"
+          with
+          [
+              _Ty=bool,
+              _Kty=bool,
+              _Hasher=std::hash<bool>,
+              _Keyeq=std::equal_to<bool>,
+              _Alloc=std::allocator<bool>
+          ]
+C:\Users\sssr2\source\repos\CPython\CPython.h(1058,1): message : при попытке сопоставить список аргументов "(Input)"
+C:\Users\sssr2\source\repos\CPython\CPython.h(1069,1): error C2668: std::_Hash<std::_Uset_traits<_Kty,std::_Uhash_compare<_Kty,_Hasher,_Keyeq>,_Alloc,true>>::insert: неоднозначный вызов перегруженной функции
+          with
+          [
+              _Kty=std::string,
+              _Hasher=std::hash<std::string>,
+              _Keyeq=std::equal_to<std::string>,
+              _Alloc=std::allocator<std::string>
+          ]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\xhash(1492,88): message : может быть "std::_List_const_iterator<std::_List_val<std::_List_simple_types<_Ty>>> std::_Hash<std::_Uset_traits<_Kty,std::_Uhash_compare<_Kty,_Hasher,_Keyeq>,_Alloc,true>>::insert(std::_Node_handle<std::_List_node<_Ty,std::_Default_allocator_traits<_Alloc>::void_pointer>,_Alloc,std::_Node_handle_set_base,_Kty> &&)"
+          with
+          [
+              _Ty=std::string,
+              _Kty=std::string,
+              _Hasher=std::hash<std::string>,
+              _Keyeq=std::equal_to<std::string>,
+              _Alloc=std::allocator<std::string>
+          ]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\xhash(941,10): message : или       "void std::_Hash<std::_Uset_traits<_Kty,std::_Uhash_compare<_Kty,_Hasher,_Keyeq>,_Alloc,true>>::insert(std::initializer_list<_Ty>)"
+          with
+          [
+              _Kty=std::string,
+              _Hasher=std::hash<std::string>,
+              _Keyeq=std::equal_to<std::string>,
+              _Alloc=std::allocator<std::string>,
+              _Ty=std::string
+          ]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\xhash(919,59): message : или       "std::_List_const_iterator<std::_List_val<std::_List_simple_types<_Ty>>> std::_Hash<std::_Uset_traits<_Kty,std::_Uhash_compare<_Kty,_Hasher,_Keyeq>,_Alloc,true>>::insert(std::basic_string<char,std::char_traits<char>,std::allocator<char>> &&)"
+          with
+          [
+              _Ty=std::string,
+              _Kty=std::string,
+              _Hasher=std::hash<std::string>,
+              _Keyeq=std::equal_to<std::string>,
+              _Alloc=std::allocator<std::string>
+          ]
+C:\Users\sssr2\source\repos\CPython\CPython.h(1069,1): message : при попытке сопоставить список аргументов "(Input)"

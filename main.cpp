@@ -18,9 +18,11 @@ bool q(T t) {
 
 int main() {
 	
-	int a = 1, b = 3;
 	
-	a in b;
+
+	vector<vector<vector<int>>> v = Input(2);
+
+	Print(v);
 
 	return 0;
 }
