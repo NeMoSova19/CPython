@@ -40,7 +40,7 @@ int main() {
 
 	pair<pair<int, char>, pair<int, char>> pp = { { 6, 'c'} , { 90, '3'} };
 	
-	array<int, 5> a = { 5, -4, 2, 4, 3 };
+	array<int, 5> as = { 5, -4, 2, 4, 3 };
 
 	array<array<int, 3>, 3> aa;
 	aa[0] = { 4, 5, 10 };
@@ -52,7 +52,7 @@ int main() {
 	char l[6];
 	
 
-
+	
 
 	cout << a1 in aa;
 
