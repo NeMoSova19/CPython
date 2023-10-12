@@ -33,3 +33,5 @@
 /.vs/CPython
 /x64/Release/microsoft/STL
 /x64/Release
+/x64/Debug
+/x64

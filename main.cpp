@@ -24,15 +24,16 @@ bool q2(T &t) {
 
 int main() {
 	
-	//vector<vector<vector<int>>> v = Input(2);
-	//STD::Print(v); cout << '\n';
-
 	std::unordered_map<std::string, std::string> some_map =
 	{
 		{ "black", "white" },
 		{ "cat", "dog" },
 		{ "day", "night" }
 	};
+
+	//vector<char> p = { 'a', 'b', 'd', 'e', 'f'};
+	//Print('c' in p);
+
 
 	pair<int, string> p = { 6, "sddj" }, pnew = { 6, "sddj" };
 
@@ -51,15 +52,11 @@ int main() {
 
 	char l[6];
 	
+	Print(a1 in aa);
 
 	
-
-	cout << a1 in aa;
-
-	
-	
-	vector<int> a = Input(4);
-	Print(a, 1, 2, 3, "hello world");
+	//vector<int> a = Input(4);
+	//Print(a, 1, 2, 3, "hello world");
 
 	return 0;
 }

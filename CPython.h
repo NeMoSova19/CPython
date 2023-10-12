@@ -303,6 +303,9 @@ private:
 	template<typename R> void _print(R t) {
 		std::cout << t;
 	}
+	template<> void _print(bool t) {
+		std::cout << std::boolalpha << t;
+	}
 	template<typename R, typename P> void _print(std::pair<R,P> t) {
 		std::cout << '<';
 		_print(t.first);
