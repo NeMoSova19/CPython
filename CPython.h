@@ -95,6 +95,7 @@ public:
 		else for (size_t i = 0; i < _Size; i++) v[i] = Input();
 		return v;
 	}
+	
 	template<typename T> operator std::vector<T>() {
 		std::vector<T> v;
 		if (_Size != npos) {
@@ -499,13 +500,12 @@ void Print(T... tmp) {
 /// </summary>
 namespace _In {
 	class OperatorIn {};
-
 	template<typename Tin>
 	struct InSearch {
 		const Tin& m_in;
 		InSearch(const Tin& val) : m_in(val) {};
 		template<typename T> bool operator *(T& what) { return _in(m_in, what); }
-
+	private:
 		template<typename T1, typename T2> bool _in(std::pair<T1, T2> p1, std::pair<T1, T2> p2) {
 			return (p1.first == p2.first) && (p1.second == p2.second);
 		}
@@ -517,15 +517,11 @@ namespace _In {
 		}
 		
 		template<typename Search, typename T1, typename T2> bool _in(Search t, std::map<T1, T2> V) {
-			std::map<T1, T2> v;
-
-			return v;
+			return false;
 		}
 		
 		template<typename Search, typename T1, typename T2> bool _in(Search t, std::unordered_map<T1, T2> V) {
-			std::unordered_map<T1, T2> v;
-
-			return v;
+			return false;
 		}
 		
 		template<typename T, size_t N1, size_t N2> bool _in(std::array<T, N1> V1, std::array<T, N2> V2) {
@@ -539,12 +535,10 @@ namespace _In {
 		}
 		template<typename Search, typename T, size_t N> bool _in(Search t, std::array<T, N> V) {
 			bool opt = false;
-			if (typeid(Search) == typeid(T)) {
-				for (size_t i = 0; i < N; i++) {
-					opt |= _in(t, V[i]);
-					if (opt) return true;
-				}
-			};
+			for (size_t i = 0; i < N; i++) {
+				opt |= _in(t, V[i]);
+				if (opt) return true;
+			}
 			return opt;
 		}
 	
@@ -559,49 +553,35 @@ namespace _In {
 		}
 		template<typename Search, typename T> bool _in(Search t, std::vector<T> V) {
 			bool opt = false;
-			if (typeid(Search) == typeid(T)) {
-				for (size_t i = 0; i < V.size(); i++) {
-					opt |= _in(t, V[i]);
-					if (opt) return true;
-				}
-			};
+			for (size_t i = 0; i < V.size(); i++) {
+				opt |= _in(t, V[i]);
+				if (opt) return true;
+			}
 			return opt;
 		}
 
 		template<typename Search, typename T> bool _in(Search t, std::list<T> V) {
-			std::list<T> v;
-
-			return v;
+			return false;
 		}
 		
 		template<typename Search, typename T> bool _in(Search t, std::forward_list<T> V) {
-			std::forward_list<T> v;
-
-			return v;
+			return false;
 		}
 		
 		template<typename Search, typename T> bool _in(Search t, std::set<T> V) {
-			std::set<T> v;
-
-			return v;
+			return false;
 		}
 		
 		template<typename Search, typename T> bool _in(Search t, std::multiset<T> V) {
-			std::multiset<T> v;
-
-			return v;
+			return false;
 		}
 		
 		template<typename Search, typename T> bool _in(Search t, std::unordered_set<T> V) {
-			std::unordered_set<T> v;
-
-			return v;
+			return false;
 		}
 		
 		template<typename Search, typename T> bool _in(Search t, std::unordered_multiset<T> V) {
-			std::unordered_multiset<T> v;
-
-			return v;
+			return false;
 		}
 		
 		template<typename Search, typename T> bool _in(Search t, T V) { return t == V; }

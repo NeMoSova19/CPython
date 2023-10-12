@@ -19,6 +19,7 @@ bool q2(T &t) {
 }
 
 
+
 //__declspec(deprecated("** this is a deprecated function **")) void func2(int) {}
 
 
@@ -48,11 +49,18 @@ int main() {
 	aa[1] = { 90, -34, 7 };
 	aa[2] = { -56, -45, 4 };
 
-	array<int, 3> a1 = { 4, 5, 10 };
+	array<int, 3> a1 = { 4, 5, 1 };
 
-	char l[6];
+	char l[6] = {1, 2, 3, 4, 5, 6};
 	
-	Print(a1 in aa);
+	vector<string> sss = { "str", "gg", "string" };
+
+	//Print('1' in l);
+
+
+	//vector<vector<vector<int>>> v = Input();
+
+	Print("string" in "string");
 
 	
 	//vector<int> a = Input(4);
