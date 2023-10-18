@@ -2,7 +2,7 @@
 #include <iostream>
 #include <sstream>
 #include <type_traits>
-
+#include <ostream>
 #include <string>
 #include <array>
 #include <vector>
@@ -16,24 +16,29 @@
 #include <deque>
 #include <stack>
 
+#define random(a, b) rand() % (b - a) + a
+ 
 /// Input() - ¬вод 1 значени€ или контейнера до n или размером Size
 /// Text : —ообщение, которое выводитс€;
-/// Size : ¬вод Size переменных в контейнер
+/// Size : ¬вод Size переменных в контейнер;
+/// = : T container = Input();
+/// == : { Container_Type T; }
+///      { T == Input();     };
 class Input {
-	Input(Input&&) = delete;
 	static inline size_t npos{ (size_t)-1 };
 	size_t _Size{npos};
-	std::string StoSS() {
+	static std::string StoSS() {
 		std::string s;
 		char c = std::cin.get();
 		std::getline(std::cin, s);
 		if (c != '\n') s = c + s;
 		return s;
 	}
+	friend struct STD;
 public:
 	Input(std::string Text = "", size_t Size = npos) : _Size(Size) { std::cout << Text; }
 	Input(size_t Size) : _Size(Size) {  }
-	template<typename T> operator T() { T v; std::cin >> v; return v; }
+	template <typename T> operator T() {T v; std::cin >> v; return v;}
 	template<typename T> auto operator +(T t) { T v; std::cin >> v; return v + t; }
 	template<typename T> auto operator -(T t) { T v; std::cin >> v; return v - t; }
 	template<typename T> auto operator ~() { T v; std::cin >> v; return ~v; }
@@ -95,7 +100,6 @@ public:
 		else for (size_t i = 0; i < _Size; i++) v[i] = Input();
 		return v;
 	}
-	
 	template<typename T> operator std::vector<T>() {
 		std::vector<T> v;
 		if (_Size != npos) {
@@ -281,9 +285,71 @@ public:
 		return v;
 	}
 };
+template<typename T1, typename T2> void operator ==(std::pair<T1, T2>& V, Input I) {
+	std::pair<T1, T2> v = I;
+	V = v;
+}
+template<typename T1, typename T2> void operator ==(std::map<T1, T2>& V, Input I) {
+	std::map<T1, T2> v = I;
+	V = v;
+}
+template<typename T1, typename T2> void operator ==(std::unordered_map<T1, T2>& V, Input I) {
+	std::unordered_map<T1, T2> v = I;
+	V = v;
+}
+template<typename T, size_t N> void operator ==(std::array<T, N>& V, Input I) {
+	std::array<T, N> v = I;
+	V = v;
+}
+template<typename T> void operator ==(std::vector<T>& V, Input I) {
+	std::vector<T> v = I;
+	V = v;
+}
+template<typename T> void operator ==(std::list<T>& V, Input I) {
+	std::list<T> v = I;
+	V = v;
+}
+template<typename T> void operator ==(std::forward_list<T>& V, Input I) {
+	std::forward_list<T> v = I;
+	V = v;
+}
+template<typename T> void operator ==(std::set<T>& V, Input I) {
+	std::set<T> v = I;
+	V = v;
+}
+template<typename T> void operator ==(std::multiset<T>& V, Input I) {
+	std::multiset<T> v = I;
+	V = v;
+}
+template<typename T> void operator ==(std::unordered_set<T>& V, Input I) {
+	std::unordered_set<T> v = I;
+	V = v;
+}
+template<typename T> void operator ==(std::unordered_multiset<T>& V, Input I) {
+	std::unordered_multiset<T> v = I;
+	V = v;
+}
+template<typename T> void operator ==(std::queue<T>& V, Input I) {
+	std::queue<T> v = I;
+	V = v;
+}
+template<typename T> void operator ==(std::priority_queue<T>& V, Input I) {
+	std::priority_queue<T> v = I;
+	V = v;
+}
+template<typename T> void operator ==(std::deque<T>& V, Input I) {
+	std::deque<T> v = I;
+	V = v;
+}
+template<typename T> void operator ==(std::stack<T>& V, Input I) {
+	std::stack<T> v = I;
+	V = v;
+}
 
 
-// WIP WIP WIP WIP WIP WIP WIP WIP
+/// 
+/// Nothing
+/// 
 struct STD {
 	STD(STD&&) = delete;
 
@@ -303,6 +369,9 @@ template<typename... T>
 private:
 	template<typename R> void _print(R t) {
 		std::cout << t;
+	}
+	template<> void _print(Input I) {
+		std::cout << Input::StoSS();
 	}
 	template<> void _print(bool t) {
 		std::cout << std::boolalpha << t;
@@ -615,3 +684,5 @@ namespace _In {
 <stack>
 
 */
+
+
