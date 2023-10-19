@@ -15,15 +15,13 @@
 #include <queue>
 #include <deque>
 #include <stack>
-
-#define random(a, b) rand() % (b - a) + a
  
 /// Input() - ¬вод 1 значени€ или контейнера до n или размером Size
 /// Text : —ообщение, которое выводитс€;
 /// Size : ¬вод Size переменных в контейнер;
-/// = : T container = Input();
+/// = : Container_Type T = Input();
 /// == : { Container_Type T; }
-///      { T == Input();     };
+///         { T == Input();         };
 class Input {
 	static inline size_t npos{ (size_t)-1 };
 	size_t _Size{npos};
@@ -345,27 +343,31 @@ template<typename T> void operator ==(std::stack<T>& V, Input I) {
 	std::stack<T> v = I;
 	V = v;
 }
-
+template<typename T> bool operator ==(T& t, Input I) {
+	if constexpr (std::is_class<T>::value && typeid(T) != typeid(std::string)) {
+		T v = I;
+		t = v;
+		return true;
+	}
+	T tnew = I;
+	return t == tnew;
+}
 
 /// 
 /// Nothing
 /// 
 struct STD {
 	STD(STD&&) = delete;
-
 template<typename... T>
 	STD(T... t) {
 		_print(t...);
 	}
-
 	~STD()
 	{
 		std::cout << end;
 	}
-
 	std::string end{ '\n' };
 	std::string separator{ ", "};
-	
 private:
 	template<typename R> void _print(R t) {
 		std::cout << t;
@@ -554,7 +556,6 @@ private:
 		_print(w...);
 	}
 };
-
 template<typename ...T>
 void Print(T... tmp) {
 	STD st(tmp...);
@@ -660,7 +661,13 @@ namespace _In {
 }
 #define in *_In::OperatorIn{}*
 
+int64_t random(int64_t const less, int64_t const more) {
+	return rand() % (more - less) + less;
+}
 
+double_t random(double_t const less, double_t const more) {
+	return less + (more - less) * ((double_t)(rand() % 0xff) / (double_t)0xff);
+}
 
 
 

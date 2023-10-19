@@ -5,7 +5,18 @@ using namespace std;
 
 struct MyStruct {
 	int n;
-	string s;
+	//string s;
+	friend istream& operator >>(istream& I, MyStruct& t) {
+		I >> t.n;
+		return I;
+	}
+	friend ostream& operator <<(ostream& I, MyStruct& t) {
+		I << t.n;
+		return I;
+	}
+	auto operator =(int t) {
+		n = t;
+	}
 };
 
 template<typename T>
@@ -25,6 +36,8 @@ bool q2(T &t) {
 
 int main() {
 	
+	srand(time(0));
+
 	std::unordered_map<std::string, std::string> some_map =
 	{
 		{ "black", "white" },
@@ -44,11 +57,19 @@ int main() {
 	array<int, 3> a1 = { 4, 5, 1 };	
 	vector<string> sss = { "str", "gg", "string" };
 	
-	vector<int> a;
-	a = Input();
-	
+	//MyStruct a;
+	//a == Input();
 
-	Print(a);
+	int b = 7;
+	
+	string s;
+
+	s = Input();
+
+	//cin >> a;
+
+	Print(b == Input());
+
 
 	return 0;
 }
