@@ -18,12 +18,13 @@
 
 #define _Cin_No_Class_T (!std::is_class<T>::value || typeid(T) == typeid(std::string))
 
+#define _No_Temp_Operator        operator
 #define _Temp_T_Operator         template<typename T> auto operator
 #define _Temp_T1_T2_Operator     template<typename T1, typename T2> auto operator
+#define _No_Temp_Container       operator
 #define _Temp_T_Container        template<typename T> operator
 #define _Temp_T1_T2_Container    template<typename T1, typename T2> operator
-#define _Temp_T_unI64_Container    template<typename T, size_t N> operator
-#define _No_Temp_Operator        operator
+#define _Temp_T_unI64_Container  template<typename T, size_t N> operator
 #define _I1     bool              //bool
 #define _I8     __int8            //char
 #define _sI8    signed char       //signed char
@@ -35,13 +36,12 @@
 #define _lF64   long double       //long double
 #define _unI8   unsigned __int8   //unsigned char
 #define _unI16  unsigned __int16  //unsigned short
-#define _unI32	unsigned __int32  //unsigned int
+#define _unI32  unsigned __int32  //unsigned int
 #define _unI64  unsigned __int64  //unsigned long long
 #define _C8     char8_t           //char8_t
 #define _C16    char16_t          //char16_t
 #define _C32    char32_t          //char32_t
 #define _wC     __wchar_t         //__wchar_t
-
 
 /// Input() - ¬вод 1 значени€ или контейнера до n или размером Size
 /// Text : —ообщение, которое выводитс€;
@@ -101,7 +101,7 @@ public:
 	_No_Temp_Operator _C16   () { _unI16 t; std::cin >> t; _C16 v{t}; return v; }
 	_No_Temp_Operator _C32   () { _unI32 t; std::cin >> t; _C32 v{t}; return v; }
 	_No_Temp_Operator _wC    () { _unI16 t; std::cin >> t; _wC  v{t}; return v; }
-	_No_Temp_Operator       std::string                () {
+	_No_Temp_Container      std::string                () {
 		std::string v; std::cin >> v;
 		return v;
 	}
