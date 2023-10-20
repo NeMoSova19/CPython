@@ -25,7 +25,18 @@ int _typeindefication(T t) {
 struct A {
 	string ToString() { return "this is struct A"; }
 };
-struct B{};
+struct B{
+	B() = default;
+
+	static B InputToThis() {
+		B b;
+		cin >> b.a >> b.b;
+		return b;
+	}
+
+	int a{ 0};
+	string b{};
+};
 
 
 int main() {
@@ -48,6 +59,7 @@ int main() {
 	m[1] = "hello";
 	m[2] = "goodbue";
 	m[3] = "nooo";
+	
 	
 	//constexpr bool has = has1_ToString<A>().value;
 	Print(A(), B(), m, some_map, _set("sep", '\n'), _set("end", '\n'));
