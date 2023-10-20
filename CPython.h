@@ -18,6 +18,12 @@
 
 #define _If_No_Class_T           (!std::is_class<T>::value || typeid(T) == typeid(std::string))  //
 #define _No_Temp_Operator        operator														 //
+#define _Temp_			         template<>														 //
+#define _Temp_T			         template<typename T>											 //
+#define _Temp_Args				 template<typename ...Args>										 //
+#define _Temp_T_S		         template<typename T, size_t S>									 //
+#define _Temp_T1_T2		         template<typename T1, typename T2>								 //
+#define _Temp_T_Args	         template<typename T, typename ...Args>							 //
 #define _Temp_T_Operator         template<typename T> auto operator								 //
 #define _Temp_T1_T2_Operator     template<typename T1, typename T2> auto operator				 //
 #define _No_Temp_Container       operator														 //
@@ -327,7 +333,7 @@ public:
 	}
 };
 
-template<typename T>
+_Temp_T
 struct Command {
 	Command(std::string com, T op) :command(com), _operator(op) {}
 
@@ -336,17 +342,17 @@ struct Command {
 };
 struct STD {
 	STD(STD&&) = delete;
-template<typename... T>
-	STD(T... t) {
+_Temp_Args
+	STD(Args... t) {
 		_print(t...);
 	}
 	~STD()
 	{
 		std::cout << end;
 	}
-	std::string end{ '\n' };
-	std::string separator{ " "};
 private:
+	std::string end{ '\n' };
+	std::string separator{" "};
 	std::string separator_in_containers{", "};
 	std::string separator_in_map{": "};
 
@@ -354,23 +360,23 @@ private:
 	std::string brakets_in_tuple{"()"};
 	std::string brakets_in_map{"{}"};
 
-	template<typename R> void _print(R t) {
+	_Temp_T		 void _print(T t) {
 		std::cout << t;
 	}
-	template<typename T> void _print(Command<T> t) {
+	_Temp_T		 void _print(Command<T> t) {
 		std::cout << t.command << ' ' << t._operator << '\n';
 	}
-	template<> void _print(bool t) {
+	_Temp_		 void _print(bool t) {
 		std::cout << std::boolalpha << t;
 	}
-	template<typename R, typename P> void _print(std::pair<R,P> t) {
+	_Temp_T1_T2	 void _print(std::pair<T1,T2> t) {
 		std::cout << brakets_in_array[0];
 		_print(t.first);
 		std::cout << separator_in_containers;
 		_print(t.second);
 		std::cout << brakets_in_array[1];
 	}
-	template<typename R, typename P> void _print(std::map<R, P> v) {
+	_Temp_T1_T2	 void _print(std::map<T1,T2> v) {
 		std::cout << brakets_in_map[0];
 		int cnt{ 0 };
 		for (auto i : v) {
@@ -384,7 +390,7 @@ private:
 		}
 		std::cout << brakets_in_map[1];
 	}
-	template<typename R, typename P> void _print(std::unordered_map<R, P> v) {
+	_Temp_T1_T2	 void _print(std::unordered_map<T1, T2> v) {
 		std::cout << brakets_in_map[0];
 		int cnt{ 0 };
 		for (auto i : v) {
@@ -398,7 +404,7 @@ private:
 		}
 		std::cout << brakets_in_map[1];
 	}
-	template<typename R, size_t N> void _print(std::array<R, N> v) {
+	_Temp_T_S	 void _print(std::array<T, S> v) {
 		std::cout << brakets_in_array[0];
 		int cnt{ 0 };
 		for (auto i : v) {
@@ -410,7 +416,7 @@ private:
 		}
 		std::cout << brakets_in_array[1];
 	}
-	template<typename R> void _print(std::vector<R> v) {
+	_Temp_T		 void _print(std::vector<T> v) {
 		std::cout << brakets_in_array[0];
 		int cnt{ 0 };
 		for (auto i : v) {
@@ -422,7 +428,7 @@ private:
 		}
 		std::cout << brakets_in_array[1];
 	}
-	template<typename R> void _print(std::list<R> v) {
+	_Temp_T		 void _print(std::list<T> v) {
 		std::cout << brakets_in_array[0];
 		int cnt{ 0 };
 		for (auto i : v) {
@@ -434,7 +440,7 @@ private:
 		}
 		std::cout << brakets_in_array[1];
 	}
-	template<typename R> void _print(std::forward_list<R> v) {
+	_Temp_T		 void _print(std::forward_list<T> v) {
 		std::cout << brakets_in_array[0];
 		int cnt{ 0 };
 		for (auto i : v) {
@@ -446,7 +452,7 @@ private:
 		}
 		std::cout << brakets_in_array[1];
 	}
-	template<typename R> void _print(std::set<R> v) {
+	_Temp_T		 void _print(std::set<T> v) {
 		std::cout << brakets_in_array[0];
 		int cnt{ 0 };
 		for (auto i : v) {
@@ -458,7 +464,7 @@ private:
 		}
 		std::cout << brakets_in_array[1];
 	}
-	template<typename R> void _print(std::multiset<R> v) {
+	_Temp_T		 void _print(std::multiset<T> v) {
 		std::cout << brakets_in_array[0];
 		int cnt{ 0 };
 		for (auto i : v) {
@@ -470,7 +476,7 @@ private:
 		}
 		std::cout << brakets_in_array[1];
 	}
-	template<typename R> void _print(std::unordered_set<R> v) {
+	_Temp_T		 void _print(std::unordered_set<T> v) {
 		std::cout << brakets_in_array[0];
 		int cnt{ 0 };
 		for (auto i : v) {
@@ -482,7 +488,7 @@ private:
 		}
 		std::cout << brakets_in_array[1];
 	}
-	template<typename R> void _print(std::unordered_multiset<R> v) {
+	_Temp_T		 void _print(std::unordered_multiset<T> v) {
 		std::cout << brakets_in_array[0];
 		int cnt{ 0 };
 		for (auto i : v) {
@@ -494,7 +500,7 @@ private:
 		}
 		std::cout << brakets_in_array[1];
 	}
-	template<typename R> void _print(std::queue<R> v) {
+	_Temp_T		 void _print(std::queue<T> v) {
 		std::cout << brakets_in_array[0];
 		auto vnew = v;
 		while (true) {
@@ -505,7 +511,7 @@ private:
 		}
 		std::cout << brakets_in_array[1];
 	}
-	template<typename R> void _print(std::priority_queue<R> v) {
+	_Temp_T		 void _print(std::priority_queue<T> v) {
 		std::cout << brakets_in_array[0];
 		auto vnew = v;
 		while (true) {
@@ -516,7 +522,7 @@ private:
 		}
 		std::cout << brakets_in_array[1];
 	}
-	template<typename R> void _print(std::deque<R> v) {
+	_Temp_T		 void _print(std::deque<T> v) {
 		std::cout << brakets_in_array[0];
 		int cnt{ 0 };
 		for (auto i : v) {
@@ -528,7 +534,7 @@ private:
 		}
 		std::cout << brakets_in_array[1];
 	}
-	template<typename R> void _print(std::stack<R> v) {
+	_Temp_T		 void _print(std::stack<T> v) {
 		std::cout << brakets_in_array[0];
 		auto vnew = v;
 		while (true) {
@@ -539,24 +545,19 @@ private:
 		}
 		std::cout << brakets_in_array[1];
 	}
-	template<typename R, typename... P> void _print(R v, P... w) {
+	_Temp_T_Args void _print(T v, Args... w) {
 		_print(v);
 		std::cout << separator;
 		_print(w...);
 	}
 };
-template<typename ...T>
-void Print(T... Args) {
-	auto tuple = std::forward_as_tuple(std::forward<T>(Args)...);
-	auto size = sizeof...(Args);
+_Temp_Args
+void Print(Args... args) {
+	auto tuple = std::forward_as_tuple(std::forward<Args>(args)...);
+	auto size = sizeof...(args);
 	std::cout << "Info\nlength of parameter pack = "<< size << '\n';
-	for (size_t i = 0; i < size; i++)
-	{
-		if constexpr (typeid(tuple.get<i>()) == typeid(Command)) {
-
-		}
-	}
-	STD st(Args...);
+	
+	STD st(args...);
 }
 
 
