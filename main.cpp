@@ -29,9 +29,37 @@ bool q2(T &t) {
 	return is_array(T);
 }
 
+struct Data {
+	Data() = delete;
+	Data(string s) {
+		data = s;
+	}
+	int ToInt() {
+		return stoi(data);
+	}
 
+	operator std::string() {
+		return data;
+	}
+	template<typename T>
+	operator T() {
+		return T();
+	}
+	friend ostream& operator <<(ostream& I, Data& t) {
+		I << t.data;
+		return I;
+	}
 
-//__declspec(deprecated("** this is a deprecated function **")) void func2(int) {}
+private:
+	string data;
+	int a;
+};
+
+Data input() {
+	string data;
+	cin >> data;
+	return Data(data);
+}
 
 
 int main() {
@@ -56,20 +84,24 @@ int main() {
 	aa[2] = { -56, -45, 4 };
 	array<int, 3> a1 = { 4, 5, 1 };	
 	vector<string> sss = { "str", "gg", "string" };
+	map<int, string> m;
+	m[1] = "hello";
+	m[2] = "goodbue";
+	m[3] = "nooo";
 	
-	//MyStruct a;
-	//a == Input();
-
-	int b = 7;
-	
-	string s;
-
-	s = Input();
-
-	//cin >> a;
-
-	Print(b == Input());
-
+	Print(Command("end", 12), m, '\n', sss, '\n', a1, '\n', aa, '\n', as, '\n', pp, '\n', p1);
 
 	return 0;
 }
+
+/* Python code
+
+a = [1,2,3,4,'hello',"world",33.13]
+b = {1:3,2:6,3: 9}
+c = ('w','h','t','f',1,2,3)
+
+# [1, 2, 3, 4, 'hello', 'world', 33.13]
+# {1: 3, 2: 6, 3: 9}
+# ('w', 'h', 't', 'f', 1, 2, 3)
+
+*/

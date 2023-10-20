@@ -353,9 +353,13 @@ template<typename T> bool operator ==(T& t, Input I) {
 	return t == tnew;
 }
 
-/// 
-/// Nothing
-/// 
+template<typename T>
+struct Command {
+	Command(std::string com, T op) :command(com), _operator(op) {}
+
+	std::string command;
+	T _operator;
+};
 struct STD {
 	STD(STD&&) = delete;
 template<typename... T>
@@ -367,188 +371,199 @@ template<typename... T>
 		std::cout << end;
 	}
 	std::string end{ '\n' };
-	std::string separator{ ", "};
+	std::string separator{ " "};
 private:
+	std::string separator_in_containers{", "};
+	std::string separator_in_map{": "};
+
+	std::string brakets_in_array{"[]"};
+	std::string brakets_in_tuple{"()"};
+	std::string brakets_in_map{"{}"};
+
 	template<typename R> void _print(R t) {
 		std::cout << t;
 	}
-	template<> void _print(Input I) {
-		std::cout << Input::StoSS();
+	template<typename T> void _print(Command<T> t) {
+		std::cout << t.command << ' ' << t._operator << '\n';
 	}
 	template<> void _print(bool t) {
 		std::cout << std::boolalpha << t;
 	}
 	template<typename R, typename P> void _print(std::pair<R,P> t) {
-		std::cout << '<';
+		std::cout << brakets_in_array[0];
 		_print(t.first);
-		std::cout << separator;
+		std::cout << separator_in_containers;
 		_print(t.second);
-		std::cout << '>';
+		std::cout << brakets_in_array[1];
 	}
 	template<typename R, typename P> void _print(std::map<R, P> v) {
-		std::cout << '{';
+		std::cout << brakets_in_map[0];
 		int cnt{ 0 };
 		for (auto i : v) {
-			_print(i);
+			_print(i.first);
+			std::cout << separator_in_map;
+			_print(i.second);
 			if (cnt + 1 < v.size()) {
-				std::cout << separator;
+				std::cout << separator_in_containers;
 			}
 			cnt++;
 		}
-		std::cout << '}';
+		std::cout << brakets_in_map[1];
 	}
 	template<typename R, typename P> void _print(std::unordered_map<R, P> v) {
-		std::cout << '{';
+		std::cout << brakets_in_map[0];
 		int cnt{ 0 };
 		for (auto i : v) {
-			_print(i);
+			_print(i.first);
+			std::cout << separator_in_map;
+			_print(i.second);
 			if (cnt + 1 < v.size()) {
-				std::cout << separator;
+				std::cout << separator_in_containers;
 			}
 			cnt++;
 		}
-		std::cout << '}';
+		std::cout << brakets_in_map[1];
 	}
 	template<typename R, size_t N> void _print(std::array<R, N> v) {
-		std::cout << '[';
+		std::cout << brakets_in_array[0];
 		int cnt{ 0 };
 		for (auto i : v) {
 			_print(i);
 			if (cnt + 1 < v.size()) {
-				std::cout << separator;
+				std::cout << separator_in_containers;
 			}
 			cnt++;
 		}
-		std::cout << ']';
+		std::cout << brakets_in_array[1];
 	}
 	template<typename R> void _print(std::vector<R> v) {
-		std::cout << '[';
+		std::cout << brakets_in_array[0];
 		int cnt{ 0 };
 		for (auto i : v) {
 			_print(i);
-			if (cnt+1 < v.size()) {
-				std::cout << separator;
+			if (cnt + 1 < v.size()) {
+				std::cout << separator_in_containers;
 			}
 			cnt++;
 		}
-		std::cout << ']';
+		std::cout << brakets_in_array[1];
 	}
 	template<typename R> void _print(std::list<R> v) {
-		std::cout << '[';
+		std::cout << brakets_in_array[0];
 		int cnt{ 0 };
 		for (auto i : v) {
 			_print(i);
 			if (cnt + 1 < v.size()) {
-				std::cout << separator;
+				std::cout << separator_in_containers;
 			}
 			cnt++;
 		}
-		std::cout << ']';
+		std::cout << brakets_in_array[1];
 	}
 	template<typename R> void _print(std::forward_list<R> v) {
-		std::cout << '[';
+		std::cout << brakets_in_array[0];
 		int cnt{ 0 };
 		for (auto i : v) {
 			_print(i);
 			if (cnt + 1 < v.size()) {
-				std::cout << separator;
+				std::cout << separator_in_containers;
 			}
 			cnt++;
 		}
-		std::cout << ']';
+		std::cout << brakets_in_array[1];
 	}
 	template<typename R> void _print(std::set<R> v) {
-		std::cout << '[';
+		std::cout << brakets_in_array[0];
 		int cnt{ 0 };
 		for (auto i : v) {
 			_print(i);
 			if (cnt + 1 < v.size()) {
-				std::cout << separator;
+				std::cout << separator_in_containers;
 			}
 			cnt++;
 		}
-		std::cout << ']';
+		std::cout << brakets_in_array[1];
 	}
 	template<typename R> void _print(std::multiset<R> v) {
-		std::cout << '[';
+		std::cout << brakets_in_array[0];
 		int cnt{ 0 };
 		for (auto i : v) {
 			_print(i);
 			if (cnt + 1 < v.size()) {
-				std::cout << separator;
+				std::cout << separator_in_containers;
 			}
 			cnt++;
 		}
-		std::cout << ']';
+		std::cout << brakets_in_array[1];
 	}
 	template<typename R> void _print(std::unordered_set<R> v) {
-		std::cout << '[';
+		std::cout << brakets_in_array[0];
 		int cnt{ 0 };
 		for (auto i : v) {
 			_print(i);
 			if (cnt + 1 < v.size()) {
-				std::cout << separator;
+				std::cout << separator_in_containers;
 			}
 			cnt++;
 		}
-		std::cout << ']';
+		std::cout << brakets_in_array[1];
 	}
 	template<typename R> void _print(std::unordered_multiset<R> v) {
-		std::cout << '[';
+		std::cout << brakets_in_array[0];
 		int cnt{ 0 };
 		for (auto i : v) {
 			_print(i);
 			if (cnt + 1 < v.size()) {
-				std::cout << separator;
+				std::cout << separator_in_containers;
 			}
 			cnt++;
 		}
-		std::cout << ']';
+		std::cout << brakets_in_array[1];
 	}
 	template<typename R> void _print(std::queue<R> v) {
-		std::cout << '[';
+		std::cout << brakets_in_array[0];
 		auto vnew = v;
 		while (true) {
 			_print(vnew.front());
 			vnew.pop();
 			if (vnew.empty()) break;
-			std::cout << separator;
+			std::cout << separator_in_containers;
 		}
-		std::cout << ']';
+		std::cout << brakets_in_array[1];
 	}
 	template<typename R> void _print(std::priority_queue<R> v) {
-		std::cout << '[';
+		std::cout << brakets_in_array[0];
 		auto vnew = v;
-		while(true) {
+		while (true) {
 			_print(vnew.front());
 			vnew.pop();
 			if (vnew.empty()) break;
-			std::cout << separator;
+			std::cout << separator_in_containers;
 		}
-		std::cout << ']';
+		std::cout << brakets_in_array[1];
 	}
 	template<typename R> void _print(std::deque<R> v) {
-		std::cout << '[';
+		std::cout << brakets_in_array[0];
 		int cnt{ 0 };
 		for (auto i : v) {
 			_print(i);
 			if (cnt + 1 < v.size()) {
-				std::cout << separator;
+				std::cout << separator_in_containers;
 			}
 			cnt++;
 		}
-		std::cout << ']';
+		std::cout << brakets_in_array[1];
 	}
 	template<typename R> void _print(std::stack<R> v) {
-		std::cout << '[';
+		std::cout << brakets_in_array[0];
 		auto vnew = v;
 		while (true) {
-			_print(vnew.top());
+			_print(vnew.front());
 			vnew.pop();
 			if (vnew.empty()) break;
-			std::cout << separator;
+			std::cout << separator_in_containers;
 		}
-		std::cout << ']';
+		std::cout << brakets_in_array[1];
 	}
 	template<typename R, typename... P> void _print(R v, P... w) {
 		_print(v);
@@ -557,8 +572,17 @@ private:
 	}
 };
 template<typename ...T>
-void Print(T... tmp) {
-	STD st(tmp...);
+void Print(T... Args) {
+	auto tuple = std::forward_as_tuple(std::forward<T>(Args)...);
+	auto size = sizeof...(Args);
+	std::cout << "Info\nlength of parameter pack = "<< size << '\n';
+	for (size_t i = 0; i < size; i++)
+	{
+		if constexpr (typeid(tuple.get<i>()) == typeid(Command)) {
+
+		}
+	}
+	STD st(Args...);
 }
 
 
