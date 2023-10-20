@@ -16,32 +16,31 @@
 #include <deque>
 #include <stack>
 
-#define _Cin_No_Class_T (!std::is_class<T>::value || typeid(T) == typeid(std::string))
-
-#define _No_Temp_Operator        operator
-#define _Temp_T_Operator         template<typename T> auto operator
-#define _Temp_T1_T2_Operator     template<typename T1, typename T2> auto operator
-#define _No_Temp_Container       operator
-#define _Temp_T_Container        template<typename T> operator
-#define _Temp_T1_T2_Container    template<typename T1, typename T2> operator
-#define _Temp_T_unI64_Container  template<typename T, size_t N> operator
-#define _I1     bool              //bool
-#define _I8     __int8            //char
-#define _sI8    signed char       //signed char
-#define _I16    __int16           //short
-#define _I32    __int32           //int
-#define _F32    float             //unsigned long long
-#define _I64    __int64           //long long
-#define _F64    double            //double
-#define _lF64   long double       //long double
-#define _unI8   unsigned __int8   //unsigned char
-#define _unI16  unsigned __int16  //unsigned short
-#define _unI32  unsigned __int32  //unsigned int
-#define _unI64  unsigned __int64  //unsigned long long
-#define _C8     char8_t           //char8_t
-#define _C16    char16_t          //char16_t
-#define _C32    char32_t          //char32_t
-#define _wC     __wchar_t         //__wchar_t
+#define _If_No_Class_T           (!std::is_class<T>::value || typeid(T) == typeid(std::string))  //
+#define _No_Temp_Operator        operator														 //
+#define _Temp_T_Operator         template<typename T> auto operator								 //
+#define _Temp_T1_T2_Operator     template<typename T1, typename T2> auto operator				 //
+#define _No_Temp_Container       operator														 //
+#define _Temp_T_Container        template<typename T> operator									 //
+#define _Temp_T1_T2_Container    template<typename T1, typename T2> operator					 //
+#define _Temp_T_unI64_Container  template<typename T, size_t N> operator						 //
+#define _I1                      bool                                                            //bool
+#define _I8                      __int8                                                          //char
+#define _sI8                     signed char                                                     //signed char
+#define _I16                     __int16                                                         //short
+#define _I32                     __int32                                                         //int
+#define _F32                     float                                                           //unsigned long long
+#define _I64                     __int64                                                         //long long
+#define _F64                     double                                                          //double
+#define _lF64                    long double                                                     //long double
+#define _unI8                    unsigned __int8                                                 //unsigned char
+#define _unI16                   unsigned __int16                                                //unsigned short
+#define _unI32                   unsigned __int32                                                //unsigned int
+#define _unI64                   unsigned __int64                                                //unsigned long long
+#define _C8                      char8_t                                                         //char8_t
+#define _C16                     char16_t                                                        //char16_t
+#define _C32                     char32_t                                                        //char32_t
+#define _wC                      __wchar_t                                                       //__wchar_t
 
 /// Input() - ¬вод 1 значени€ или контейнера до n или размером Size
 /// Text : —ообщение, которое выводитс€;
@@ -148,7 +147,7 @@ public:
 			for (_unI64 i = 0; i < _Size; i++) v.push_back(Input(_Size));
 			return v;
 		}
-		if constexpr (_Cin_No_Class_T) {
+		if constexpr (_If_No_Class_T) {
 			std::stringstream ss(StoSS());
 			T t;
 			while (ss >> t) v.push_back(t);
@@ -163,7 +162,7 @@ public:
 			for (_unI64 i = 0; i < _Size; i++) v.push_back(Input(_Size));
 			return v;
 		}
-		if constexpr (_Cin_No_Class_T) {
+		if constexpr (_If_No_Class_T) {
 			std::stringstream ss(StoSS());
 			T t;
 			while (ss >> t) v.push_back(t);
@@ -178,7 +177,7 @@ public:
 			for (_unI64 i = 0; i < _Size; i++) v.push_front(Input(_Size));
 			return v;
 		}
-		if constexpr (_Cin_No_Class_T) {
+		if constexpr (_If_No_Class_T) {
 			std::stringstream ss(StoSS());
 			T t;
 			while (ss >> t) v.push_front(t);
@@ -196,7 +195,7 @@ public:
 			}
 			return v;
 		}
-		if constexpr (_Cin_No_Class_T) {
+		if constexpr (_If_No_Class_T) {
 			std::stringstream ss(StoSS());
 			T t;
 			while (ss >> t) v.insert(t);
@@ -215,7 +214,7 @@ public:
 			}
 			return v;
 		}
-		if constexpr (_Cin_No_Class_T) {
+		if constexpr (_If_No_Class_T) {
 			std::stringstream ss(StoSS());
 			T t;
 			while (ss >> t) v.insert(t);
@@ -235,7 +234,7 @@ public:
 			}
 			return v;
 		}
-		if constexpr (_Cin_No_Class_T) {
+		if constexpr (_If_No_Class_T) {
 			std::stringstream ss(StoSS());
 			T t;
 			while (ss >> t) v.insert(t);
@@ -255,7 +254,7 @@ public:
 			}
 			return v;
 		}
-		if constexpr (_Cin_No_Class_T) {
+		if constexpr (_If_No_Class_T) {
 			std::stringstream ss(StoSS());
 			T t;
 			while (ss >> t) v.insert(t);
@@ -272,7 +271,7 @@ public:
 			for (_unI64 i = 0; i < _Size; i++) v.push(Input(_Size));
 			return v;
 		}
-		if constexpr (_Cin_No_Class_T) {
+		if constexpr (_If_No_Class_T) {
 			std::stringstream ss(StoSS());
 			T t;
 			while (ss >> t) v.push(t);
@@ -287,7 +286,7 @@ public:
 			for (_unI64 i = 0; i < _Size; i++) v.push(Input(_Size));
 			return v;
 		}
-		if constexpr (_Cin_No_Class_T) {
+		if constexpr (_If_No_Class_T) {
 			std::stringstream ss(StoSS());
 			T t;
 			while (ss >> t) v.push(t);
@@ -302,7 +301,7 @@ public:
 			for (_unI64 i = 0; i < _Size; i++) v.push_back(Input(_Size));
 			return v;
 		}
-		if constexpr (_Cin_No_Class_T) {
+		if constexpr (_If_No_Class_T) {
 			std::stringstream ss(StoSS());
 			T t;
 			while (ss >> t) v.push_back(t);
@@ -317,7 +316,7 @@ public:
 			for (_unI64 i = 0; i < _Size; i++) v.push(Input(_Size));
 			return v;
 		}
-		if constexpr (_Cin_No_Class_T) {
+		if constexpr (_If_No_Class_T) {
 			std::stringstream ss(StoSS());
 			T t;
 			while (ss >> t) v.push(t);
