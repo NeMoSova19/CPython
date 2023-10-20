@@ -2,24 +2,24 @@
 using namespace std;
 
 template<typename T>
-int _typeindefication(T t) {
-	type_info a = typeid(T);
-	if (a == typeid(std::string)) return 1;
-	if (a == typeid(std::pair)) return 2;
-	if (a == typeid(std::map)) return 3;
-	if (a == typeid(std::unordered_map)) return 4;
-	if (a == typeid(std::array)) return 5;
-	if (a == typeid(std::vector)) return 6;
-	if (a == typeid(std::list)) return 7;
-	if (a == typeid(std::forward_list)) return 8;
-	if (a == typeid(std::set)) return 9;
-	if (a == typeid(std::unordered_set)) return 10;
-	if (a == typeid(std::multiset)) return 11;
-	if (a == typeid(std::unordered_multiset)) return 12;
-	if (a == typeid(std::queue)) return 13;
-	if (a == typeid(std::deque)) return 14;
-	if (a == typeid(std::stack)) return 15;
-	if (!std::is_class<T>::value) return 0;
+constexpr int _typeindefication(T t) {
+	constexpr type_info a = typeid(T);
+	if constexpr (a == typeid(std::string)) return 1;
+	if constexpr (a == typeid(std::pair)) return 2;
+	if constexpr (a == typeid(std::map)) return 3;
+	if constexpr (a == typeid(std::unordered_map)) return 4;
+	if constexpr (a == typeid(std::array)) return 5;
+	if constexpr (a == typeid(std::vector)) return 6;
+	if constexpr (a == typeid(std::list)) return 7;
+	if constexpr (a == typeid(std::forward_list)) return 8;
+	if constexpr (a == typeid(std::set)) return 9;
+	if constexpr (a == typeid(std::unordered_set)) return 10;
+	if constexpr (a == typeid(std::multiset)) return 11;
+	if constexpr (a == typeid(std::unordered_multiset)) return 12;
+	if constexpr (a == typeid(std::queue)) return 13;
+	if constexpr (a == typeid(std::deque)) return 14;
+	if constexpr (a == typeid(std::stack)) return 15;
+	if constexpr (!std::is_class<T>::value) return 0;
 	return -1;
 }
 struct A {
