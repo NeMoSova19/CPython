@@ -22,6 +22,7 @@ int _typeindefication(T t) {
 	if (!std::is_class<T>::value) return 0;
 	return -1;
 }
+struct A {};
 
 
 int main() {
@@ -45,16 +46,8 @@ int main() {
 	m[2] = "goodbue";
 	m[3] = "nooo";
 	
-	Print(Command("end", 12), m, '\n', sss, '\n', aa, '\n', pp);
-	//vector<int> v = Input();
+	Print(A(), m, some_map, _set("sep", '\n'), _set("end", '\n'));
 	
-	char t = Input();
-	
-	
-
-	Print(Input() + 1);
-
-
 	return 0;
 }
 

@@ -15,6 +15,7 @@
 #include <queue>
 #include <deque>
 #include <stack>
+#include <functional>
 
 #define _If_No_Class_T           (!std::is_class<T>::value || typeid(T) == typeid(std::string))  //
 #define _No_Temp_Operator        operator														 //
@@ -333,23 +334,28 @@ public:
 	}
 };
 
-_Temp_T
-struct Command {
-	Command(std::string com, T op) :command(com), _operator(op) {}
-
-	std::string command;
-	T _operator;
+struct _set {
+	_set(std::string what, std::string on_what) :what(what), on_what(on_what) {}
+	_set(std::string what, char on_what) :what(what) { this->on_what += on_what; }
+	std::string what{}, on_what{};
 };
+
 struct STD {
+	STD() = default;
 	STD(STD&&) = delete;
-_Temp_Args
-	STD(Args... t) {
+	~STD() { std::cout << end;}
+
+	_Temp_Args void Print(Args... t) {
+		now_pos = 0;
 		_print(t...);
 	}
-	~STD()
-	{
-		std::cout << end;
+	_Temp_Args void Test(Args... t) {
+		need_separator.assign(sizeof...(Args), '0');
+		now_pos = 0;
+		_test(t...);
+		need_separator.back() = '0';
 	}
+
 private:
 	std::string end{ '\n' };
 	std::string separator{" "};
@@ -361,11 +367,10 @@ private:
 	std::string brakets_in_map{"{}"};
 
 	_Temp_T		 void _print(T t) {
-		std::cout << t;
+		if constexpr (_If_No_Class_T) std::cout << t;
+		else std::cout << typeid(T).name();
 	}
-	_Temp_T		 void _print(Command<T> t) {
-		std::cout << t.command << ' ' << t._operator << '\n';
-	}
+	_Temp_		 void _print(_set t) {}
 	_Temp_		 void _print(bool t) {
 		std::cout << std::boolalpha << t;
 	}
@@ -546,18 +551,43 @@ private:
 		std::cout << brakets_in_array[1];
 	}
 	_Temp_T_Args void _print(T v, Args... w) {
+		if (need_separator[now_pos] == '0') {
+			_print(w...);
+			now_pos++;
+			return;
+		}
+		now_pos++;
 		_print(v);
-		std::cout << separator;
+		if(--useful_amount) std::cout << separator;
 		_print(w...);
 	}
+
+	_Temp_T		 void _test(T t) {
+		need_separator[now_pos] = '1';
+		now_pos++;
+		useful_amount++;
+	}
+	_Temp_		 void _test(_set t) {
+		_set[t.what](t.on_what);
+		now_pos++;
+	}
+	_Temp_T_Args void _test(T t, Args... args) {
+		_test(t); _test(args...);
+	}
+
+	std::map<std::string, std::function<void(std::string)>> _set{ 
+		{"end", [&](std::string s) {end = s; }},
+		{"sep", [&](std::string s) {separator = s; }}
+	};
+	std::string need_separator;
+	size_t now_pos{ 0 };
+	int32_t useful_amount{ 0 };
 };
 _Temp_Args
 void Print(Args... args) {
-	auto tuple = std::forward_as_tuple(std::forward<Args>(args)...);
-	auto size = sizeof...(args);
-	std::cout << "Info\nlength of parameter pack = "<< size << '\n';
-	
-	STD st(args...);
+	STD st;
+	st.Test(args...);
+	st.Print(args...);
 }
 
 
