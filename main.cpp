@@ -22,12 +22,15 @@ int _typeindefication(T t) {
 	if (!std::is_class<T>::value) return 0;
 	return -1;
 }
-struct A {};
+struct A {
+	string ToString() { return "this is struct A"; }
+};
+struct B{};
 
 
 int main() {
 	
-	srand(time(0));
+	srand((unsigned int)time(0));
 
 	std::unordered_map<std::string, std::string> some_map =
 	{
@@ -46,7 +49,8 @@ int main() {
 	m[2] = "goodbue";
 	m[3] = "nooo";
 	
-	Print(A(), m, some_map, _set("sep", '\n'), _set("end", '\n'));
+	//constexpr bool has = has1_ToString<A>().value;
+	Print(A(), B(), m, some_map, _set("sep", '\n'), _set("end", '\n'));
 	
 	return 0;
 }

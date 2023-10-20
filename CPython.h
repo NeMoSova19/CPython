@@ -48,6 +48,14 @@
 #define _C16                     char16_t                                                        //char16_t
 #define _C32                     char32_t                                                        //char32_t
 #define _wC                      __wchar_t                                                       //__wchar_t
+// следующие дефайны (Has1, Has2) создают класс который может проверить есть 
+// ли в классе T функция принимающая inp и возвращающая out
+// пример: Has2(int, func, string) -> has_func<T>.value - поиск функции int T::func(string);
+// пример: Has1(string, test)      -> has_test<T>.value - поиск функции string T::test();
+// value: bool - состояние присутствия или отсутствия конкретной функции
+#define Has1(out, name) template<typename T> class has1_##name## {static void detect(...);template<typename U> static decltype(std::declval<U>().##name##()) detect(const U&); public:static constexpr bool value = std::is_same<out, decltype(detect(std::declval<T>()))>::value;};
+#define Has2(out, name, inp) template<typename T> class has2_##name## {static inp detect(...);template<typename U> static decltype(std::declval<U>().##name##(inp())) detect(const U&);public:static constexpr bool value = std::is_same<out, decltype(detect(std::declval<T>()))>::value;};
+
 
 /// Input() - Ввод 1 значения или контейнера до n или размером Size
 /// Text : Сообщение, которое выводится;
@@ -357,6 +365,8 @@ struct STD {
 	}
 
 private:
+	Has1(std::string, ToString);
+
 	std::string end{ '\n' };
 	std::string separator{" "};
 	std::string separator_in_containers{", "};
@@ -368,6 +378,7 @@ private:
 
 	_Temp_T		 void _print(T t) {
 		if constexpr (_If_No_Class_T) std::cout << t;
+		else if constexpr (has1_ToString<T>().value) std::cout << t.ToString();
 		else std::cout << typeid(T).name();
 	}
 	_Temp_		 void _print(_set t) {}

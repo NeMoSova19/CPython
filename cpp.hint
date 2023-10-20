@@ -1,0 +1,4 @@
+// Файлы указаний помогают среде IDE Visual Studio интерпретировать идентификаторы Visual C++
+// (например, имена функций и макросов).
+// Дополнительные сведения: https://go.microsoft.com/fwlink/?linkid=865984
+#define Has1(out, name) template<typename T> class has1_##name##{static void detect(...);template<typename U> static decltype(std::declval<U>().##name##()) detect(const U&); public:static constexpr bool value = std::is_same<out, decltype(detect(std::declval<T>()))>::value;};
