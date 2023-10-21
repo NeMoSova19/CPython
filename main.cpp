@@ -49,20 +49,62 @@ struct MyVector : public vector<T> {
 
 
 int main() {
-	
-	string s = Input();
+	std::setlocale(0, "ru");
 
-	int p;
+	Input::FromFile("test.txt"); // перенаправление ввода из файла
+	int n = Input(">> ¬вод из файла\n");
+	Print(n, "чисел:");
+
+	for (int i = 0; i < n; i++)
+	{
+		Print(Input(),_set("end"," "));
+	}
 
 
-	//vector<vector<int>> p = Input(3);
+	Input::FromStdStream(); // перенаправление ввода из стандартного потока
+	n = Input("\n\n>> ¬вод из потока\n¬ведите количество чисел: ");
+	vector<int> vec(n);
+	for (int i = 0; i < n; i++)
+	{
+		string s = to_string(i + 1);
+		s += ") ";
+		vec[i] = Input(s);
+	}
+	for (int i = 0; i < n; i++) {
+		Print(vec[i], _set("end", " "));
+	}
 
-	Print(p);
 
+	Print("\n>> чтение из другого потока");
+	stringstream ss("hello world and hello world again and stop 1243 441 33");
+	Input::FromOther(ss.rdbuf()); // перенаправление ввода в какой-нибудь поток, который имеет функцию rdbuf()
+	while (!Input::eof()) { // чтение пока поток не пуст
+		Print(Input());
+	}
+
+
+	Input::FromStdStream(); // не забываем вернуть стандартный поток
+	// а ниже прикольный фокус
+	int k = Input("напишите двузначное число здесь __ - ваше число!\rнапишите двузначное число здесь ");
 
 	
 	return 0;
 }
+
+/*
+
+	std::ifstream in("in.txt");
+	std::streambuf *cinbuf = std::cin.rdbuf(); //save old buf
+	std::cin.rdbuf(in.rdbuf()); //redirect std::cin to in.txt!
+
+	std::string word;
+	std::cin >> word;           //input from the file in.txt
+
+	std::cin.rdbuf(cinbuf);   //reset to standard input again
+
+	std::cin >> word;   //input from the standard input
+
+*/
 
 
 /* Python code
