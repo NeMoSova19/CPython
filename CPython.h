@@ -28,26 +28,24 @@
 
 typedef bool              _bool  ;     //bool													 
 																								 
-//typedef signed char       _sI8 ;     //signed char ??? почему не signed char8_t или char16_t???
+typedef signed char       _sc8   ;     //signed char
 typedef char8_t           _uc8   ;     //char8_t												 
 typedef char16_t          _uc16  ;     //char16_t												 
 typedef char32_t          _uc32  ;     //char32_t												 
-/*typedef __wchar_t         _wC;     //__wchar_t*/												 
+typedef __wchar_t         _wc;         //__wchar_t												 
 									   															 
 typedef __int8            _i8    ;     //char													 
 typedef __int16           _i16   ;     //short													 
 typedef __int32           _i32   ;     //int													 
-typedef __int64           _i64   ;     //long long												 //
-									   															 //
+typedef __int64           _i64   ;     //long long												 
 typedef unsigned __int8   _ui8   ;     //unsigned char											 
 typedef unsigned __int16  _ui16  ;     //unsigned short											 
 typedef unsigned __int32  _ui32  ;     //unsigned int											 
-typedef unsigned __int64  _ui64  ;     //unsigned long long										 //
-									   															 //
+typedef unsigned __int64  _ui64  ;     //unsigned long long										 
+									   															 
 typedef float             _float ;     //unsigned long long										 
 typedef double            _double;     //double													 
-typedef long double       _lfloat;     //long double											 //
-///////////////////////////////////////////////////////////////////////////////////////////////////
+typedef long double       _lfloat;     //long double											 
 
 // следующие дефайны (Has1, Has2) создают класс который может проверить есть 
 // ли в классе T функция принимающая inp и возвращающая out
@@ -102,7 +100,7 @@ public:
 	_Temp_T auto operator ||					  (T t){ T v; std::cin >> v; return v || t; }	
 				 operator _bool						 (){ _bool    v; std::cin >> v; return v; }
 				 operator _i8						 (){ _i8    v; std::cin >> v; return v; }
-				 //operator _sI8                       (){ _sI8   v; std::cin >> v; return v; }
+				 operator _sc8                       (){ _sc8   v; std::cin >> v; return v; }
 				 operator _i16						 (){ _i16   v; std::cin >> v; return v; }
 				 operator _i32						 (){ _i32   v; std::cin >> v; return v; }
 				 operator _float				     (){ _float   v; std::cin >> v; return v; }
@@ -116,7 +114,7 @@ public:
 				 operator _uc8						 (){ _ui8  t; std::cin >> t; _uc8  v{t}; return v; }
 				 operator _uc16						 (){ _ui16 t; std::cin >> t; _uc16 v{t}; return v; }
 				 operator _uc32						 (){ _ui32 t; std::cin >> t; _uc32 v{t}; return v; }
-				 //operator _wC						 (){ _ui16 t; std::cin >> t; _wC  v{t}; return v; }
+				 operator _wc						 (){ _ui16 t; std::cin >> t; _wc  v{t}; return v; }
 				 operator std::string                (){
 		std::string v; std::cin >> v;
 		return v;
