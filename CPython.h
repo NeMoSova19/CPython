@@ -1,5 +1,6 @@
 #pragma once																					 
-#include <iostream>																				 
+#include <iostream>	
+#include <fstream>
 #include <sstream>																				 
 #include <type_traits>																			 
 #include <ostream>																				 
@@ -27,13 +28,7 @@
 
 
 typedef bool              _bool  ;     //bool													 
-																								 
-typedef signed char       _sc8   ;     //signed char
-typedef char8_t           _uc8   ;     //char8_t												 
-typedef char16_t          _uc16  ;     //char16_t												 
-typedef char32_t          _uc32  ;     //char32_t												 
-typedef __wchar_t         _wc;         //__wchar_t												 
-									   															 
+																								 									   															 
 typedef __int8            _i8    ;     //char													 
 typedef __int16           _i16   ;     //short													 
 typedef __int32           _i32   ;     //int													 
@@ -43,9 +38,16 @@ typedef unsigned __int16  _ui16  ;     //unsigned short
 typedef unsigned __int32  _ui32  ;     //unsigned int											 
 typedef unsigned __int64  _ui64  ;     //unsigned long long										 
 									   															 
-typedef float             _float ;     //unsigned long long										 
-typedef double            _double;     //double													 
-typedef long double       _lfloat;     //long double											 
+typedef float             _f32   ;     //unsigned long long										 
+typedef double            _f64   ;     //double													 
+typedef long double       _lf64  ;     //long double		
+
+typedef signed char       _sc8   ;     //signed char
+typedef char8_t           _uc8   ;     //char8_t												 
+typedef char16_t          _uc16  ;     //char16_t												 
+typedef char32_t          _uc32  ;     //char32_t												 
+typedef __wchar_t         _wc    ;     //__wchar_t												 
+
 
 // следующие дефайны (Has1, Has2) создают класс который может проверить есть 
 // ли в классе T функци€ принимающа€ inp и возвращающа€ out
@@ -62,66 +64,77 @@ typedef long double       _lfloat;     //long double
 /// Size : ¬вод Size переменных в контейнер;
 class Input {
 	static inline _ui64 npos{ (_ui64)-1 };
+	static inline std::istream& _InputIn = std::cin;
+	static inline ifstream _File{};
 	_ui64 _Size{npos};
-	static std::string StoSS() {
-		std::string s;
-		_i8 c = std::cin.get();
-		std::getline(std::cin, s);
-		if (c != '\n') s = c + s;
-		return s;
-	}
-	friend struct STD;
 public:
 	Input(std::string Text = "", _ui64 Size = npos) : _Size(Size) { std::cout << Text;}
 	Input(_ui64 Size) : _Size(Size) {  }
-	_Temp_T auto operator +						  (T t){ T v; std::cin >> v; return v + t;  }
-	_Temp_T auto operator -						  (T t){ T v; std::cin >> v; return v - t;  }
-	_Temp_T auto operator ~						     (){ T v; std::cin >> v; return ~v;     }
-	_Temp_T auto operator !						     (){ T v; std::cin >> v; return !v;     }
-	_Temp_T auto operator ++					     (){ T v; std::cin >> v; return v++;    }
-	_Temp_T auto operator ++					    (T){ T v; std::cin >> v; return ++v;    }
-	_Temp_T auto operator --					     (){ T v; std::cin >> v; return v--;    }
-	_Temp_T auto operator --					    (T){ T v; std::cin >> v; return --v;    }
-	_Temp_T auto operator *						  (T t){ T v; std::cin >> v; return v * t;  }
-	_Temp_T auto operator /						  (T t){ T v; std::cin >> v; return v / t;  }
-	_Temp_T auto operator %						  (T t){ T v; std::cin >> v; return v % t;  }
-	_Temp_T auto operator >>				   (_i64 t){ T v; std::cin >> v; return v >> t; }
-	_Temp_T auto operator <<				   (_i64 t){ T v; std::cin >> v; return v << t; }
-	_Temp_T auto operator <						  (T t){ T v; std::cin >> v; return v < t;  }
-	_Temp_T auto operator >						  (T t){ T v; std::cin >> v; return v > t;  }
-	_Temp_T auto operator <=					  (T t){ T v; std::cin >> v; return v <= t; }
-	_Temp_T auto operator >=					  (T t){ T v; std::cin >> v; return v >= t; }
-	_Temp_T auto operator ==					  (T t){ T v; std::cin >> v; return v == t; }
-	_Temp_T auto operator !=					  (T t){ T v; std::cin >> v; return v != t; }
-	_Temp_T auto operator &						  (T t){ T v; std::cin >> v; return v & t;  }
-	_Temp_T auto operator ^						  (T t){ T v; std::cin >> v; return v ^ t;  }
-	_Temp_T auto operator |						  (T t){ T v; std::cin >> v; return v | t;  }
-	_Temp_T auto operator &&					  (T t){ T v; std::cin >> v; return v && t; }
-	_Temp_T auto operator ||					  (T t){ T v; std::cin >> v; return v || t; }	
-				 operator _bool						 (){ _bool    v; std::cin >> v; return v; }
-				 operator _i8						 (){ _i8    v; std::cin >> v; return v; }
-				 operator _sc8                       (){ _sc8   v; std::cin >> v; return v; }
-				 operator _i16						 (){ _i16   v; std::cin >> v; return v; }
-				 operator _i32						 (){ _i32   v; std::cin >> v; return v; }
-				 operator _i64						 (){ _i64   v; std::cin >> v; return v; }
-				 operator _ui8						 (){ _ui8  v; std::cin >> v; return v; }
-				 operator _ui16						 (){ _ui16 v; std::cin >> v; return v; }
-				 operator _ui32						 (){ _ui32 v; std::cin >> v; return v; }
-				 operator _ui64						 (){ _ui64 v; std::cin >> v; return v; }
-				 operator _uc8						 (){ _ui8  t; std::cin >> t; _uc8  v{t}; return v; }
-				 operator _uc16						 (){ _ui16 t; std::cin >> t; _uc16 v{t}; return v; }
-				 operator _uc32						 (){ _ui32 t; std::cin >> t; _uc32 v{t}; return v; }
-				 operator _wc						 (){ _ui16 t; std::cin >> t; _wc  v{t}; return v; }
-				 operator std::string                (){
+
+	static std::string GetLine(std::istream& _In) {
+		std::string s;
+		_i8 c = std::cin.get();
+		std::getline(_In, s);
+		if (c != '\n') s = c + s;
+		return s;
+	}
+	//static void OpenFile(std::string Name) {
+	//	_File.open(Name);
+	//	_InputIn = _File;
+	//}
+
+	_Temp_T auto     operator +						  (T t) { T     v; _InputIn >> v;  return v + t;    }
+	_Temp_T auto     operator -						  (T t) { T     v; _InputIn >> v;  return v - t;    }
+	_Temp_T auto     operator ~						     () { T     v; _InputIn >> v;  return ~v;       }
+	_Temp_T auto     operator !						     () { T     v; _InputIn >> v;  return !v;       }
+	_Temp_T auto     operator ++					     () { T     v; _InputIn >> v;  return v++;      }
+	_Temp_T auto     operator ++					    (T) { T     v; _InputIn >> v;  return ++v;      }
+	_Temp_T auto     operator --					     () { T     v; _InputIn >> v;  return v--;      }
+	_Temp_T auto     operator --					    (T) { T     v; _InputIn >> v;  return --v;      }
+	_Temp_T auto     operator *						  (T t) { T     v; _InputIn >> v;  return v * t;    }
+	_Temp_T auto     operator /						  (T t) { T     v; _InputIn >> v;  return v / t;    }
+	_Temp_T auto     operator %						  (T t) { T     v; _InputIn >> v;  return v % t;    }
+	_Temp_T auto     operator >>				   (_i64 t) { T     v; _InputIn >> v;  return v >> t;   }
+	_Temp_T auto     operator <<				   (_i64 t) { T     v; _InputIn >> v;  return v << t;   }
+	_Temp_T auto     operator <						  (T t) { T     v; _InputIn >> v;  return v < t;    }
+	_Temp_T auto     operator >						  (T t) { T     v; _InputIn >> v;  return v > t;    }
+	_Temp_T auto     operator <=					  (T t) { T     v; _InputIn >> v;  return v <= t;   }
+	_Temp_T auto     operator >=					  (T t) { T     v; _InputIn >> v;  return v >= t;   }
+	_Temp_T auto     operator ==					  (T t) { T     v; _InputIn >> v;  return v == t;   }
+	_Temp_T auto     operator !=					  (T t) { T     v; _InputIn >> v;  return v != t;   }
+	_Temp_T auto     operator &						  (T t) { T     v; _InputIn >> v;  return v & t;    }
+	_Temp_T auto     operator ^						  (T t) { T     v; _InputIn >> v;  return v ^ t;    }
+	_Temp_T auto     operator |						  (T t) { T     v; _InputIn >> v;  return v | t;    }
+	_Temp_T auto     operator &&					  (T t) { T     v; _InputIn >> v;  return v && t;   }
+	_Temp_T auto     operator ||					  (T t) { T     v; _InputIn >> v;  return v || t;   }	
+	_Temp_T explicit operator T                          () { T     v; _InputIn >> v;  return v;        }
+				     operator _bool						 () { _bool v; _InputIn >> v;  return v;        }
+				     operator _i8						 () { _i8   v; _InputIn >> v;  return v;        }
+				     operator _i16						 () { _i16  v; _InputIn >> v;  return v;        }
+				     operator _i32						 () { _i32  v; _InputIn >> v;  return v;        }
+				     operator _i64						 () { _i64  v; _InputIn >> v;  return v;        }
+				     operator _ui8						 () { _ui8  v; _InputIn >> v;  return v;        }
+				     operator _ui16						 () { _ui16 v; _InputIn >> v;  return v;        }
+				     operator _ui32						 () { _ui32 v; _InputIn >> v;  return v;        }
+				     operator _ui64						 () { _ui64 v; _InputIn >> v;  return v;        }
+				     operator _f32				         () { _f32  v; _InputIn >> v;  return v;        }
+				     operator _f64					     () { _f64  v; _InputIn >> v;  return v;        }
+				     operator _lf64					     () { _lf64 v; _InputIn >> v;  return v;        }
+				     operator _sc8                       () { _sc8  v; _InputIn >> v;  return v;        }
+				     operator _uc8						 () { _ui8  v; _InputIn >> v;  return (_uc8)v;  }
+				     operator _uc16						 () { _ui16 v; _InputIn >> v;  return (_uc16)v; }
+				     operator _uc32						 () { _ui32 v; _InputIn >> v;  return (_uc32)v; }
+				     operator _wc						 () { _wc   v; std::wcin >> v; return v;        }
+				     operator std::string                () {
 		std::string v; std::cin >> v;
 		return v;
 	}
-	_Temp_T1_T2	 operator std::pair<T1, T2>          (){
+	_Temp_T1_T2	     operator std::pair<T1, T2>          (){
 		std::pair<T1, T2> v;
 		v.first = Input(); v.second = Input();
 		return v;
 	}
-	_Temp_T1_T2	 operator std::map<T1, T2>           (){
+	_Temp_T1_T2	     operator std::map<T1, T2>           (){
 		std::map<T1, T2> v;
 		if (_Size == npos) {
 			T1 t1 = Input(); T2 t2 = Input();
@@ -134,7 +147,7 @@ public:
 		}
 		return v;
 	}
-	_Temp_T1_T2	 operator std::unordered_map<T1, T2> (){
+	_Temp_T1_T2	     operator std::unordered_map<T1, T2> (){
 		std::unordered_map<T1, T2> v;
 		if (_Size == npos) {
 			T1 t1 = Input(); T2 t2 = Input();
@@ -147,35 +160,35 @@ public:
 		}
 		return v;
 	}
-	_Temp_T_N    operator std::array<T, N>           (){
+	_Temp_T_N        operator std::array<T, N>           (){
 		std::array<T, N> v;
 		if (_Size >= N) for (_ui64 i = 0; i < N; i++) v[i] = Input();
 		else for (_ui64 i = 0; i < _Size; i++) v[i] = Input();
 		return v;
 	}
-	_Temp_T		 operator std::vector<T>             (){
+	_Temp_T		     operator std::vector<T>             () {
 		std::vector<T> v;
 		if (_Size != npos) {
-			for (_ui64 i = 0; i < _Size; i++) v.push_back(Input(_Size));
+			for (_ui64 i = 0; i < _Size; i++) v.push_back(*this);
 			return v;
 		}
 		if constexpr (_If_No_Class_T) {
-			std::stringstream ss(StoSS());
+			std::stringstream ss(GetLine(_InputIn));
 			T t;
 			while (ss >> t) v.push_back(t);
 			return v;
 		}
-		v.push_back(Input());
+		v.push_back(*this);
 		return v;
 	}
-	_Temp_T		 operator std::list<T>               (){
+	_Temp_T		     operator std::list<T>               (){
 		std::list<T> v;
 		if (_Size != npos) {
 			for (_ui64 i = 0; i < _Size; i++) v.push_back(Input(_Size));
 			return v;
 		}
 		if constexpr (_If_No_Class_T) {
-			std::stringstream ss(StoSS());
+			std::stringstream ss(GetLine(_InputIn));
 			T t;
 			while (ss >> t) v.push_back(t);
 			return v;
@@ -183,14 +196,14 @@ public:
 		v.push_back(Input());
 		return v;
 	}
-	_Temp_T		 operator std::forward_list<T>       (){
+	_Temp_T		     operator std::forward_list<T>       (){
 		std::forward_list<T> v;
 		if (_Size != npos) {
 			for (_ui64 i = 0; i < _Size; i++) v.push_front(Input(_Size));
 			return v;
 		}
 		if constexpr (_If_No_Class_T) {
-			std::stringstream ss(StoSS());
+			std::stringstream ss(GetLine(_InputIn));
 			T t;
 			while (ss >> t) v.push_front(t);
 			return v;
@@ -198,7 +211,7 @@ public:
 		v.push_front(Input());
 		return v;
 	}
-	_Temp_T		 operator std::set<T>                (){
+	_Temp_T		     operator std::set<T>                (){
 		std::set<T> v;
 		if (_Size != npos) {
 			for (_ui64 i = 0; i < _Size; i++) {
@@ -208,7 +221,7 @@ public:
 			return v;
 		}
 		if constexpr (_If_No_Class_T) {
-			std::stringstream ss(StoSS());
+			std::stringstream ss(GetLine(_InputIn));
 			T t;
 			while (ss >> t) v.insert(t);
 			return v;
@@ -217,7 +230,7 @@ public:
 		v.insert(t);
 		return v;
 	}
-	_Temp_T		 operator std::multiset<T>           (){
+	_Temp_T		     operator std::multiset<T>           (){
 		std::multiset<T> v;
 		if (_Size != npos) {
 			for (_ui64 i = 0; i < _Size; i++) {
@@ -227,7 +240,7 @@ public:
 			return v;
 		}
 		if constexpr (_If_No_Class_T) {
-			std::stringstream ss(StoSS());
+			std::stringstream ss(GetLine(_InputIn));
 			T t;
 			while (ss >> t) v.insert(t);
 			return v;
@@ -237,7 +250,7 @@ public:
 		return v;
 		return v;
 	}
-	_Temp_T		 operator std::unordered_set<T>      (){
+	_Temp_T		     operator std::unordered_set<T>      (){
 		std::unordered_set<T> v;
 		if (_Size != npos) {
 			for (_ui64 i = 0; i < _Size; i++) {
@@ -247,7 +260,7 @@ public:
 			return v;
 		}
 		if constexpr (_If_No_Class_T) {
-			std::stringstream ss(StoSS());
+			std::stringstream ss(GetLine(_InputIn));
 			T t;
 			while (ss >> t) v.insert(t);
 			return v;
@@ -257,7 +270,7 @@ public:
 		return v;
 		return v;
 	}
-	_Temp_T		 operator std::unordered_multiset<T> (){
+	_Temp_T		     operator std::unordered_multiset<T> (){
 		std::unordered_multiset<T> v;
 		if (_Size != npos) {
 			for (_ui64 i = 0; i < _Size; i++) {
@@ -267,7 +280,7 @@ public:
 			return v;
 		}
 		if constexpr (_If_No_Class_T) {
-			std::stringstream ss(StoSS());
+			std::stringstream ss(GetLine(_InputIn));
 			T t;
 			while (ss >> t) v.insert(t);
 			return v;
@@ -277,14 +290,14 @@ public:
 		return v;
 		return v;
     }
-	_Temp_T		 operator std::queue<T>              (){
+	_Temp_T		     operator std::queue<T>              (){
 		std::queue<T> v;
 		if (_Size != npos) {
 			for (_ui64 i = 0; i < _Size; i++) v.push(Input(_Size));
 			return v;
 		}
 		if constexpr (_If_No_Class_T) {
-			std::stringstream ss(StoSS());
+			std::stringstream ss(GetLine(_InputIn));
 			T t;
 			while (ss >> t) v.push(t);
 			return v;
@@ -292,14 +305,14 @@ public:
 		v.push(Input());
 		return v;
 	}
-	_Temp_T		 operator std::priority_queue<T>     (){
+	_Temp_T		     operator std::priority_queue<T>     (){
 		std::priority_queue<T> v;
 		if (_Size != npos) {
 			for (_ui64 i = 0; i < _Size; i++) v.push(Input(_Size));
 			return v;
 		}
 		if constexpr (_If_No_Class_T) {
-			std::stringstream ss(StoSS());
+			std::stringstream ss(GetLine(_InputIn));
 			T t;
 			while (ss >> t) v.push(t);
 			return v;
@@ -307,14 +320,14 @@ public:
 		v.push(Input());
 		return v;
 	}
-	_Temp_T		 operator std::deque<T>              (){
+	_Temp_T		     operator std::deque<T>              (){
 		std::deque<T> v;
 		if (_Size != npos) {
 			for (_ui64 i = 0; i < _Size; i++) v.push_back(Input(_Size));
 			return v;
 		}
 		if constexpr (_If_No_Class_T) {
-			std::stringstream ss(StoSS());
+			std::stringstream ss(GetLine(_InputIn));
 			T t;
 			while (ss >> t) v.push_back(t);
 			return v;
@@ -322,14 +335,14 @@ public:
 		v.push_back(Input());
 		return v;		
 	}
-	_Temp_T		 operator std::stack<T>              (){
+	_Temp_T		     operator std::stack<T>              (){
 		std::stack<T> v;
 		if (_Size != npos) {
 			for (_ui64 i = 0; i < _Size; i++) v.push(Input(_Size));
 			return v;
 		}
 		if constexpr (_If_No_Class_T) {
-			std::stringstream ss(StoSS());
+			std::stringstream ss(GetLine(_InputIn));
 			T t;
 			while (ss >> t) v.push(t);
 			return v;
@@ -338,6 +351,7 @@ public:
 		return v;
 	}
 };
+
 
 struct _set {
 	_set(std::string what, std::string on_what) :what(what), on_what(on_what) {}
@@ -605,98 +619,98 @@ void Print(Args... args) {
 /// <summary>
 /// Not working
 /// </summary>
-namespace _In {
-	class OperatorIn {};
-	template<typename Tin>
-	struct InSearch {
-		const Tin& m_in;
-		InSearch(const Tin& val) : m_in(val) {};
-		template<typename T> bool operator *(T& what) { return _in(m_in, what); }
-	private:
-		template<typename T1, typename T2> bool _in(std::pair<T1, T2> p1, std::pair<T1, T2> p2) {
-			return (p1.first == p2.first) && (p1.second == p2.second);
-		}
-		
-		template<typename Search, typename T1, typename T2> bool _in(Search t, std::pair<T1, T2> V) {
-			if constexpr (typeid(Search) == typeid(T1)) return _in(t, V.first);
-			if constexpr (typeid(Search) == typeid(T2)) return _in(t, V.second);
-			return false;
-		}
-		
-		template<typename Search, typename T1, typename T2> bool _in(Search t, std::map<T1, T2> V) {
-			return false;
-		}
-		
-		template<typename Search, typename T1, typename T2> bool _in(Search t, std::unordered_map<T1, T2> V) {
-			return false;
-		}
-		
-		template<typename T, size_t N1, size_t N2> bool _in(std::array<T, N1> V1, std::array<T, N2> V2) {
-			if (N1 != N2) return false;
-			bool opt = true;
-			for (size_t i = 0; i < N1; i++) {
-				opt &= _in(V1[i], V2[i]);
-				if (!opt) return false;
-			}
-			return opt;
-		}
-		template<typename Search, typename T, size_t N> bool _in(Search t, std::array<T, N> V) {
-			bool opt = false;
-			for (size_t i = 0; i < N; i++) {
-				opt |= _in(t, V[i]);
-				if (opt) return true;
-			}
-			return opt;
-		}
-	
-		template<typename T> bool _in(std::vector<T> V1, std::vector<T> V2) {
-			if (V1.size() != V2.size()) return false;
-			bool opt = true;
-			for (size_t i = 0; i < V1.size(); i++) {
-				opt &= _in(V1[i], V2[i]);
-				if (!opt) return false;
-			}
-			return opt;
-		}
-		template<typename Search, typename T> bool _in(Search t, std::vector<T> V) {
-			bool opt = false;
-			for (size_t i = 0; i < V.size(); i++) {
-				opt |= _in(t, V[i]);
-				if (opt) return true;
-			}
-			return opt;
-		}
-
-		template<typename Search, typename T> bool _in(Search t, std::list<T> V) {
-			return false;
-		}
-		
-		template<typename Search, typename T> bool _in(Search t, std::forward_list<T> V) {
-			return false;
-		}
-		
-		template<typename Search, typename T> bool _in(Search t, std::set<T> V) {
-			return false;
-		}
-		
-		template<typename Search, typename T> bool _in(Search t, std::multiset<T> V) {
-			return false;
-		}
-		
-		template<typename Search, typename T> bool _in(Search t, std::unordered_set<T> V) {
-			return false;
-		}
-		
-		template<typename Search, typename T> bool _in(Search t, std::unordered_multiset<T> V) {
-			return false;
-		}
-		
-		template<typename Search, typename T> bool _in(Search t, T V) { return t == V; }
-
-	};
-	template<typename T> InSearch<T> operator *(const T& data, const OperatorIn&) { return InSearch<T>(data); }
-}
-#define in *_In::OperatorIn{}*
+//namespace _In {
+//	class OperatorIn {};
+//	template<typename Tin>
+//	struct InSearch {
+//		const Tin& m_in;
+//		InSearch(const Tin& val) : m_in(val) {};
+//		template<typename T> bool operator *(T& what) { return _in(m_in, what); }
+//	private:
+//		template<typename T1, typename T2> bool _in(std::pair<T1, T2> p1, std::pair<T1, T2> p2) {
+//			return (p1.first == p2.first) && (p1.second == p2.second);
+//		}
+//		
+//		template<typename Search, typename T1, typename T2> bool _in(Search t, std::pair<T1, T2> V) {
+//			if constexpr (typeid(Search) == typeid(T1)) return _in(t, V.first);
+//			if constexpr (typeid(Search) == typeid(T2)) return _in(t, V.second);
+//			return false;
+//		}
+//		
+//		template<typename Search, typename T1, typename T2> bool _in(Search t, std::map<T1, T2> V) {
+//			return false;
+//		}
+//		
+//		template<typename Search, typename T1, typename T2> bool _in(Search t, std::unordered_map<T1, T2> V) {
+//			return false;
+//		}
+//		
+//		template<typename T, size_t N1, size_t N2> bool _in(std::array<T, N1> V1, std::array<T, N2> V2) {
+//			if (N1 != N2) return false;
+//			bool opt = true;
+//			for (size_t i = 0; i < N1; i++) {
+//				opt &= _in(V1[i], V2[i]);
+//				if (!opt) return false;
+//			}
+//			return opt;
+//		}
+//		template<typename Search, typename T, size_t N> bool _in(Search t, std::array<T, N> V) {
+//			bool opt = false;
+//			for (size_t i = 0; i < N; i++) {
+//				opt |= _in(t, V[i]);
+//				if (opt) return true;
+//			}
+//			return opt;
+//		}
+//	
+//		template<typename T> bool _in(std::vector<T> V1, std::vector<T> V2) {
+//			if (V1.size() != V2.size()) return false;
+//			bool opt = true;
+//			for (size_t i = 0; i < V1.size(); i++) {
+//				opt &= _in(V1[i], V2[i]);
+//				if (!opt) return false;
+//			}
+//			return opt;
+//		}
+//		template<typename Search, typename T> bool _in(Search t, std::vector<T> V) {
+//			bool opt = false;
+//			for (size_t i = 0; i < V.size(); i++) {
+//				opt |= _in(t, V[i]);
+//				if (opt) return true;
+//			}
+//			return opt;
+//		}
+//
+//		template<typename Search, typename T> bool _in(Search t, std::list<T> V) {
+//			return false;
+//		}
+//		
+//		template<typename Search, typename T> bool _in(Search t, std::forward_list<T> V) {
+//			return false;
+//		}
+//		
+//		template<typename Search, typename T> bool _in(Search t, std::set<T> V) {
+//			return false;
+//		}
+//		
+//		template<typename Search, typename T> bool _in(Search t, std::multiset<T> V) {
+//			return false;
+//		}
+//		
+//		template<typename Search, typename T> bool _in(Search t, std::unordered_set<T> V) {
+//			return false;
+//		}
+//		
+//		template<typename Search, typename T> bool _in(Search t, std::unordered_multiset<T> V) {
+//			return false;
+//		}
+//		
+//		template<typename Search, typename T> bool _in(Search t, T V) { return t == V; }
+//
+//	};
+//	template<typename T> InSearch<T> operator *(const T& data, const OperatorIn&) { return InSearch<T>(data); }
+//}
+//#define in *_In::OperatorIn{}*
 
 int64_t random(int64_t const less, int64_t const more) {
 	return rand() % (more - less) + less;

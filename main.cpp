@@ -1,4 +1,5 @@
 #include "CPython.h"
+#include <fstream>
 using namespace std;
 
 template<typename T>
@@ -38,34 +39,27 @@ struct B{
 	string b{};
 };
 
+_Temp_T
+struct MyVector : public vector<T> {
+	
+	
+};
+
+
+
 
 int main() {
 	
-	srand((unsigned int)time(0));
+	string s = Input();
 
-	std::unordered_map<std::string, std::string> some_map =
-	{
-		{ "black", "white" },
-		{ "cat", "dog" },
-		{ "day", "night" }
-	};
-	pair<pair<int, char>, pair<int, char>> pp = { { 6, 'c'} , { 90, '3'} };
-	array<array<int, 3>, 3> aa;
-	aa[0] = { 4, 5, 10 };
-	aa[1] = { 90, -34, 7 };
-	aa[2] = { -56, -45, 4 };
-	vector<string> sss = { "str", "gg", "string" };
-	map<int, string> m;
-	m[1] = "hello";
-	m[2] = "goodbue";
-	m[3] = "nooo";
-	
+	int p;
 
-	
 
-	
-	//constexpr bool has = has1_ToString<A>().value;
-	Print(A(), B(), m, some_map, _set("sep", '\n'), _set("end", '\n'));
+	//vector<vector<int>> p = Input(3);
+
+	Print(p);
+
+
 	
 	return 0;
 }
