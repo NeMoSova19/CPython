@@ -21,7 +21,7 @@
 #define _Temp_			         template<>														 
 #define _Temp_T			         template<typename T>											 
 #define _Temp_Args				 template<typename ...Args>										 
-#define _Temp_T_N		         template<typename T, size_t N>									 
+#define _Temp_T_N		         template<typename T, _ui64 N>									 
 #define _Temp_T1_T2		         template<typename T1, typename T2>								 
 #define _Temp_T_Args	         template<typename T, typename ...Args>							 
 
@@ -105,10 +105,7 @@ public:
 				 //operator _sI8                       (){ _sI8   v; std::cin >> v; return v; }
 				 operator _i16						 (){ _i16   v; std::cin >> v; return v; }
 				 operator _i32						 (){ _i32   v; std::cin >> v; return v; }
-				 operator _float				     (){ _float   v; std::cin >> v; return v; }
 				 operator _i64						 (){ _i64   v; std::cin >> v; return v; }
-				 operator _double					 (){ _double   v; std::cin >> v; return v; }
-				 operator _lfloat					 (){ _lfloat  v; std::cin >> v; return v; }
 				 operator _ui8						 (){ _ui8  v; std::cin >> v; return v; }
 				 operator _ui16						 (){ _ui16 v; std::cin >> v; return v; }
 				 operator _ui32						 (){ _ui32 v; std::cin >> v; return v; }
@@ -116,6 +113,9 @@ public:
 				 operator _uc8						 (){ _ui8  t; std::cin >> t; _uc8  v{t}; return v; }
 				 operator _uc16						 (){ _ui16 t; std::cin >> t; _uc16 v{t}; return v; }
 				 operator _uc32						 (){ _ui32 t; std::cin >> t; _uc32 v{t}; return v; }
+				 operator _float				     (){ _float   v; std::cin >> v; return v; }
+				 operator _double					 (){ _double   v; std::cin >> v; return v; }
+				 operator _lfloat					 (){ _lfloat  v; std::cin >> v; return v; }
 				 //operator _wC						 (){ _ui16 t; std::cin >> t; _wC  v{t}; return v; }
 				 operator std::string                (){
 		std::string v; std::cin >> v;
@@ -387,14 +387,14 @@ private:
 	_Temp_		 void _print(bool t) {
 		std::cout << std::boolalpha << t;
 	}
-	_Temp_T1_T2	 void _print(std::pair<T1,T2> t) {
+	_Temp_T1_T2	 void _print(std::pair<T1, T2> t) {
 		std::cout << brakets_in_array[0];
 		_print(t.first);
 		std::cout << separator_in_containers;
 		_print(t.second);
 		std::cout << brakets_in_array[1];
 	}
-	_Temp_T1_T2	 void _print(std::map<T1,T2> v) {
+	_Temp_T1_T2	 void _print(std::map<T1, T2> v) {
 		std::cout << brakets_in_map[0];
 		int cnt{ 0 };
 		for (auto i : v) {
