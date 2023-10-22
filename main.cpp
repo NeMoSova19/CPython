@@ -89,6 +89,7 @@ int main() {
 
 	
 
+	STD (k, n, k, n);
 	return 0;
 }
 

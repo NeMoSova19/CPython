@@ -379,24 +379,30 @@ struct _set {
 	std::string what{}, on_what{};
 };
 
-struct STD {
-	STD() = default;
-	STD(STD&&) = delete;
-	~STD() { std::cout << end;}
+struct Print {
+	Print(Print&&) = delete;
+	~Print() { std::cout << end;}
 
-	_Temp_Args void Print(Args... t) {
+	_Temp_Args Print(Args... args) {
+		_Test(args...);
+		_Print(args...);
+	}
+	
+private:
+	static inline std::ifstream _File{};
+	static inline std::streambuf* CinBuf{ std::cin.rdbuf() };
+	Has1(std::string, ToString);
+	
+	_Temp_Args void _Print(Args... t) {
 		now_pos = 0;
 		_print(t...);
 	}
-	_Temp_Args void Test(Args... t) {
+	_Temp_Args void _Test(Args... t) {
 		need_separator.assign(sizeof...(Args), '0');
 		now_pos = 0;
 		_test(t...);
 		need_separator.back() = '0';
 	}
-
-private:
-	Has1(std::string, ToString);
 
 	std::string end{ '\n' };
 	std::string separator{" "};
@@ -628,12 +634,12 @@ private:
 	size_t now_pos{ 0 };
 	int32_t useful_amount{ 0 };
 };
-_Temp_Args
-void Print(Args... args) {
-	STD st;
-	st.Test(args...);
-	st.Print(args...);
-}
+//_Temp_Args
+//void Print(Args... args) {
+//	STD st;
+//	st.Test(args...);
+//	st.Print(args...);
+//}
 
 
 
