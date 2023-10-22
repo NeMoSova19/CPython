@@ -372,7 +372,6 @@ public:
 	}
 };
 
-
 struct _set {
 	_set(std::string what, std::string on_what) :what(what), on_what(on_what) {}
 	_set(std::string what, char on_what) :what(what) { this->on_what += on_what; }
@@ -386,11 +385,25 @@ struct Print {
 	_Temp_Args Print(Args... args) {
 		_Test(args...);
 		_Print(args...);
+	} 
+	static void        Open(std::string Name) {
+		_File.open(Name);
+		std::cout.rdbuf(_File.rdbuf());
+	}
+	static void        Open(std::streambuf* sb) {
+		std::cout.rdbuf(sb);
+	}
+	static void        Open(std::ofstream& sb) {
+		std::cout.rdbuf(sb.rdbuf());
+	}
+	static void        Close() {
+		std::cout.rdbuf(CoutBuf);
+		if (_File.is_open()) _File.close();
 	}
 	
 private:
-	static inline std::ifstream _File{};
-	static inline std::streambuf* CinBuf{ std::cin.rdbuf() };
+	static inline std::ofstream _File{};
+	static inline std::streambuf* CoutBuf{ std::cout.rdbuf() };
 	Has1(std::string, ToString);
 	
 	_Temp_Args void _Print(Args... t) {
