@@ -23,27 +23,7 @@ constexpr int _typeindefication(T t) {
 	if constexpr (!std::is_class<T>::value) return 0;
 	return -1;
 }
-struct A {
-	string ToString() { return "this is struct A"; }
-};
-struct B{
-	B() = default;
 
-	static B InputToThis() {
-		B b;
-		cin >> b.a >> b.b;
-		return b;
-	}
-
-	int a{ 0};
-	string b{};
-};
-
-_Temp_T
-struct MyVector : public vector<T> {
-	
-	
-};
 
 
 
@@ -51,9 +31,39 @@ struct MyVector : public vector<T> {
 int main() {
 	std::setlocale(0, "ru");
 
-	tuple t(5, "ssd", 'c');
+	Input::Open("test.txt");
+	int n = Input(">>\n");
+	Print(n);
 
-	
+	for (int i = 0; i < n; i++)
+	{
+		Print(Input(), _set("end", " "));
+	}
+
+
+	Input::Close(); 
+	n = Input("\n\n>>");
+	vector<int> vec(n);
+	for (int i = 0; i < n; i++)
+	{
+		string s = to_string(i + 1);
+		s += ") ";
+		vec[i] = Input(s);
+	}
+	for (int i = 0; i < n; i++) {
+		Print(vec[i], _set("end", " "));
+	}
+
+
+	Print("\n");
+	stringstream ss("hello world and hello world again and stop 1243 441 33");
+	Input::Open(ss.rdbuf()); 
+	while (!Input::Eof()) { 
+		Print(Input());
+	}
+
+
+
 	return 0;
 }
 

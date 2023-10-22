@@ -382,13 +382,13 @@ struct _set {
 	std::string what{}, on_what{};
 };
 
-struct Print {
-	Print(Print&&) = delete;
-	~Print() { std::cout << end;}
+struct _Print {
+	_Print(_Print&&) = delete;
+	~_Print() { std::cout << end;}
 
-	_Temp_Args Print(Args... args) {
-		_Test(args...);
-		_Print(args...);
+	_Temp_Args _Print(Args... args) {
+		__Test(args...);
+		__Print(args...);
 	} 
 	static void        Open(std::string Name) {
 		_File.open(Name);
@@ -410,11 +410,11 @@ private:
 	static inline std::streambuf* CoutBuf{ std::cout.rdbuf() };
 	Has1(std::string, ToString);
 	
-	_Temp_Args void _Print(Args... t) {
+	_Temp_Args void __Print(Args... t) {
 		now_pos = 0;
 		_print(t...);
 	}
-	_Temp_Args void _Test(Args... t) {
+	_Temp_Args void __Test(Args... t) {
 		need_separator.assign(sizeof...(Args), '0');
 		now_pos = 0;
 		_test(t...);
@@ -652,11 +652,9 @@ private:
 	int32_t useful_amount{ 0 };
 };
 _Temp_Args
-//void _Print(Args... args) {
-//	Print st;
-//	st.test(args...);
-//	st.Print(args...);
-//}
+void Print(Args... args) {
+	_Print st(args...);
+}
 
 
 
