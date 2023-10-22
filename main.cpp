@@ -51,7 +51,7 @@ struct MyVector : public vector<T> {
 int main() {
 	std::setlocale(0, "ru");
 
-	Input::FromFile("test.txt"); // перенаправление ввода из файла
+	Input::Open("test.txt"); // перенаправление ввода из файла
 	int n = Input(">> ¬вод из файла\n");
 	Print(n, "чисел:");
 
@@ -61,7 +61,7 @@ int main() {
 	}
 
 
-	Input::FromStdStream(); // перенаправление ввода из стандартного потока
+	Input::Close(); // перенаправление ввода из стандартного потока
 	n = Input("\n\n>> ¬вод из потока\n¬ведите количество чисел: ");
 	vector<int> vec(n);
 	for (int i = 0; i < n; i++)
@@ -77,13 +77,13 @@ int main() {
 
 	Print("\n>> чтение из другого потока");
 	stringstream ss("hello world and hello world again and stop 1243 441 33");
-	Input::FromOther(ss.rdbuf()); // перенаправление ввода в какой-нибудь поток, который имеет функцию rdbuf()
+	Input::Open(ss.rdbuf()); // перенаправление ввода в какой-нибудь поток, который имеет функцию rdbuf()
 	while (!Input::eof()) { // чтение пока поток не пуст
 		Print(Input());
 	}
 
 
-	Input::FromStdStream(); // не забываем вернуть стандартный поток
+	Input::Close(); // не забываем вернуть стандартный поток
 	//а ниже прикольный фокус
 	int k = Input("напишите двузначное число здесь __ - ваше число!\rнапишите двузначное число здесь ");
 
