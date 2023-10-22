@@ -25,16 +25,27 @@
 #define _Temp_T_N		         template<typename T, _ui64 N>									 
 #define _Temp_T1_T2		         template<typename T1, typename T2>								 
 #define _Temp_T_Args	         template<typename T, typename ...Args>							 
-#define Has0(name)				 template<typename T> class has0_##name## {static void detect(...);                                    \
+#define Has0(name)				 template<typename T> class has0_##name## {															   \
+								 static void detect(...);                                    										   \
 								 template<typename U> static decltype(std::declval<U>().##name##()) detect(const U&);                  \
-								 public:static constexpr bool value = std::is_same<T, decltype(detect(std::declval<T>()))>::value;};
-#define Has1(out, name)			 template<typename T> class has1_##name## {static void detect(...);                                    \
+								 public:																							   \
+								 static constexpr bool value = std::is_same<T, decltype(detect(std::declval<T>()))>::value;};
+// Дефайн Has1 создаёт класс который может проверить есть ли в классе T функция возвращающая out
+// value: bool - состояние присутствия или отсутствия конкретной функции
+// Пример: Has1(string, test)      -> has_test<T>.value - поиск функции string T::test();
+#define Has1(out, name)			 template<typename T> class has1_##name## {															   \
+								 static void detect(...);                                                                              \
 								 template<typename U> static decltype(std::declval<U>().##name##()) detect(const U&);                  \
-								 public:static constexpr bool value = std::is_same<out, decltype(detect(std::declval<T>()))>::value;};
-#define Has2(out, name, inp)	 template<typename T> class has2_##name## {static inp detect(...);                                     \
+								 public:																							   \
+								 static constexpr bool value = std::is_same<out, decltype(detect(std::declval<T>()))>::value;};
+// Дефайн Has2 создаёт класс который может проверить есть ли в классе T функция принимающая inp и возвращающая out
+// value: bool - состояние присутствия или отсутствия конкретной функции
+// Пример: Has2(int, func, string) -> has_func<T>.value - поиск функции int T::func(string);
+#define Has2(out, name, inp)	 template<typename T> class has2_##name## {															   \
+								 static inp detect(...);																			   \
 								 template<typename U> static decltype(std::declval<U>().##name##(inp())) detect(const U&);             \
-								 public:static constexpr bool value = std::is_same<out, decltype(detect(std::declval<T>()))>::value;};
-
+								 public:																							   \
+								 static constexpr bool value = std::is_same<out, decltype(detect(std::declval<T>()))>::value;};
 
 typedef bool              _bool  ;     //bool													 
 																								 									   															 
@@ -47,7 +58,7 @@ typedef unsigned __int16  _ui16  ;     //unsigned short
 typedef unsigned __int32  _ui32  ;     //unsigned int											 
 typedef unsigned __int64  _ui64  ;     //unsigned long long										 
 									   															 
-typedef float             _f32   ;     //unsigned long long										 
+typedef float             _f32   ;     //float										 
 typedef double            _f64   ;     //double													 
 typedef long double       _lf64  ;     //long double		
 
@@ -56,14 +67,6 @@ typedef char8_t           _uc8   ;     //char8_t
 typedef char16_t          _uc16  ;     //char16_t												 
 typedef char32_t          _uc32  ;     //char32_t												 
 typedef __wchar_t         _wc    ;     //__wchar_t												 
-
-
-// следующие дефайны (Has1, Has2) создают класс который может проверить есть 
-// ли в классе T функция принимающая inp и возвращающая out
-// пример: Has2(int, func, string) -> has_func<T>.value - поиск функции int T::func(string);
-// пример: Has1(string, test)      -> has_test<T>.value - поиск функции string T::test();
-// value: bool - состояние присутствия или отсутствия конкретной функции
-
 
 /// Input() - Ввод 1 значения или контейнера до n или размером Size
 /// Text : Сообщение, которое выводится;
@@ -77,25 +80,25 @@ public:
 	Input(std::string Text = "", _ui64 Size = npos) : _Size(Size) { std::cout << Text;}
 	Input(_ui64 Size) : _Size(Size) {  }
 
-	static std::string GetLine(std::istream& _In) {
+	static std::string GetLine        (std::istream& _In) {
 		std::string s;
 		_i8 c = std::cin.get();
 		std::getline(_In, s);
 		if (c != '\n') s = c + s;
 		return s;
 	}
-	static void FromFile(std::string Name) {
+	static void        FromFile        (std::string Name) {
 		_File.open(Name);
 		std::cin.rdbuf(_File.rdbuf());
 	}
-	static void FromOther(std::streambuf* sb) {
+	static void        FromOther     (std::streambuf* sb) {
 		std::cin.rdbuf(sb);
 	}
-	static void FromStdStream() {
+	static void        FromStdStream                   () {
 		std::cin.rdbuf(CinBuf);
 		if (_File.is_open()) _File.close();
 	}
-	static bool eof() {
+	static bool        eof                             () {
 		//if (_File.is_open()) _File.eof();
 		return std::cin.eof();
 	}
@@ -337,7 +340,7 @@ public:
 		v.push(Input());
 		return v;
 	}
-	_Temp_T		     operator std::deque<T>              (){
+	_Temp_T		     operator std::deque<T>              () {
 		std::deque<T> v;
 		if (_Size != npos) {
 			for (_ui64 i = 0; i < _Size; i++) v.push_back(Input(_Size));
@@ -350,7 +353,7 @@ public:
 			return v;
 		}
 		v.push_back(Input());
-		return v;		
+		return v;
 	}
 	_Temp_T		     operator std::stack<T>              (){
 		std::stack<T> v;
