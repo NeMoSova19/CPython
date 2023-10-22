@@ -73,7 +73,8 @@ int main() {
 	for (int i = 0; i < n; i++) {
 		Print(vec[i], _set("end", " "));
 	}
-
+	
+	
 
 	Print("\n>> чтение из другого потока");
 	stringstream ss("hello world and hello world again and stop 1243 441 33");
@@ -89,7 +90,6 @@ int main() {
 
 	
 
-	STD (k, n, k, n);
 	return 0;
 }
 

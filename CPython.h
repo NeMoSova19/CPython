@@ -25,6 +25,9 @@
 #define _Temp_T_N		         template<typename T, _ui64 N>									 
 #define _Temp_T1_T2		         template<typename T1, typename T2>								 
 #define _Temp_T_Args	         template<typename T, typename ...Args>							 
+// Дефайн Has0 создаёт класс который может проверить есть ли в классе функция void(T)(void)
+// value: bool - состояние присутствия или отсутствия конкретной функции
+// Пример: Has0(test)      -> has_test<T>.value - поиск функции void T::test();
 #define Has0(name)				 template<typename T> class has0_##name## {															   \
 								 static void detect(...);                                    										   \
 								 template<typename U> static decltype(std::declval<U>().##name##()) detect(const U&);                  \
@@ -102,7 +105,6 @@ public:
 		if (_File.is_open()) _File.close();
 	}
 	static bool        Eof                               () {
-		//if (_File.is_open()) _File.eof();
 		return std::cin.eof();
 	}
 
