@@ -17,7 +17,6 @@
 #include <deque>																				 
 #include <stack>																				 
 #include <functional>		
-
 #include <tuple>
 																								 
 #define _If_No_Class_T           (!std::is_class<T>::value || typeid(T) == typeid(std::string))  
@@ -80,80 +79,81 @@ class Input {
 	static inline _ui64 npos{ (_ui64)-1 };
 	static inline std::ifstream _File{};
 	static inline std::streambuf* CinBuf{ std::cin.rdbuf() };
+	static inline std::istream _Input_In{ std::cin.rdbuf() };
 	_ui64 _Size{npos};
 public:
 	Input(std::string Text = "", _ui64 Size = npos) : _Size(Size) { std::cout << Text;}
 	Input(_ui64 Size) : _Size(Size) {  }
 
-	static std::string GetLine          (std::istream& _In) {
+	static std::string GetLine                           () {
 		std::string s;
-		_i8 c = std::cin.get();
-		std::getline(_In, s);
+		_i8 c = _Input_In.get();
+		std::getline(_Input_In, s);
 		if (c != '\n') s = c + s;
 		return s;
 	}
 	static void        Open              (std::string Name) {
 		_File.open(Name);
-		std::cin.rdbuf(_File.rdbuf());
+		_Input_In.rdbuf(_File.rdbuf());
 	}
 	static void        Open            (std::streambuf* sb) {
-		std::cin.rdbuf(sb);
+		_Input_In.rdbuf(sb);
 	}
 	static void        Open             (std::ifstream& sb) {
-		std::cin.rdbuf(sb.rdbuf());
+		_Input_In.rdbuf(sb.rdbuf());
 	}
 	static void        Close                             () {
-		std::cin.rdbuf(CinBuf);
+		_Input_In.rdbuf(CinBuf);
 		if (_File.is_open()) _File.close();
 	}
 	static bool        Eof                               () {
-		return std::cin.eof();
+		return _Input_In.eof();
 	}
 
-	_Temp_T auto     operator +						  (T t) { T     v; std::cin >> v;  return v + t;    }
-	_Temp_T auto     operator -						  (T t) { T     v; std::cin >> v;  return v - t;    }
-	_Temp_T auto     operator ~						     () { T     v; std::cin >> v;  return ~v;       }
-	_Temp_T auto     operator !						     () { T     v; std::cin >> v;  return !v;       }
-	_Temp_T auto     operator ++					     () { T     v; std::cin >> v;  return v++;      }
-	_Temp_T auto     operator ++					    (T) { T     v; std::cin >> v;  return ++v;      }
-	_Temp_T auto     operator --					     () { T     v; std::cin >> v;  return v--;      }
-	_Temp_T auto     operator --					    (T) { T     v; std::cin >> v;  return --v;      }
-	_Temp_T auto     operator *						  (T t) { T     v; std::cin >> v;  return v * t;    }
-	_Temp_T auto     operator /						  (T t) { T     v; std::cin >> v;  return v / t;    }
-	_Temp_T auto     operator %						  (T t) { T     v; std::cin >> v;  return v % t;    }
-	_Temp_T auto     operator >>				   (_i64 t) { T     v; std::cin >> v;  return v >> t;   }
-	_Temp_T auto     operator <<				   (_i64 t) { T     v; std::cin >> v;  return v << t;   }
-	_Temp_T auto     operator <						  (T t) { T     v; std::cin >> v;  return v < t;    }
-	_Temp_T auto     operator >						  (T t) { T     v; std::cin >> v;  return v > t;    }
-	_Temp_T auto     operator <=					  (T t) { T     v; std::cin >> v;  return v <= t;   }
-	_Temp_T auto     operator >=					  (T t) { T     v; std::cin >> v;  return v >= t;   }
-	_Temp_T auto     operator ==					  (T t) { T     v; std::cin >> v;  return v == t;   }
-	_Temp_T auto     operator !=					  (T t) { T     v; std::cin >> v;  return v != t;   }
-	_Temp_T auto     operator &						  (T t) { T     v; std::cin >> v;  return v & t;    }
-	_Temp_T auto     operator ^						  (T t) { T     v; std::cin >> v;  return v ^ t;    }
-	_Temp_T auto     operator |						  (T t) { T     v; std::cin >> v;  return v | t;    }
-	_Temp_T auto     operator &&					  (T t) { T     v; std::cin >> v;  return v && t;   }
-	_Temp_T auto     operator ||					  (T t) { T     v; std::cin >> v;  return v || t;   }	
-	_Temp_T explicit operator T                          () { T     v; std::cin >> v;  return v;        }
-				     operator _bool						 () { _bool v; std::cin >> v;  return v;        }
-				     operator _i8						 () { _i8   v; std::cin >> v;  return v;        }
-				     operator _i16						 () { _i16  v; std::cin >> v;  return v;        }
-				     operator _i32						 () { _i32  v; std::cin >> v;  return v;        }
-				     operator _i64						 () { _i64  v; std::cin >> v;  return v;        }
-				     operator _ui8						 () { _ui8  v; std::cin >> v;  return v;        }
-				     operator _ui16						 () { _ui16 v; std::cin >> v;  return v;        }
-				     operator _ui32						 () { _ui32 v; std::cin >> v;  return v;        }
-				     operator _ui64						 () { _ui64 v; std::cin >> v;  return v;        }
-				     operator _f32				         () { _f32  v; std::cin >> v;  return v;        }
-				     operator _f64					     () { _f64  v; std::cin >> v;  return v;        }
-				     operator _lf64					     () { _lf64 v; std::cin >> v;  return v;        }
-				     operator _sc8                       () { _sc8  v; std::cin >> v;  return v;        }
-				     operator _uc8						 () { _ui8  v; std::cin >> v;  return (_uc8)v;  }
-				     operator _uc16						 () { _ui16 v; std::cin >> v;  return (_uc16)v; }
-				     operator _uc32						 () { _ui32 v; std::cin >> v;  return (_uc32)v; }
+	_Temp_T auto     operator +						  (T t) { T     v; _Input_In >> v;  return v + t;    }
+	_Temp_T auto     operator -						  (T t) { T     v; _Input_In >> v;  return v - t;    }
+	_Temp_T auto     operator ~						     () { T     v; _Input_In >> v;  return ~v;       }
+	_Temp_T auto     operator !						     () { T     v; _Input_In >> v;  return !v;       }
+	_Temp_T auto     operator ++					     () { T     v; _Input_In >> v;  return v++;      }
+	_Temp_T auto     operator ++					    (T) { T     v; _Input_In >> v;  return ++v;      }
+	_Temp_T auto     operator --					     () { T     v; _Input_In >> v;  return v--;      }
+	_Temp_T auto     operator --					    (T) { T     v; _Input_In >> v;  return --v;      }
+	_Temp_T auto     operator *						  (T t) { T     v; _Input_In >> v;  return v * t;    }
+	_Temp_T auto     operator /						  (T t) { T     v; _Input_In >> v;  return v / t;    }
+	_Temp_T auto     operator %						  (T t) { T     v; _Input_In >> v;  return v % t;    }
+	_Temp_T auto     operator >>				   (_i64 t) { T     v; _Input_In >> v;  return v >> t;   }
+	_Temp_T auto     operator <<				   (_i64 t) { T     v; _Input_In >> v;  return v << t;   }
+	_Temp_T auto     operator <						  (T t) { T     v; _Input_In >> v;  return v < t;    }
+	_Temp_T auto     operator >						  (T t) { T     v; _Input_In >> v;  return v > t;    }
+	_Temp_T auto     operator <=					  (T t) { T     v; _Input_In >> v;  return v <= t;   }
+	_Temp_T auto     operator >=					  (T t) { T     v; _Input_In >> v;  return v >= t;   }
+	_Temp_T auto     operator ==					  (T t) { T     v; _Input_In >> v;  return v == t;   }
+	_Temp_T auto     operator !=					  (T t) { T     v; _Input_In >> v;  return v != t;   }
+	_Temp_T auto     operator &						  (T t) { T     v; _Input_In >> v;  return v & t;    }
+	_Temp_T auto     operator ^						  (T t) { T     v; _Input_In >> v;  return v ^ t;    }
+	_Temp_T auto     operator |						  (T t) { T     v; _Input_In >> v;  return v | t;    }
+	_Temp_T auto     operator &&					  (T t) { T     v; _Input_In >> v;  return v && t;   }
+	_Temp_T auto     operator ||					  (T t) { T     v; _Input_In >> v;  return v || t;   }	
+	_Temp_T explicit operator T                          () { T     v; _Input_In >> v;  return v;        }
+				     operator _bool						 () { _bool v; _Input_In >> v;  return v;        }
+				     operator _i8						 () { _i8   v; _Input_In >> v;  return v;        }
+				     operator _i16						 () { _i16  v; _Input_In >> v;  return v;        }
+				     operator _i32						 () { _i32  v; _Input_In >> v;  return v;        }
+				     operator _i64						 () { _i64  v; _Input_In >> v;  return v;        }
+				     operator _ui8						 () { _ui8  v; _Input_In >> v;  return v;        }
+				     operator _ui16						 () { _ui16 v; _Input_In >> v;  return v;        }
+				     operator _ui32						 () { _ui32 v; _Input_In >> v;  return v;        }
+				     operator _ui64						 () { _ui64 v; _Input_In >> v;  return v;        }
+				     operator _f32				         () { _f32  v; _Input_In >> v;  return v;        }
+				     operator _f64					     () { _f64  v; _Input_In >> v;  return v;        }
+				     operator _lf64					     () { _lf64 v; _Input_In >> v;  return v;        }
+				     operator _sc8                       () { _sc8  v; _Input_In >> v;  return v;        }
+				     operator _uc8						 () { _ui8  v; _Input_In >> v;  return (_uc8)v;  }
+				     operator _uc16						 () { _ui16 v; _Input_In >> v;  return (_uc16)v; }
+				     operator _uc32						 () { _ui32 v; _Input_In >> v;  return (_uc32)v; }
 				     operator _wc						 () { _wc   v; std::wcin >> v; return v;        }
 				     operator std::string                () {
-		std::string v; std::cin >> v;
+		std::string v; _Input_In >> v;
 		return v;
 	}
 	_Temp_T1_T2	     operator std::pair<T1, T2>          (){
@@ -200,7 +200,7 @@ public:
 			return v;
 		}
 		if constexpr (_If_No_Class_T) {
-			std::stringstream ss(GetLine(std::cin));
+			std::stringstream ss(GetLine());
 			T t;
 			while (ss >> t) v.push_back(t);
 			return v;
@@ -215,7 +215,7 @@ public:
 			return v;
 		}
 		if constexpr (_If_No_Class_T) {
-			std::stringstream ss(GetLine(std::cin));
+			std::stringstream ss(GetLine());
 			T t;
 			while (ss >> t) v.push_back(t);
 			return v;
@@ -230,7 +230,7 @@ public:
 			return v;
 		}
 		if constexpr (_If_No_Class_T) {
-			std::stringstream ss(GetLine(std::cin));
+			std::stringstream ss(GetLine());
 			T t;
 			while (ss >> t) v.push_front(t);
 			return v;
@@ -248,7 +248,7 @@ public:
 			return v;
 		}
 		if constexpr (_If_No_Class_T) {
-			std::stringstream ss(GetLine(std::cin));
+			std::stringstream ss(GetLine());
 			T t;
 			while (ss >> t) v.insert(t);
 			return v;
@@ -267,7 +267,7 @@ public:
 			return v;
 		}
 		if constexpr (_If_No_Class_T) {
-			std::stringstream ss(GetLine(std::cin));
+			std::stringstream ss(GetLine());
 			T t;
 			while (ss >> t) v.insert(t);
 			return v;
@@ -286,7 +286,7 @@ public:
 			return v;
 		}
 		if constexpr (_If_No_Class_T) {
-			std::stringstream ss(GetLine(std::cin));
+			std::stringstream ss(GetLine());
 			T t;
 			while (ss >> t) v.insert(t);
 			return v;
@@ -305,7 +305,7 @@ public:
 			return v;
 		}
 		if constexpr (_If_No_Class_T) {
-			std::stringstream ss(GetLine(std::cin));
+			std::stringstream ss(GetLine());
 			T t;
 			while (ss >> t) v.insert(t);
 			return v;
@@ -321,7 +321,7 @@ public:
 			return v;
 		}
 		if constexpr (_If_No_Class_T) {
-			std::stringstream ss(GetLine(std::cin));
+			std::stringstream ss(GetLine());
 			T t;
 			while (ss >> t) v.push(t);
 			return v;
@@ -336,7 +336,7 @@ public:
 			return v;
 		}
 		if constexpr (_If_No_Class_T) {
-			std::stringstream ss(GetLine(std::cin));
+			std::stringstream ss(GetLine());
 			T t;
 			while (ss >> t) v.push(t);
 			return v;
@@ -351,7 +351,7 @@ public:
 			return v;
 		}
 		if constexpr (_If_No_Class_T) {
-			std::stringstream ss(GetLine(std::cin));
+			std::stringstream ss(GetLine());
 			T t;
 			while (ss >> t) v.push_back(t);
 			return v;
@@ -366,7 +366,7 @@ public:
 			return v;
 		}
 		if constexpr (_If_No_Class_T) {
-			std::stringstream ss(GetLine(std::cin));
+			std::stringstream ss(GetLine());
 			T t;
 			while (ss >> t) v.push(t);
 			return v;

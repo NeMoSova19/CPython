@@ -1,5 +1,4 @@
 #include "CPython.h"
-#include <fstream>
 using namespace std;
 
 template<typename T>
@@ -45,15 +44,12 @@ struct MyVector : public vector<T> {
 	
 };
 
-
-
-
 int main() {
-	std::setlocale(0, "ru");
-
-	tuple t(5, "ssd", 'c');
-
 	
+	string s;
+
+
+
 	return 0;
 }
 
