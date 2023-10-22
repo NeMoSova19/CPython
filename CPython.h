@@ -92,20 +92,24 @@ public:
 		if (c != '\n') s = c + s;
 		return s;
 	}
-	static void        Open              (std::string Name) {
-		_File.open(Name);
+	/// Чтение из файла по его имени
+	static void        Open          (std::string FileName) {
+		_File.open(FileName);
 		_Input_In.rdbuf(_File.rdbuf());
 	}
+	/// Чтение из потока файла
+	static void        Open     (std::ifstream& FileStream) {
+		_Input_In.rdbuf(FileStream.rdbuf());
+	}
+	/// Чтение из буфера
 	static void        Open            (std::streambuf* sb) {
 		_Input_In.rdbuf(sb);
 	}
-	static void        Open             (std::ifstream& sb) {
-		_Input_In.rdbuf(sb.rdbuf());
-	}
+	/// Возврат стандартного потока
 	static void        Close                             () {
 		_Input_In.rdbuf(CinBuf);
 		if (_File.is_open()) _File.close();
-	}
+	} 
 	static bool        Eof                               () {
 		return _Input_In.eof();
 	}

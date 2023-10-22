@@ -39,6 +39,11 @@ int main() {
 		Print(Input(), _set("end", " "));
 	}
 
+	string sssss;
+
+	cin >> sssss;
+
+	Print(sssss);
 
 	Input::Close(); 
 	n = Input("\n\n>>");
