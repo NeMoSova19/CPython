@@ -16,7 +16,9 @@
 #include <queue>																				 
 #include <deque>																				 
 #include <stack>																				 
-#include <functional>																			 
+#include <functional>		
+
+#include <tuple>
 																								 
 #define _If_No_Class_T           (!std::is_class<T>::value || typeid(T) == typeid(std::string))  
 #define _Temp_			         template<>														 
