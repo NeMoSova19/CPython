@@ -634,10 +634,10 @@ private:
 	size_t now_pos{ 0 };
 	int32_t useful_amount{ 0 };
 };
-//_Temp_Args
-//void Print(Args... args) {
-//	STD st;
-//	st.Test(args...);
+_Temp_Args
+//void _Print(Args... args) {
+//	Print st;
+//	st.test(args...);
 //	st.Print(args...);
 //}
 
