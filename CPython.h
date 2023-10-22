@@ -16,7 +16,9 @@
 #include <queue>																				 
 #include <deque>																				 
 #include <stack>																				 
-#include <functional>																			 
+#include <functional>		
+
+#include <tuple>
 																								 
 #define _If_No_Class_T           (!std::is_class<T>::value || typeid(T) == typeid(std::string))  
 #define _Temp_			         template<>														 
@@ -25,6 +27,9 @@
 #define _Temp_T_N		         template<typename T, _ui64 N>									 
 #define _Temp_T1_T2		         template<typename T1, typename T2>								 
 #define _Temp_T_Args	         template<typename T, typename ...Args>							 
+// Дефайн Has0 создаёт класс который может проверить есть ли в классе функция void(T)(void)
+// value: bool - состояние присутствия или отсутствия конкретной функции
+// Пример: Has0(test)      -> has_test<T>.value - поиск функции void T::test();
 #define Has0(name)				 template<typename T> class has0_##name## {															   \
 								 static void detect(...);                                    										   \
 								 template<typename U> static decltype(std::declval<U>().##name##()) detect(const U&);                  \
@@ -101,8 +106,7 @@ public:
 		std::cin.rdbuf(CinBuf);
 		if (_File.is_open()) _File.close();
 	}
-	static bool        eof                               () {
-		//if (_File.is_open()) _File.eof();
+	static bool        Eof                               () {
 		return std::cin.eof();
 	}
 
@@ -647,10 +651,10 @@ private:
 	size_t now_pos{ 0 };
 	int32_t useful_amount{ 0 };
 };
-//_Temp_Args
-//void Print(Args... args) {
-//	STD st;
-//	st.Test(args...);
+_Temp_Args
+//void _Print(Args... args) {
+//	Print st;
+//	st.test(args...);
 //	st.Print(args...);
 //}
 

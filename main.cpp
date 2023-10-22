@@ -51,42 +51,9 @@ struct MyVector : public vector<T> {
 int main() {
 	std::setlocale(0, "ru");
 
-	Input::Open("test.txt"); // перенаправление ввода из файла
-	int n = Input(">> ¬вод из файла\n");
-	Print(n, "чисел:");
+	tuple t(5, "ssd", 'c');
 
-	for (int i = 0; i < n; i++)
-	{
-		Print(Input(),_set("end"," "));
-	}
-
-
-	Input::Close(); // перенаправление ввода из стандартного потока
-	n = Input("\n\n>> ¬вод из потока\n¬ведите количество чисел: ");
-	vector<int> vec(n);
-	for (int i = 0; i < n; i++)
-	{
-		string s = to_string(i + 1);
-		s += ") ";
-		vec[i] = Input(s);
-	}
-	for (int i = 0; i < n; i++) {
-		Print(vec[i], _set("end", " "));
-	}
-
-
-	Print("\n>> чтение из другого потока");
-	stringstream ss("hello world and hello world again and stop 1243 441 33");
-	Input::Open(ss.rdbuf()); // перенаправление ввода в какой-нибудь поток, который имеет функцию rdbuf()
-	while (!Input::eof()) { // чтение пока поток не пуст
-		Print(Input());
-	}
-
-
-	Input::Close(); // не забываем вернуть стандартный поток
-	//а ниже прикольный фокус
-	int k = Input("напишите двузначное число здесь __ - ваше число!\rнапишите двузначное число здесь ");
-
+	
 	return 0;
 }
 
@@ -105,6 +72,10 @@ int main() {
 
 */
 
+	//std::apply([](auto&&... args) {((std::cin >> args), ...); }, t);
+
+
+	//std::apply([](auto&&... args) {((std::cout << args << '\n'), ...); }, t);
 
 /* Python code
 
