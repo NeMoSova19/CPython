@@ -25,7 +25,27 @@
 #define _Temp_T_N		         template<typename T, _ui64 N>									 
 #define _Temp_T1_T2		         template<typename T1, typename T2>								 
 #define _Temp_T_Args	         template<typename T, typename ...Args>							 
-
+#define Has0(name)				 template<typename T> class has0_##name## {															   \
+								 static void detect(...);                                    										   \
+								 template<typename U> static decltype(std::declval<U>().##name##()) detect(const U&);                  \
+								 public:																							   \
+								 static constexpr bool value = std::is_same<T, decltype(detect(std::declval<T>()))>::value;};
+// Дефайн Has1 создаёт класс который может проверить есть ли в классе T функция возвращающая out
+// value: bool - состояние присутствия или отсутствия конкретной функции
+// Пример: Has1(string, test)      -> has_test<T>.value - поиск функции string T::test();
+#define Has1(out, name)			 template<typename T> class has1_##name## {															   \
+								 static void detect(...);                                                                              \
+								 template<typename U> static decltype(std::declval<U>().##name##()) detect(const U&);                  \
+								 public:																							   \
+								 static constexpr bool value = std::is_same<out, decltype(detect(std::declval<T>()))>::value;};
+// Дефайн Has2 создаёт класс который может проверить есть ли в классе T функция принимающая inp и возвращающая out
+// value: bool - состояние присутствия или отсутствия конкретной функции
+// Пример: Has2(int, func, string) -> has_func<T>.value - поиск функции int T::func(string);
+#define Has2(out, name, inp)	 template<typename T> class has2_##name## {															   \
+								 static inp detect(...);																			   \
+								 template<typename U> static decltype(std::declval<U>().##name##(inp())) detect(const U&);             \
+								 public:																							   \
+								 static constexpr bool value = std::is_same<out, decltype(detect(std::declval<T>()))>::value;};
 
 typedef bool              _bool  ;     //bool													 
 																								 									   															 
@@ -38,7 +58,7 @@ typedef unsigned __int16  _ui16  ;     //unsigned short
 typedef unsigned __int32  _ui32  ;     //unsigned int											 
 typedef unsigned __int64  _ui64  ;     //unsigned long long										 
 									   															 
-typedef float             _f32   ;     //unsigned long long										 
+typedef float             _f32   ;     //float										 
 typedef double            _f64   ;     //double													 
 typedef long double       _lf64  ;     //long double		
 
@@ -47,17 +67,6 @@ typedef char8_t           _uc8   ;     //char8_t
 typedef char16_t          _uc16  ;     //char16_t												 
 typedef char32_t          _uc32  ;     //char32_t												 
 typedef __wchar_t         _wc    ;     //__wchar_t												 
-
-
-// следующие дефайны (Has1, Has2) создают класс который может проверить есть 
-// ли в классе T функция принимающая inp и возвращающая out
-// пример: Has2(int, func, string) -> has_func<T>.value - поиск функции int T::func(string);
-// пример: Has1(string, test)      -> has_test<T>.value - поиск функции string T::test();
-// value: bool - состояние присутствия или отсутствия конкретной функции
-#define Has0(name) template<typename T> class has0_##name## {static void detect(...);template<typename U> static decltype(std::declval<U>().##name##()) detect(const U&); public:static constexpr bool value = std::is_same<T, decltype(detect(std::declval<T>()))>::value;};
-#define Has1(out, name) template<typename T> class has1_##name## {static void detect(...);template<typename U> static decltype(std::declval<U>().##name##()) detect(const U&); public:static constexpr bool value = std::is_same<out, decltype(detect(std::declval<T>()))>::value;};
-#define Has2(out, name, inp) template<typename T> class has2_##name## {static inp detect(...);template<typename U> static decltype(std::declval<U>().##name##(inp())) detect(const U&);public:static constexpr bool value = std::is_same<out, decltype(detect(std::declval<T>()))>::value;};
-
 
 /// Input() - Ввод 1 значения или контейнера до n или размером Size
 /// Text : Сообщение, которое выводится;
@@ -71,25 +80,28 @@ public:
 	Input(std::string Text = "", _ui64 Size = npos) : _Size(Size) { std::cout << Text;}
 	Input(_ui64 Size) : _Size(Size) {  }
 
-	static std::string GetLine(std::istream& _In) {
+	static std::string GetLine          (std::istream& _In) {
 		std::string s;
 		_i8 c = std::cin.get();
 		std::getline(_In, s);
 		if (c != '\n') s = c + s;
 		return s;
 	}
-	static void FromFile(std::string Name) {
+	static void        Open              (std::string Name) {
 		_File.open(Name);
 		std::cin.rdbuf(_File.rdbuf());
 	}
-	static void FromOther(std::streambuf* sb) {
+	static void        Open            (std::streambuf* sb) {
 		std::cin.rdbuf(sb);
 	}
-	static void FromStdStream() {
+	static void        Open             (std::ifstream& sb) {
+		std::cin.rdbuf(sb.rdbuf());
+	}
+	static void        Close                             () {
 		std::cin.rdbuf(CinBuf);
 		if (_File.is_open()) _File.close();
 	}
-	static bool eof() {
+	static bool        eof                               () {
 		//if (_File.is_open()) _File.eof();
 		return std::cin.eof();
 	}
@@ -142,18 +154,18 @@ public:
 	}
 	_Temp_T1_T2	     operator std::pair<T1, T2>          (){
 		std::pair<T1, T2> v;
-		v.first = Input(); v.second = Input();
+		v.first = *this; v.second = *this;
 		return v;
 	}
 	_Temp_T1_T2	     operator std::map<T1, T2>           (){
 		std::map<T1, T2> v;
 		if (_Size == npos) {
-			T1 t1 = Input(); T2 t2 = Input();
+			T1 t1 = *this; T2 t2 = *this;
 			v.insert({ t1, t2 });
 			return v;
 		}
 		for (_ui64 i = 0; i < _Size; i++) {
-			T1 t1 = Input(); T2 t2 = Input();
+			T1 t1 = *this; T2 t2 = *this;
 			v.insert({ t1, t2 });
 		}
 		return v;
@@ -195,7 +207,7 @@ public:
 	_Temp_T		     operator std::list<T>               (){
 		std::list<T> v;
 		if (_Size != npos) {
-			for (_ui64 i = 0; i < _Size; i++) v.push_back(Input(_Size));
+			for (_ui64 i = 0; i < _Size; i++) v.push_back(*this);
 			return v;
 		}
 		if constexpr (_If_No_Class_T) {
@@ -204,13 +216,13 @@ public:
 			while (ss >> t) v.push_back(t);
 			return v;
 		}
-		v.push_back(Input());
+		v.push_back(*this);
 		return v;
 	}
 	_Temp_T		     operator std::forward_list<T>       (){
 		std::forward_list<T> v;
 		if (_Size != npos) {
-			for (_ui64 i = 0; i < _Size; i++) v.push_front(Input(_Size));
+			for (_ui64 i = 0; i < _Size; i++) v.push_front(*this);
 			return v;
 		}
 		if constexpr (_If_No_Class_T) {
@@ -219,14 +231,14 @@ public:
 			while (ss >> t) v.push_front(t);
 			return v;
 		}
-		v.push_front(Input());
+		v.push_front(*this);
 		return v;
 	}
 	_Temp_T		     operator std::set<T>                (){
 		std::set<T> v;
 		if (_Size != npos) {
 			for (_ui64 i = 0; i < _Size; i++) {
-				T t = Input(_Size);
+				T t = *this;
 				v.insert(t);
 			}
 			return v;
@@ -237,7 +249,7 @@ public:
 			while (ss >> t) v.insert(t);
 			return v;
 		}
-		T t = Input();
+		T t = *this;
 		v.insert(t);
 		return v;
 	}
@@ -245,7 +257,7 @@ public:
 		std::multiset<T> v;
 		if (_Size != npos) {
 			for (_ui64 i = 0; i < _Size; i++) {
-				T t = Input(_Size);
+				T t = *this;
 				v.insert(t);
 			}
 			return v;
@@ -256,16 +268,15 @@ public:
 			while (ss >> t) v.insert(t);
 			return v;
 		}
-		T t = Input();
+		T t = *this;
 		v.insert(t);
-		return v;
 		return v;
 	}
 	_Temp_T		     operator std::unordered_set<T>      (){
 		std::unordered_set<T> v;
 		if (_Size != npos) {
 			for (_ui64 i = 0; i < _Size; i++) {
-				T t = Input(_Size);
+				T t = *this;
 				v.insert(t);
 			}
 			return v;
@@ -276,16 +287,15 @@ public:
 			while (ss >> t) v.insert(t);
 			return v;
 		}
-		T t = Input();
+		T t = *this;
 		v.insert(t);
-		return v;
 		return v;
 	}
 	_Temp_T		     operator std::unordered_multiset<T> (){
 		std::unordered_multiset<T> v;
 		if (_Size != npos) {
 			for (_ui64 i = 0; i < _Size; i++) {
-				T t = Input(_Size);
+				T t = *this;
 				v.insert(t);
 			}
 			return v;
@@ -296,15 +306,14 @@ public:
 			while (ss >> t) v.insert(t);
 			return v;
 		}
-		T t = Input();
+		T t = *this;
 		v.insert(t);
-		return v;
 		return v;
     }
 	_Temp_T		     operator std::queue<T>              (){
 		std::queue<T> v;
 		if (_Size != npos) {
-			for (_ui64 i = 0; i < _Size; i++) v.push(Input(_Size));
+			for (_ui64 i = 0; i < _Size; i++) v.push(*this);
 			return v;
 		}
 		if constexpr (_If_No_Class_T) {
@@ -313,13 +322,13 @@ public:
 			while (ss >> t) v.push(t);
 			return v;
 		}
-		v.push(Input());
+		v.push(*this);
 		return v;
 	}
 	_Temp_T		     operator std::priority_queue<T>     (){
 		std::priority_queue<T> v;
 		if (_Size != npos) {
-			for (_ui64 i = 0; i < _Size; i++) v.push(Input(_Size));
+			for (_ui64 i = 0; i < _Size; i++) v.push(*this);
 			return v;
 		}
 		if constexpr (_If_No_Class_T) {
@@ -328,13 +337,13 @@ public:
 			while (ss >> t) v.push(t);
 			return v;
 		}
-		v.push(Input());
+		v.push(*this);
 		return v;
 	}
-	_Temp_T		     operator std::deque<T>              (){
+	_Temp_T		     operator std::deque<T>              () {
 		std::deque<T> v;
 		if (_Size != npos) {
-			for (_ui64 i = 0; i < _Size; i++) v.push_back(Input(_Size));
+			for (_ui64 i = 0; i < _Size; i++) v.push_back(*this);
 			return v;
 		}
 		if constexpr (_If_No_Class_T) {
@@ -343,13 +352,13 @@ public:
 			while (ss >> t) v.push_back(t);
 			return v;
 		}
-		v.push_back(Input());
-		return v;		
+		v.push_back(*this);
+		return v;
 	}
 	_Temp_T		     operator std::stack<T>              (){
 		std::stack<T> v;
 		if (_Size != npos) {
-			for (_ui64 i = 0; i < _Size; i++) v.push(Input(_Size));
+			for (_ui64 i = 0; i < _Size; i++) v.push(*this);
 			return v;
 		}
 		if constexpr (_If_No_Class_T) {
@@ -358,7 +367,7 @@ public:
 			while (ss >> t) v.push(t);
 			return v;
 		}
-		v.push(Input());
+		v.push(*this);
 		return v;
 	}
 };
