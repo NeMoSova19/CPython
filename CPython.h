@@ -101,7 +101,7 @@ public:
 		std::cin.rdbuf(CinBuf);
 		if (_File.is_open()) _File.close();
 	}
-	static bool        eof                               () {
+	static bool        Eof                               () {
 		//if (_File.is_open()) _File.eof();
 		return std::cin.eof();
 	}

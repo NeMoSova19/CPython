@@ -78,7 +78,7 @@ int main() {
 	Print("\n>> чтение из другого потока");
 	stringstream ss("hello world and hello world again and stop 1243 441 33");
 	Input::Open(ss.rdbuf()); // перенаправление ввода в какой-нибудь поток, который имеет функцию rdbuf()
-	while (!Input::eof()) { // чтение пока поток не пуст
+	while (!Input::Eof()) { // чтение пока поток не пуст
 		Print(Input());
 	}
 
@@ -87,6 +87,7 @@ int main() {
 	//а ниже прикольный фокус
 	int k = Input("напишите двузначное число здесь __ - ваше число!\rнапишите двузначное число здесь ");
 
+	
 
 	return 0;
 }
