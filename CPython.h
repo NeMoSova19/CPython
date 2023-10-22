@@ -26,7 +26,7 @@
 #define _Temp_T_N		         template<typename T, _ui64 N>									 
 #define _Temp_T1_T2		         template<typename T1, typename T2>								 
 #define _Temp_T_Args	         template<typename T, typename ...Args>							 
-// Дефайн Has0 создаёт класс который может проверить есть ли в классе функция void(T)(void)
+// Has0 создаёт класс который может проверить есть ли в классе функция void(T)(void)
 // value: bool - состояние присутствия или отсутствия конкретной функции
 // Пример: Has0(test)      -> has_test<T>.value - поиск функции void T::test();
 #define Has0(name)				 template<typename T> class has0_##name## {															   \
@@ -34,7 +34,7 @@
 								 template<typename U> static decltype(std::declval<U>().##name##()) detect(const U&);                  \
 								 public:																							   \
 								 static constexpr bool value = std::is_same<T, decltype(detect(std::declval<T>()))>::value;};
-// Дефайн Has1 создаёт класс который может проверить есть ли в классе T функция возвращающая out
+// Has1 создаёт класс который может проверить есть ли в классе T функция возвращающая out
 // value: bool - состояние присутствия или отсутствия конкретной функции
 // Пример: Has1(string, test)      -> has_test<T>.value - поиск функции string T::test();
 #define Has1(out, name)			 template<typename T> class has1_##name## {															   \
@@ -42,7 +42,7 @@
 								 template<typename U> static decltype(std::declval<U>().##name##()) detect(const U&);                  \
 								 public:																							   \
 								 static constexpr bool value = std::is_same<out, decltype(detect(std::declval<T>()))>::value;};
-// Дефайн Has2 создаёт класс который может проверить есть ли в классе T функция принимающая inp и возвращающая out
+// Has2 создаёт класс который может проверить есть ли в классе T функция принимающая inp и возвращающая out
 // value: bool - состояние присутствия или отсутствия конкретной функции
 // Пример: Has2(int, func, string) -> has_func<T>.value - поиск функции int T::func(string);
 #define Has2(out, name, inp)	 template<typename T> class has2_##name## {															   \
@@ -52,7 +52,7 @@
 								 static constexpr bool value = std::is_same<out, decltype(detect(std::declval<T>()))>::value;};
 
 typedef bool              _bool  ;     //bool													 
-																								 									   															 
+								 																 									   															 
 typedef __int8            _i8    ;     //char													 
 typedef __int16           _i16   ;     //short													 
 typedef __int32           _i32   ;     //int													 
@@ -61,7 +61,7 @@ typedef unsigned __int8   _ui8   ;     //unsigned char
 typedef unsigned __int16  _ui16  ;     //unsigned short											 
 typedef unsigned __int32  _ui32  ;     //unsigned int											 
 typedef unsigned __int64  _ui64  ;     //unsigned long long										 
-									   															 
+								 	   															 
 typedef float             _f32   ;     //float										 
 typedef double            _f64   ;     //double													 
 typedef long double       _lf64  ;     //long double		
@@ -155,7 +155,7 @@ public:
 				     operator _uc8						 () { _ui8  v; _Input_In >> v;  return (_uc8)v;  }
 				     operator _uc16						 () { _ui16 v; _Input_In >> v;  return (_uc16)v; }
 				     operator _uc32						 () { _ui32 v; _Input_In >> v;  return (_uc32)v; }
-				     operator _wc						 () { _wc   v; std::wcin >> v; return v;        }
+				     operator _wc						 () { _wc   v; std::wcin >> v; return v;         }
 				     operator std::string                () {
 		std::string v; _Input_In >> v;
 		return v;

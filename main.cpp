@@ -30,41 +30,7 @@ constexpr int _typeindefication(T t) {
 int main() {
 	std::setlocale(0, "ru");
 
-	Input::Open("test.txt");
-	int n = Input(">>\n");
-	Print(n);
 
-	for (int i = 0; i < n; i++)
-	{
-		Print(Input(), _set("end", " "));
-	}
-
-	string sssss;
-
-	cin >> sssss;
-
-	Print(sssss);
-
-	Input::Close(); 
-	n = Input("\n\n>>");
-	vector<int> vec(n);
-	for (int i = 0; i < n; i++)
-	{
-		string s = to_string(i + 1);
-		s += ") ";
-		vec[i] = Input(s);
-	}
-	for (int i = 0; i < n; i++) {
-		Print(vec[i], _set("end", " "));
-	}
-
-
-	Print("\n");
-	stringstream ss("hello world and hello world again and stop 1243 441 33");
-	Input::Open(ss.rdbuf()); 
-	while (!Input::Eof()) { 
-		Print(Input());
-	}
 
 
 
