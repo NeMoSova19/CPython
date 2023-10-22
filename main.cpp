@@ -30,9 +30,11 @@ constexpr int _typeindefication(T t) {
 int main() {
 	std::setlocale(0, "ru");
 
-
-
-
+	Input::Open("Test.txt");
+	
+	while(!Input::Eof()) {
+		Print(Input::GetLine()); // появляется буква "я" если в конце стоит \n(перенос строки) !
+	}
 
 	return 0;
 }

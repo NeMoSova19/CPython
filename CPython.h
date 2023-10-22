@@ -386,30 +386,34 @@ struct _set {
 	std::string what{}, on_what{};
 };
 
-struct _Print {
-	_Print(_Print&&) = delete;
-	~_Print() { std::cout << end;}
+class _Print {
+public:
+	~_Print() { if(imsomewrite) std::cout << end;}
+	_Temp_Args friend _Print Print(Args...);
 
-	_Temp_Args _Print(Args... args) {
-		__Test(args...);
-		__Print(args...);
-	} 
-	static void        Open(std::string Name) {
+	static void Open(std::string Name) {
 		_File.open(Name);
 		std::cout.rdbuf(_File.rdbuf());
 	}
-	static void        Open(std::streambuf* sb) {
+	static void Open(std::streambuf* sb) {
 		std::cout.rdbuf(sb);
 	}
-	static void        Open(std::ofstream& sb) {
+	static void Open(std::ofstream& sb) {
 		std::cout.rdbuf(sb.rdbuf());
 	}
-	static void        Close() {
+	static void Close() {
 		std::cout.rdbuf(CoutBuf);
 		if (_File.is_open()) _File.close();
 	}
 	
 private:
+	bool imsomewrite{ false };
+	_Print() = default;
+	_Temp_Args _Print(Args... args) {
+		imsomewrite = true;
+		__Test(args...);
+		__Print(args...);
+	} 
 	static inline std::ofstream _File{};
 	static inline std::streambuf* CoutBuf{ std::cout.rdbuf() };
 	Has1(std::string, ToString);
@@ -656,8 +660,9 @@ private:
 	int32_t useful_amount{ 0 };
 };
 _Temp_Args
-void Print(Args... args) {
+_Print Print(Args... args) {
 	_Print st(args...);
+	return st;
 }
 
 
