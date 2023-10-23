@@ -44,7 +44,7 @@
 								 static constexpr bool value = std::is_same<out, decltype(detect(std::declval<T>()))>::value;};
 // Has2 создаёт класс который может проверить есть ли в классе T функция принимающая inp и возвращающая out
 // value: bool - состояние присутствия или отсутствия конкретной функции
-// Пример: Has2(int, func, string) -> has_func<T>.value - поиск функции int T::func(string);
+// Пример: Has2(_i32, func, string) -> has_func<T>.value - поиск функции _i32 T::func(string);
 #define Has2(out, name, inp)	 template<typename T> class has2_##name## {															   \
 								 static inp detect(...);																			   \
 								 template<typename U> static decltype(std::declval<U>().##name##(inp())) detect(const U&);             \
@@ -55,11 +55,11 @@ typedef bool              _bool  ;     //bool
 								 																 									   															 
 typedef __int8            _i8    ;     //char													 
 typedef __int16           _i16   ;     //short													 
-typedef __int32           _i32   ;     //int													 
+typedef __int32           _i32   ;     //int												 
 typedef __int64           _i64   ;     //long long												 
 typedef unsigned __int8   _ui8   ;     //unsigned char											 
 typedef unsigned __int16  _ui16  ;     //unsigned short											 
-typedef unsigned __int32  _ui32  ;     //unsigned int											 
+typedef unsigned __int32  _ui32  ;     //unsigned int										 
 typedef unsigned __int64  _ui64  ;     //unsigned long long										 
 								 	   															 
 typedef float             _f32   ;     //float										 
@@ -89,7 +89,7 @@ public:
 		std::string s;
 		_i8 c = _Input_In.get();
 		std::getline(_Input_In, s);
-		if (c != '\n') s = c + s;
+		if (c != '\n' && c != EOF) s = c + s;
 		return s;
 	}
 	/// Чтение из файла по его имени
@@ -388,21 +388,21 @@ struct _set {
 
 class _Print {
 public:
-	~_Print() { if(imsomewrite) std::cout << end;}
+	~_Print() { if(imsomewrite) _Print_Out << end;}
 	_Temp_Args friend _Print Print(Args...);
 
 	static void Open(std::string Name) {
 		_File.open(Name);
-		std::cout.rdbuf(_File.rdbuf());
+		_Print_Out.rdbuf(_File.rdbuf());
 	}
 	static void Open(std::streambuf* sb) {
-		std::cout.rdbuf(sb);
+		_Print_Out.rdbuf(sb);
 	}
 	static void Open(std::ofstream& sb) {
-		std::cout.rdbuf(sb.rdbuf());
+		_Print_Out.rdbuf(sb.rdbuf());
 	}
 	static void Close() {
-		std::cout.rdbuf(CoutBuf);
+		_Print_Out.rdbuf(CoutBuf);
 		if (_File.is_open()) _File.close();
 	}
 	
@@ -415,6 +415,7 @@ private:
 		__Print(args...);
 	} 
 	static inline std::ofstream _File{};
+	static inline std::ostream _Print_Out{ std::cout.rdbuf() };
 	static inline std::streambuf* CoutBuf{ std::cout.rdbuf() };
 	Has1(std::string, ToString);
 	
@@ -439,192 +440,192 @@ private:
 	std::string brakets_in_map{"{}"};
 
 	_Temp_T		 void _print(T t) {
-		if constexpr (_If_No_Class_T) std::cout << t;
-		else if constexpr (has1_ToString<T>().value) std::cout << t.ToString();
-		else std::cout << typeid(T).name();
+		if constexpr (_If_No_Class_T) _Print_Out << t;
+		else if constexpr (has1_ToString<T>().value) _Print_Out << t.ToString();
+		else _Print_Out << typeid(T).name();
 	}
 	_Temp_		 void _print(Input t) {
-		std::cout << (std::string)t;
+		_Print_Out << (std::string)t;
 	}
 	_Temp_		 void _print(_set t) {}
 	_Temp_		 void _print(bool t) {
-		std::cout << std::boolalpha << t;
+		_Print_Out << std::boolalpha << t;
 	}
 	_Temp_T1_T2	 void _print(std::pair<T1, T2> t) {
-		std::cout << brakets_in_array[0];
+		_Print_Out << brakets_in_array[0];
 		_print(t.first);
-		std::cout << separator_in_containers;
+		_Print_Out << separator_in_containers;
 		_print(t.second);
-		std::cout << brakets_in_array[1];
+		_Print_Out << brakets_in_array[1];
 	}
 	_Temp_T1_T2	 void _print(std::map<T1, T2> v) {
-		std::cout << brakets_in_map[0];
-		int cnt{ 0 };
+		_Print_Out << brakets_in_map[0];
+		_ui64 cnt{ 0 };
 		for (auto i : v) {
 			_print(i.first);
-			std::cout << separator_in_map;
+			_Print_Out << separator_in_map;
 			_print(i.second);
 			if (cnt + 1 < v.size()) {
-				std::cout << separator_in_containers;
+				_Print_Out << separator_in_containers;
 			}
 			cnt++;
 		}
-		std::cout << brakets_in_map[1];
+		_Print_Out << brakets_in_map[1];
 	}
 	_Temp_T1_T2	 void _print(std::unordered_map<T1, T2> v) {
-		std::cout << brakets_in_map[0];
-		int cnt{ 0 };
+		_Print_Out << brakets_in_map[0];
+		_ui64 cnt{ 0 };
 		for (auto i : v) {
 			_print(i.first);
-			std::cout << separator_in_map;
+			_Print_Out << separator_in_map;
 			_print(i.second);
 			if (cnt + 1 < v.size()) {
-				std::cout << separator_in_containers;
+				_Print_Out << separator_in_containers;
 			}
 			cnt++;
 		}
-		std::cout << brakets_in_map[1];
+		_Print_Out << brakets_in_map[1];
 	}
 	_Temp_T_N	 void _print(std::array<T, N> v) {
-		std::cout << brakets_in_array[0];
-		int cnt{ 0 };
+		_Print_Out << brakets_in_array[0];
+		_ui64 cnt{ 0 };
 		for (auto i : v) {
 			_print(i);
 			if (cnt + 1 < v.size()) {
-				std::cout << separator_in_containers;
+				_Print_Out << separator_in_containers;
 			}
 			cnt++;
 		}
-		std::cout << brakets_in_array[1];
+		_Print_Out << brakets_in_array[1];
 	}
 	_Temp_T		 void _print(std::vector<T> v) {
-		std::cout << brakets_in_array[0];
-		int cnt{ 0 };
+		_Print_Out << brakets_in_array[0];
+		_ui64 cnt{ 0 };
 		for (auto i : v) {
 			_print(i);
 			if (cnt + 1 < v.size()) {
-				std::cout << separator_in_containers;
+				_Print_Out << separator_in_containers;
 			}
 			cnt++;
 		}
-		std::cout << brakets_in_array[1];
+		_Print_Out << brakets_in_array[1];
 	}
 	_Temp_T		 void _print(std::list<T> v) {
-		std::cout << brakets_in_array[0];
-		int cnt{ 0 };
+		_Print_Out << brakets_in_array[0];
+		_ui64 cnt{ 0 };
 		for (auto i : v) {
 			_print(i);
 			if (cnt + 1 < v.size()) {
-				std::cout << separator_in_containers;
+				_Print_Out << separator_in_containers;
 			}
 			cnt++;
 		}
-		std::cout << brakets_in_array[1];
+		_Print_Out << brakets_in_array[1];
 	}
 	_Temp_T		 void _print(std::forward_list<T> v) {
-		std::cout << brakets_in_array[0];
-		int cnt{ 0 };
+		_Print_Out << brakets_in_array[0];
+		_ui64 cnt{ 0 };
 		for (auto i : v) {
 			_print(i);
 			if (cnt + 1 < v.size()) {
-				std::cout << separator_in_containers;
+				_Print_Out << separator_in_containers;
 			}
 			cnt++;
 		}
-		std::cout << brakets_in_array[1];
+		_Print_Out << brakets_in_array[1];
 	}
 	_Temp_T		 void _print(std::set<T> v) {
-		std::cout << brakets_in_array[0];
-		int cnt{ 0 };
+		_Print_Out << brakets_in_array[0];
+		_ui64 cnt{ 0 };
 		for (auto i : v) {
 			_print(i);
 			if (cnt + 1 < v.size()) {
-				std::cout << separator_in_containers;
+				_Print_Out << separator_in_containers;
 			}
 			cnt++;
 		}
-		std::cout << brakets_in_array[1];
+		_Print_Out << brakets_in_array[1];
 	}
 	_Temp_T		 void _print(std::multiset<T> v) {
-		std::cout << brakets_in_array[0];
-		int cnt{ 0 };
+		_Print_Out << brakets_in_array[0];
+		_ui64 cnt{ 0 };
 		for (auto i : v) {
 			_print(i);
 			if (cnt + 1 < v.size()) {
-				std::cout << separator_in_containers;
+				_Print_Out << separator_in_containers;
 			}
 			cnt++;
 		}
-		std::cout << brakets_in_array[1];
+		_Print_Out << brakets_in_array[1];
 	}
 	_Temp_T		 void _print(std::unordered_set<T> v) {
-		std::cout << brakets_in_array[0];
-		int cnt{ 0 };
+		_Print_Out << brakets_in_array[0];
+		_ui64 cnt{ 0 };
 		for (auto i : v) {
 			_print(i);
 			if (cnt + 1 < v.size()) {
-				std::cout << separator_in_containers;
+				_Print_Out << separator_in_containers;
 			}
 			cnt++;
 		}
-		std::cout << brakets_in_array[1];
+		_Print_Out << brakets_in_array[1];
 	}
 	_Temp_T		 void _print(std::unordered_multiset<T> v) {
-		std::cout << brakets_in_array[0];
-		int cnt{ 0 };
+		_Print_Out << brakets_in_array[0];
+		_ui64 cnt{ 0 };
 		for (auto i : v) {
 			_print(i);
 			if (cnt + 1 < v.size()) {
-				std::cout << separator_in_containers;
+				_Print_Out << separator_in_containers;
 			}
 			cnt++;
 		}
-		std::cout << brakets_in_array[1];
+		_Print_Out << brakets_in_array[1];
 	}
 	_Temp_T		 void _print(std::queue<T> v) {
-		std::cout << brakets_in_array[0];
+		_Print_Out << brakets_in_array[0];
 		auto vnew = v;
 		while (true) {
 			_print(vnew.front());
 			vnew.pop();
 			if (vnew.empty()) break;
-			std::cout << separator_in_containers;
+			_Print_Out << separator_in_containers;
 		}
-		std::cout << brakets_in_array[1];
+		_Print_Out << brakets_in_array[1];
 	}
 	_Temp_T		 void _print(std::priority_queue<T> v) {
-		std::cout << brakets_in_array[0];
+		_Print_Out << brakets_in_array[0];
 		auto vnew = v;
 		while (true) {
 			_print(vnew.front());
 			vnew.pop();
 			if (vnew.empty()) break;
-			std::cout << separator_in_containers;
+			_Print_Out << separator_in_containers;
 		}
-		std::cout << brakets_in_array[1];
+		_Print_Out << brakets_in_array[1];
 	}
 	_Temp_T		 void _print(std::deque<T> v) {
-		std::cout << brakets_in_array[0];
-		int cnt{ 0 };
+		_Print_Out << brakets_in_array[0];
+		_ui64 cnt{ 0 };
 		for (auto i : v) {
 			_print(i);
 			if (cnt + 1 < v.size()) {
-				std::cout << separator_in_containers;
+				_Print_Out << separator_in_containers;
 			}
 			cnt++;
 		}
-		std::cout << brakets_in_array[1];
+		_Print_Out << brakets_in_array[1];
 	}
 	_Temp_T		 void _print(std::stack<T> v) {
-		std::cout << brakets_in_array[0];
+		_Print_Out << brakets_in_array[0];
 		auto vnew = v;
 		while (true) {
 			_print(vnew.front());
 			vnew.pop();
 			if (vnew.empty()) break;
-			std::cout << separator_in_containers;
+			_Print_Out << separator_in_containers;
 		}
-		std::cout << brakets_in_array[1];
+		_Print_Out << brakets_in_array[1];
 	}
 	_Temp_T_Args void _print(T v, Args... w) {
 		if (need_separator[now_pos] == '0') {
@@ -634,7 +635,7 @@ private:
 		}
 		now_pos++;
 		_print(v);
-		if(--useful_amount) std::cout << separator;
+		if(--useful_amount) _Print_Out << separator;
 		_print(w...);
 	}
 
@@ -656,8 +657,8 @@ private:
 		{"sep", [&](std::string s) {separator = s; }}
 	};
 	std::string need_separator;
-	size_t now_pos{ 0 };
-	int32_t useful_amount{ 0 };
+	_ui64 now_pos{ 0 };
+	_i32 useful_amount{ 0 };
 };
 _Temp_Args
 _Print Print(Args... args) {
