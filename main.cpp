@@ -28,7 +28,9 @@ constexpr int _typeindefication(T t) {
 
 
 int main() {
-	std::setlocale(0, "ru");
+	//std::setlocale(0, "ru");
+	
+	Print(_cmd("end", "\n\n\n"), 1, "jdh", 2, "Hello");
 
 	return 0;
 }
