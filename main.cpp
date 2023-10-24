@@ -1,4 +1,5 @@
 #include "CPython.h"
+#include <Windows.h>
 using namespace std;
 
 template<typename T>
@@ -30,7 +31,12 @@ constexpr int _typeindefication(T t) {
 int main() {
 	//std::setlocale(0, "ru");
 	
-	Print(_cmd("end", "\n\n\n"), 1, "jdh", 2, "Hello");
+	SetConsoleCP(1251);
+	SetConsoleOutputCP(1251);
+
+	wstring c = wInput();
+	
+	wcout << c;
 
 	return 0;
 }
