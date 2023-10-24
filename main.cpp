@@ -25,18 +25,25 @@ constexpr int _typeindefication(T t) {
 }
 
 
+class B {
+
+};
+class A {
+	//friend ostream& operator << (ostream&, A&);
+};
+
+ostream& operator << (ostream& o, A const& a) {
+	return o << "This is class A";
+}
 
 
-
+// точь в точь кроме имен переменных:
+// ostream& operator << (ostream& o, A const& a);
+// istream& operator >> (istream& i, B const& b);
 int main() {
 	//std::setlocale(0, "ru");
-	
-	SetConsoleCP(1251);
-	SetConsoleOutputCP(1251);
-
-	wstring c = wInput();
-	
-	wcout << c;
+	A a; B b;
+	print(a, b);
 
 	return 0;
 }
