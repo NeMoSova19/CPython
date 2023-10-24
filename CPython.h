@@ -51,6 +51,26 @@
 								 public:																							   \
 								 static constexpr bool value = std::is_same<out, decltype(detect(std::declval<T>()))>::value;};
 
+template<class T>
+class is_streamable {
+
+	// match if streaming is supported
+	template<class TT>
+	static auto test(int) ->
+		decltype(std::declval<std::ostream&>() << std::declval<TT>(), std::true_type());
+
+	// match if streaming is not supported:
+	template<class>
+	static auto test(...) -> std::false_type;
+
+public:
+	// check return value from the matching "test" overload:
+	static constexpr bool value = decltype(test<T>(0))::value;
+};
+
+template<class T> inline constexpr bool is_streamable_v = is_streamable<T>::value;
+
+
 typedef bool              _bool  ;     //bool													 
 								 																 									   															 
 typedef __int8            _i8    ;     //char													 
@@ -72,18 +92,18 @@ typedef char16_t          _uc16  ;     //char16_t
 typedef char32_t          _uc32  ;     //char32_t												 
 typedef __wchar_t         _wc    ;     //__wchar_t												 
 
-/// Input() - ¬вод 1 значени€ или контейнера до n или размером Size
+/// input() - ¬вод 1 значени€ или контейнера до n или размером Size
 /// Text : —ообщение, которое выводитс€;
 /// Size : ¬вод Size переменных в контейнер;
-class Input {
+class input {
 	static inline _ui64 npos{ (_ui64)-1 };
 	static inline std::ifstream _File{};
 	static inline std::istream _Input_In{ std::cin.rdbuf() };
 	static inline std::streambuf* CinBuf{ std::cin.rdbuf() };
 	_ui64 _Size{npos};
 public:
-	Input(std::string Text = "", _ui64 Size = npos) : _Size(Size) { std::cout << Text;}
-	Input(_ui64 Size) : _Size(Size) {  }
+	input(std::string Text = "", _ui64 Size = npos) : _Size(Size) { std::cout << Text;}
+	input(_ui64 Size) : _Size(Size) {  }
 
 	static std::string GetLine                           () {
 		std::string s;
@@ -176,20 +196,20 @@ public:
 	_Temp_T1_T2	     operator std::unordered_map<T1, T2> (){
 		std::unordered_map<T1, T2> v;
 		if (_Size == npos) {
-			T1 t1 = Input(); T2 t2 = Input();
+			T1 t1 = input(); T2 t2 = input();
 			v.insert({ t1, t2 });
 			return v;
 		}
 		for (_ui64 i = 0; i < _Size; i++) {
-			T1 t1 = Input(); T2 t2 = Input();
+			T1 t1 = input(); T2 t2 = input();
 			v.insert({ t1, t2 });
 		}
 		return v;
 	}
 	_Temp_T_N        operator std::array<T, N>           (){
 		std::array<T, N> v;
-		if (_Size >= N) for (_ui64 i = 0; i < N; i++) v[i] = Input();
-		else for (_ui64 i = 0; i < _Size; i++) v[i] = Input();
+		if (_Size >= N) for (_ui64 i = 0; i < N; i++) v[i] = input();
+		else for (_ui64 i = 0; i < _Size; i++) v[i] = input();
 		return v;
 	}
 	_Temp_T		     operator std::vector<T>             () {
@@ -375,18 +395,18 @@ public:
 	}
 };
 
-/// wInput() - ¬вод 1 значени€ или контейнера до n или размером Size
+/// winput() - ¬вод 1 значени€ или контейнера до n или размером Size
 /// Text : —ообщение, которое выводитс€;
 /// Size : ¬вод Size переменных в контейнер;
-class wInput {
+class winput {
 	static inline _ui64 npos{ (_ui64)-1 };
 	static inline std::wifstream _wFile{};
 	static inline std::wistream _wInput_In{ std::wcin.rdbuf() };
 	static inline std::wstreambuf* wCinBuf{ std::wcin.rdbuf() };
 	_ui64 _Size{ npos };
 public:
-	wInput(std::string Text = "", _ui64 Size = npos) : _Size(Size) { std::cout << Text; }
-	wInput(_ui64 Size) : _Size(Size) {  }
+	winput(std::string Text = "", _ui64 Size = npos) : _Size(Size) { std::cout << Text; }
+	winput(_ui64 Size) : _Size(Size) {  }
 
 	static std::wstring GetLine                          () {
 		std::wstring s;
@@ -476,20 +496,20 @@ public:
 	_Temp_T1_T2	     operator std::unordered_map<T1, T2>() {
 		std::unordered_map<T1, T2> v;
 		if (_Size == npos) {
-			T1 t1 = Input(); T2 t2 = Input();
+			T1 t1 = input(); T2 t2 = input();
 			v.insert({ t1, t2 });
 			return v;
 		}
 		for (_ui64 i = 0; i < _Size; i++) {
-			T1 t1 = Input(); T2 t2 = Input();
+			T1 t1 = input(); T2 t2 = input();
 			v.insert({ t1, t2 });
 		}
 		return v;
 	}
 	_Temp_T_N        operator std::array<T, N>() {
 		std::array<T, N> v;
-		if (_Size >= N) for (_ui64 i = 0; i < N; i++) v[i] = Input();
-		else for (_ui64 i = 0; i < _Size; i++) v[i] = Input();
+		if (_Size >= N) for (_ui64 i = 0; i < N; i++) v[i] = input();
+		else for (_ui64 i = 0; i < _Size; i++) v[i] = input();
 		return v;
 	}
 	_Temp_T		     operator std::vector<T>() {
@@ -681,12 +701,10 @@ struct _cmd {
 	std::string what{}, on_what{};
 };
 
-// ќЎ»Ѕ ј!!! Print(_cmd("end", "\n\n\n"), 1, "jdh", 2, "Hello");
-
 class _Print {
 public:
 	~_Print() { if(imsomewrite) _Print_Out << end;}
-	_Temp_Args friend _Print Print(Args...);
+	_Temp_Args friend _Print print(Args...);
 
 	static void Open(std::string Name) {
 		_File.open(Name);
@@ -737,11 +755,15 @@ private:
 	std::string brakets_in_map{"{}"};
 
 	_Temp_T		 void _print(T t) {
-		if constexpr (_If_No_Class_T) _Print_Out << t;
+		if constexpr (_If_No_Class_T)
+			if constexpr (is_streamable_v<T>)
+				_Print_Out << t;
+		if constexpr (is_streamable_v<T>)
+			_Print_Out << t;
 		else if constexpr (has1_ToString<T>().value) _Print_Out << t.ToString();
 		else _Print_Out << typeid(T).name();
 	}
-	_Temp_		 void _print(Input t) {
+	_Temp_		 void _print(input t) {
 		_Print_Out << (std::string)t;
 	}
 	_Temp_		 void _print(_cmd t) {}
@@ -926,8 +948,8 @@ private:
 	}
 	_Temp_T_Args void _print(T v, Args... w) {
 		if (need_separator[now_pos] == '0') {
-			_print(w...);
 			now_pos++;
+			_print(w...);
 			return;
 		}
 		now_pos++;
@@ -958,7 +980,7 @@ private:
 	_i32 useful_amount{ 0 };
 };
 _Temp_Args
-_Print Print(Args... args) {
+_Print print(Args... args) {
 	_Print st(args...);
 	return st;
 }
@@ -1099,67 +1121,67 @@ double_t random(double_t const less, double_t const more) {
 
 
 
-//template<typename T1, typename T2> void operator ==(std::pair<T1, T2>& V, Input I) {
+//template<typename T1, typename T2> void operator ==(std::pair<T1, T2>& V, input I) {
 //	std::pair<T1, T2> v = I;
 //	V = v;
 //}
-//template<typename T1, typename T2> void operator ==(std::map<T1, T2>& V, Input I) {
+//template<typename T1, typename T2> void operator ==(std::map<T1, T2>& V, input I) {
 //	std::map<T1, T2> v = I;
 //	V = v;
 //}
-//template<typename T1, typename T2> void operator ==(std::unordered_map<T1, T2>& V, Input I) {
+//template<typename T1, typename T2> void operator ==(std::unordered_map<T1, T2>& V, input I) {
 //	std::unordered_map<T1, T2> v = I;
 //	V = v;
 //}
-//template<typename T, size_t N> void operator ==(std::array<T, N>& V, Input I) {
+//template<typename T, size_t N> void operator ==(std::array<T, N>& V, input I) {
 //	std::array<T, N> v = I;
 //	V = v;
 //}
-//template<typename T> void operator ==(std::vector<T>& V, Input I) {
+//template<typename T> void operator ==(std::vector<T>& V, input I) {
 //	std::vector<T> v = I;
 //	V = v;
 //}
-//template<typename T> void operator ==(std::list<T>& V, Input I) {
+//template<typename T> void operator ==(std::list<T>& V, input I) {
 //	std::list<T> v = I;
 //	V = v;
 //}
-//template<typename T> void operator ==(std::forward_list<T>& V, Input I) {
+//template<typename T> void operator ==(std::forward_list<T>& V, input I) {
 //	std::forward_list<T> v = I;
 //	V = v;
 //}
-//template<typename T> void operator ==(std::set<T>& V, Input I) {
+//template<typename T> void operator ==(std::set<T>& V, input I) {
 //	std::set<T> v = I;
 //	V = v;
 //}
-//template<typename T> void operator ==(std::multiset<T>& V, Input I) {
+//template<typename T> void operator ==(std::multiset<T>& V, input I) {
 //	std::multiset<T> v = I;
 //	V = v;
 //}
-//template<typename T> void operator ==(std::unordered_set<T>& V, Input I) {
+//template<typename T> void operator ==(std::unordered_set<T>& V, input I) {
 //	std::unordered_set<T> v = I;
 //	V = v;
 //}
-//template<typename T> void operator ==(std::unordered_multiset<T>& V, Input I) {
+//template<typename T> void operator ==(std::unordered_multiset<T>& V, input I) {
 //	std::unordered_multiset<T> v = I;
 //	V = v;
 //}
-//template<typename T> void operator ==(std::queue<T>& V, Input I) {
+//template<typename T> void operator ==(std::queue<T>& V, input I) {
 //	std::queue<T> v = I;
 //	V = v;
 //}
-//template<typename T> void operator ==(std::priority_queue<T>& V, Input I) {
+//template<typename T> void operator ==(std::priority_queue<T>& V, input I) {
 //	std::priority_queue<T> v = I;
 //	V = v;
 //}
-//template<typename T> void operator ==(std::deque<T>& V, Input I) {
+//template<typename T> void operator ==(std::deque<T>& V, input I) {
 //	std::deque<T> v = I;
 //	V = v;
 //}
-//template<typename T> void operator ==(std::stack<T>& V, Input I) {
+//template<typename T> void operator ==(std::stack<T>& V, input I) {
 //	std::stack<T> v = I;
 //	V = v;
 //}
-//template<typename T> bool operator ==(T& t, Input I) {
+//template<typename T> bool operator ==(T& t, input I) {
 //	if constexpr (std::is_class<T>::value && typeid(T) != typeid(std::string)) {
 //		T v = I;
 //		t = v;

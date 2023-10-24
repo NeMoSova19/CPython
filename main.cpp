@@ -24,13 +24,25 @@ constexpr int _typeindefication(T t) {
 }
 
 
+class B {
+
+};
+class A {
+	//friend ostream& operator << (ostream&, A&);
+};
+
+ostream& operator << (ostream& o, A const& a) {
+	return o << "This is class A";
+}
 
 
-
+// точь в точь кроме имен переменных:
+// ostream& operator << (ostream& o, A const& a);
+// istream& operator >> (istream& i, B const& b);
 int main() {
 	//std::setlocale(0, "ru");
-	
-	Print(_cmd("end", "\n\n\n"), 1, "jdh", 2, "Hello");
+	A a; B b;
+	print(a, b);
 
 	return 0;
 }
