@@ -69,7 +69,9 @@ typedef double            _f64   ;     //double
 typedef long double       _lf64  ;     //long double		
 
 typedef signed char       _sc8   ;     //signed char
+#if ((defined(_MSVC_LANG) && _MSVC_LANG > 201703L) || __cplusplus > 201703L)
 typedef char8_t           _uc8   ;     //char8_t												 
+#endif
 typedef char16_t          _uc16  ;     //char16_t												 
 typedef char32_t          _uc32  ;     //char32_t												 
 typedef __wchar_t         _wc    ;     //__wchar_t												 
@@ -95,17 +97,17 @@ struct has_output_operator {
 
 
 class __IBuffer {
-	static inline std::ifstream* ifs{}; 
-	static inline std::fstream* fs{};
-	static inline std::streambuf* sb{ std::cin.rdbuf() };
+	static std::ifstream* ifs; 
+	static std::fstream* fs;
+	static std::streambuf* sb;
 
-	static inline enum {
+	static enum OpenBy {
 		Stream,
 		FileName,
 		IfStream,
 		FStream,
 		StreamBuf
-	} open_by{Stream};
+	} open_by;
 	
 	static void _del() {
 		if (open_by == FileName) {
@@ -137,9 +139,28 @@ class __IBuffer {
 		_Input_In.rdbuf(ifs->rdbuf());
 	}
 
+	static bool _is_open() {
+		switch (open_by)
+		{
+		case __IBuffer::Stream: 
+			return false;
+		case __IBuffer::FileName: 
+			return true;
+		case __IBuffer::IfStream:
+
+			return ifs->is_open();
+			break;
+		case __IBuffer::FStream: 
+			return fs->is_open();
+			break;
+		case __IBuffer::StreamBuf: 
+			return true;
+		}
+	}
+
 protected:
 
-	static inline std::istream _Input_In{ std::cin.rdbuf() };
+	static std::istream _Input_In;
 
 public:
 	static void open(std::string FileName, std::ios_base::openmode Mode = std::ios_base::in, _i32 Prot = 64) {
@@ -170,26 +191,31 @@ public:
 		return _Input_In.eof(); 
 	}
 	static bool is_open() {
-		return (open_by != Stream);
+		return _is_open();
 	}
 };
+std::ifstream* __IBuffer::ifs{ nullptr };
+std::fstream* __IBuffer::fs{ nullptr };
+std::streambuf* __IBuffer::sb{ std::cin.rdbuf() };
+__IBuffer::OpenBy __IBuffer::open_by{ __IBuffer::Stream };
+std::istream __IBuffer::_Input_In{ std::cin.rdbuf() };
 
 
 
 
 
 class __WIBuffer {
-	static inline std::wifstream* ifs{};
-	static inline std::wfstream* fs{};
-	static inline std::wstreambuf* sb{ std::wcin.rdbuf() };
+	static std::wifstream* ifs;
+	static std::wfstream* fs;
+	static std::wstreambuf* sb;
 
-	static inline enum {
+	static enum OpenBy {
 		Stream,
 		FileName,
 		IfStream,
 		FStream,
 		StreamBuf
-	} open_by{ Stream };
+	} open_by;
 
 	static void _del() {
 		if (open_by == FileName) {
@@ -225,7 +251,7 @@ class __WIBuffer {
 
 protected:
 
-	static inline std::wistream _wInput_In{ std::wcin.rdbuf() };
+	static std::wistream _wInput_In;
 
 public:
 	static void open(std::string FileName, std::ios_base::openmode Mode = std::ios_base::in, _i32 Prot = 64) {
@@ -259,13 +285,109 @@ public:
 		return (open_by != Stream);
 	}
 };
+std::wifstream* __WIBuffer::ifs{ nullptr };
+std::wfstream* __WIBuffer::fs{ nullptr };
+std::wstreambuf* __WIBuffer::sb{ std::wcin.rdbuf() };
+__WIBuffer::OpenBy __WIBuffer::open_by{ __WIBuffer::Stream };
+std::wistream __WIBuffer::_wInput_In{ std::wcin.rdbuf() };
+
+
+
+
+
+class __PBuffer {
+	static std::ofstream* ifs;
+	static std::fstream* fs;
+	static std::streambuf* sb;
+
+	static enum OpenBy {
+		Stream,
+		FileName,
+		OfStream,
+		FStream,
+		StreamBuf
+	} open_by;
+
+	static void _del() {
+		if (open_by == FileName) {
+			delete ifs;
+			ifs = nullptr;
+		}
+		open_by = Stream;
+	}
+
+	_Temp_T static void _open(T* t) {
+		if constexpr (std::is_same_v<T, std::ofstream>) {
+			open_by = OfStream;
+			ifs = t;
+			_Print_Out.rdbuf(ifs->rdbuf());
+		}
+		if constexpr (std::is_same_v<T, std::fstream>) {
+			open_by = FStream;
+			fs = t;
+			_Print_Out.rdbuf(fs->rdbuf());
+		}
+		if constexpr (std::is_same_v<T, std::streambuf>) {
+			open_by = StreamBuf;
+			_Print_Out.rdbuf(t);
+		}
+	}
+	static void __open(std::ofstream* t) {
+		open_by = FileName;
+		ifs = t;
+		_Print_Out.rdbuf(ifs->rdbuf());
+	}
+
+	
+
+protected:
+
+	static std::ostream _Print_Out;
+
+public:
+	static void open(std::string FileName, std::ios_base::openmode Mode = std::ios_base::out, _i32 Prot = 64) {
+		_del();
+		__open(new std::ofstream(FileName, Mode, Prot));
+	}
+	static void open(std::wstring FileName, std::ios_base::openmode Mode = std::ios_base::out, _i32 Prot = 64) {
+		_del();
+		__open(new std::ofstream(FileName, Mode, Prot));
+	}
+	static void open(std::fstream& FileStream) {
+		_del();
+		_open(&FileStream);
+	}
+	static void open(std::ofstream& FileStream) {
+		_del();
+		_open(&FileStream);
+	}
+	static void open(std::streambuf* StreamBuf) {
+		_del();
+		_open(StreamBuf);
+	}
+	static void close() {
+		_del();
+		_Print_Out.rdbuf(sb);
+	}
+	static bool eof() {
+		return _Print_Out.eof();
+	}
+	static bool is_open() {
+		return true;
+	}
+};
+std::ofstream* __PBuffer::ifs{nullptr};
+std::fstream* __PBuffer::fs{nullptr};
+std::streambuf* __PBuffer::sb{ std::cout.rdbuf() };
+__PBuffer::OpenBy __PBuffer::open_by{ __PBuffer::Stream };
+std::ostream __PBuffer::_Print_Out{ std::cout.rdbuf() };
 
 
 
 
 
 class input : public __IBuffer {
-	static inline _ui64 npos{ (_ui64)-1 };
+	static _ui64 npos;
 	_ui64 _Size{npos};
 
 public:
@@ -321,7 +443,9 @@ public:
 				     operator _f64					     () { _f64  v; _Input_In  >> v; return v;        }
 				     operator _lf64					     () { _lf64 v; _Input_In  >> v; return v;        }
 				     operator _sc8                       () { _sc8  v; _Input_In  >> v; return v;        }
-				     operator _uc8						 () { _ui8  v; _Input_In  >> v; return (_uc8)v;  }
+					 #if ((defined(_MSVC_LANG) && _MSVC_LANG > 201703L) || __cplusplus > 201703L)
+					 operator _uc8						 () { _ui8  v; _Input_In  >> v; return (_uc8)v;  }
+					 #endif
 				     operator _uc16						 () { _ui16 v; _Input_In  >> v; return (_uc16)v; }
 				     operator _uc32						 () { _ui32 v; _Input_In  >> v; return (_uc32)v; }
 				     operator std::string                () {
@@ -547,13 +671,14 @@ public:
 		return v;
 	}
 };
+_ui64 input::npos{ (_ui64)-1 };
 
 
 
 
 
 class winput : public __WIBuffer {
-	static inline _ui64 npos{ (_ui64)-1 };
+	static _ui64 npos;
 	_ui64 _Size{ npos };
 
 public:
@@ -832,7 +957,7 @@ public:
 		return v;
 	}
 };
-
+_ui64 winput::npos{ (_ui64)-1 };
 
 
 
@@ -847,25 +972,10 @@ struct _cmd {
 
 
 
-class _Print {
+class _Print : public __PBuffer {
 public:
 	~_Print() { if(imsomewrite) _Print_Out << end;}
 	_Temp_Args friend _Print print(Args...);
-
-	static void Open(std::string Name) {
-		_File.open(Name);
-		_Print_Out.rdbuf(_File.rdbuf());
-	}
-	static void Open(std::streambuf* sb) {
-		_Print_Out.rdbuf(sb);
-	}
-	static void Open(std::ofstream& sb) {
-		_Print_Out.rdbuf(sb.rdbuf());
-	}
-	static void Close() {
-		_Print_Out.rdbuf(CoutBuf);
-		if (_File.is_open()) _File.close();
-	}
 	
 private:
 	bool imsomewrite{ false };
@@ -875,9 +985,6 @@ private:
 		__Test(args...);
 		__Print(args...);
 	} 
-	static inline std::ofstream _File{};
-	static inline std::ostream _Print_Out{ std::cout.rdbuf() };
-	static inline std::streambuf* CoutBuf{ std::cout.rdbuf() };
 	Has1(std::string, ToString);
 	
 	_Temp_Args void __Print(Args... t) {

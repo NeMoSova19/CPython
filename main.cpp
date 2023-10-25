@@ -1,88 +1,18 @@
 #include "CPython.h"
-#include <Windows.h>
+#include <chrono>
 using namespace std;
 
-template<typename T>
-constexpr int _typeindefication(T t) {
-	constexpr type_info a = typeid(T);
-	if constexpr (a == typeid(std::string)) return 1;
-	if constexpr (a == typeid(std::pair)) return 2;
-	if constexpr (a == typeid(std::map)) return 3;
-	if constexpr (a == typeid(std::unordered_map)) return 4;
-	if constexpr (a == typeid(std::array)) return 5;
-	if constexpr (a == typeid(std::vector)) return 6;
-	if constexpr (a == typeid(std::list)) return 7;
-	if constexpr (a == typeid(std::forward_list)) return 8;
-	if constexpr (a == typeid(std::set)) return 9;
-	if constexpr (a == typeid(std::unordered_set)) return 10;
-	if constexpr (a == typeid(std::multiset)) return 11;
-	if constexpr (a == typeid(std::unordered_multiset)) return 12;
-	if constexpr (a == typeid(std::queue)) return 13;
-	if constexpr (a == typeid(std::deque)) return 14;
-	if constexpr (a == typeid(std::stack)) return 15;
-	if constexpr (!std::is_class<T>::value) return 0;
-	return -1;
-}
-
-class Base {
-protected:
-	int num{ 99 };
-};
-class A : private Base {
-	friend ostream& operator << (ostream&, A const&);
-};
-class B : private Base {
-	friend ostream& operator << (ostream&, B&);
-};
-class C : private Base{
-public:
-	std::string ToString() const {
-		return "From C -> " + to_string(num);
-	}
-};
-
-
-ostream& operator << (ostream& o, A const& a) {
-	return o << "From A -> " << a.num;
-}
-ostream& operator << (ostream& o, B& b) {
-	return o << "From B -> " << b.num;
-}
-
-
 int main() {
-	wifstream f1("Test.txt");
-	wfstream f2("Test.txt", 1);
-	wstringstream ss(L"hello What is that ?");
+	//auto t1 = std::chrono::system_clock::now();
+	//for (size_t i = 0; i < 10000; i++) {
+	//	print(1);
+	//	//cout << 1 << ' ';			
+	//}
+	//auto t2 = std::chrono::system_clock::now();
+	//
+	//print('\n', chrono::duration<double>(t2 - t1).count());
+
 	
-	print(winput::is_open()); // false
-
-	winput::open("Test.txt");
-
-	print(winput::is_open()); // true
-
-	winput::open(f1);
-
-	print(winput::is_open()); // true
-
-	winput::open(f2);
-
-	print(winput::is_open()); // true
-	
-	winput::open(ss.rdbuf());
-
-	print(winput::is_open()); // true
-
-
-	//input::open(f);
-	
-	//print(input::is_open());
-	
-	//f.close();
-	//input::close();
-	
-	//print(input::is_open());
-
 
 	return 0;
 }
@@ -119,4 +49,24 @@ c = ('w','h','t','f',1,2,3)
 <queue>
 <deque>
 <stack>
+*/
+
+/*
+* print(1)
+* 
+$LN4@main:
+  lea rcx, QWORD PTR $T4[rsp]
+  call _Print print<int>(int) ; print<int>
+  lea rcx, QWORD PTR $T4[rsp]
+  call _Print::~_Print(void) ; _Print::~_Print
+
+* cout << 1 << ' '
+* 
+$LN4@main:
+  lea rcx, OFFSET FLAT:std::basic_ostream<char,std::char_traits<char> > std::cout ; std::cout
+  call std::basic_ostream<char,std::char_traits<char> > & std::basic_ostream<char,std::char_traits<char> >::operator<<(int) ; std::basic_ostream<char,std::char_traits<char> >::operator<<
+  mov QWORD PTR tv73[rsp], rax
+  mov dl, 32 ; 00000020H
+  mov rcx, QWORD PTR tv73[rsp]
+  call std::basic_ostream<char,std::char_traits<char> > & std::operator<<<std::char_traits<char> >(std::basic_ostream<char,std::char_traits<char> > &,char) ; std::operator<<<std::char_traits<char> >
 */
