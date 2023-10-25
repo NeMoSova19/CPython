@@ -49,9 +49,7 @@
 								 static inp detect(...);																			   \
 								 template<typename U> static decltype(std::declval<U>().##name##(inp())) detect(const U&);             \
 								 public:																							   \
-								 static constexpr bool value = std::is_same<out, decltype(detect(std::declval<T>()))>::value;};
-
-typedef bool              _bool;     //bool													 
+								 static constexpr bool value = std::is_same<out, decltype(detect(std::declval<T>()))>::value;};											 
 
 typedef bool              _bool  ;     //bool													 
 								 																 									   															 
