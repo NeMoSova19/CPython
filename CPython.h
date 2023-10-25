@@ -246,7 +246,23 @@ class __WIBuffer {
 		ifs = t;
 		_wInput_In.rdbuf(ifs->rdbuf());
 	}
-
+	static bool _is_open() {
+		switch (open_by)
+		{
+		case __WIBuffer::Stream:
+			return false;
+		case __WIBuffer::FileName:
+			return true;
+		case __WIBuffer::IfStream:
+			return ifs->is_open();
+			break;
+		case __WIBuffer::FStream:
+			return fs->is_open();
+			break;
+		case __WIBuffer::StreamBuf:
+			return true;
+		}
+	}
 
 
 protected:
@@ -282,7 +298,7 @@ public:
 		return _wInput_In.eof();
 	}
 	static bool is_open() {
-		return (open_by != Stream);
+		return _is_open();
 	}
 };
 std::wifstream* __WIBuffer::ifs{ nullptr };
@@ -338,7 +354,23 @@ class __PBuffer {
 		_Print_Out.rdbuf(ifs->rdbuf());
 	}
 
-	
+	static bool _is_open() {
+		switch (open_by)
+		{
+		case __PBuffer::Stream:
+			return false;
+		case __PBuffer::FileName:
+			return true;
+		case __PBuffer::OfStream:
+			return ifs->is_open();
+			break;
+		case __PBuffer::FStream:
+			return fs->is_open();
+			break;
+		case __PBuffer::StreamBuf:
+			return true;
+		}
+	}
 
 protected:
 
@@ -373,7 +405,7 @@ public:
 		return _Print_Out.eof();
 	}
 	static bool is_open() {
-		return true;
+		return _is_open();
 	}
 };
 std::ofstream* __PBuffer::ifs{nullptr};
