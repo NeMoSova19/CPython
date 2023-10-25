@@ -1004,8 +1004,8 @@ struct _cmd {
 
 class _Print : public __PBuffer {
 public:
-	~_Print() { if(imsomewrite) _Print_Out << end;}
-	_Temp_Args friend _Print print(Args...);
+	~_Print() { if(imsomewrite) _Print_Out << end; }
+	_Temp_Args friend _Print& print(Args...);
 	
 private:
 	bool imsomewrite{ false };
@@ -1261,7 +1261,7 @@ private:
 	_ui64 now_pos{ 0 };
 	_i32 useful_amount{ 0 };
 };
-_Temp_Args _Print print(Args... args) {
+_Temp_Args _Print& print(Args... args) {
 	_Print st(args...);
 	return st;
 }
@@ -1373,101 +1373,3 @@ int64_t random(int64_t const less, int64_t const more) {
 double_t random(double_t const less, double_t const more) {
 	return less + (more - less) * ((double_t)(rand() % 0xff) / (double_t)0xff);
 }
-
-
-
-
-
-//static_assert(!(std::is_class<C>::value && typeid(std::string) != typeid(T)), "Error: Multidimensional containers dont work, WIP");
-
-/*
-
-<string>
-<pair>
-<map>
-<unordered_map>
-<array>
-<vector>
-<list>
-<forward_list>
-<set>
-<unordered_set>
-<multiset>
-<unordered_multiset>
-<queue>
-<deque>
-<stack>
-
-*/
-
-
-
-//template<typename T1, typename T2> void operator ==(std::pair<T1, T2>& V, input I) {
-//	std::pair<T1, T2> v = I;
-//	V = v;
-//}
-//template<typename T1, typename T2> void operator ==(std::map<T1, T2>& V, input I) {
-//	std::map<T1, T2> v = I;
-//	V = v;
-//}
-//template<typename T1, typename T2> void operator ==(std::unordered_map<T1, T2>& V, input I) {
-//	std::unordered_map<T1, T2> v = I;
-//	V = v;
-//}
-//template<typename T, size_t N> void operator ==(std::array<T, N>& V, input I) {
-//	std::array<T, N> v = I;
-//	V = v;
-//}
-//template<typename T> void operator ==(std::vector<T>& V, input I) {
-//	std::vector<T> v = I;
-//	V = v;
-//}
-//template<typename T> void operator ==(std::list<T>& V, input I) {
-//	std::list<T> v = I;
-//	V = v;
-//}
-//template<typename T> void operator ==(std::forward_list<T>& V, input I) {
-//	std::forward_list<T> v = I;
-//	V = v;
-//}
-//template<typename T> void operator ==(std::set<T>& V, input I) {
-//	std::set<T> v = I;
-//	V = v;
-//}
-//template<typename T> void operator ==(std::multiset<T>& V, input I) {
-//	std::multiset<T> v = I;
-//	V = v;
-//}
-//template<typename T> void operator ==(std::unordered_set<T>& V, input I) {
-//	std::unordered_set<T> v = I;
-//	V = v;
-//}
-//template<typename T> void operator ==(std::unordered_multiset<T>& V, input I) {
-//	std::unordered_multiset<T> v = I;
-//	V = v;
-//}
-//template<typename T> void operator ==(std::queue<T>& V, input I) {
-//	std::queue<T> v = I;
-//	V = v;
-//}
-//template<typename T> void operator ==(std::priority_queue<T>& V, input I) {
-//	std::priority_queue<T> v = I;
-//	V = v;
-//}
-//template<typename T> void operator ==(std::deque<T>& V, input I) {
-//	std::deque<T> v = I;
-//	V = v;
-//}
-//template<typename T> void operator ==(std::stack<T>& V, input I) {
-//	std::stack<T> v = I;
-//	V = v;
-//}
-//template<typename T> bool operator ==(T& t, input I) {
-//	if constexpr (std::is_class<T>::value && typeid(T) != typeid(std::string)) {
-//		T v = I;
-//		t = v;
-//		return true;
-//	}
-//	T tnew = I;
-//	return t == tnew;
-//}

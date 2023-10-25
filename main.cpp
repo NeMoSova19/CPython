@@ -3,14 +3,10 @@
 using namespace std;
 
 int main() {
-	//auto t1 = std::chrono::system_clock::now();
-	//for (size_t i = 0; i < 10000; i++) {
-	//	print(1);
-	//	//cout << 1 << ' ';			
-	//}
-	//auto t2 = std::chrono::system_clock::now();
-	//
-	//print('\n', chrono::duration<double>(t2 - t1).count());
+	
+
+	print(input(), _cmd("end", (char)input()));
+
 
 	
 
