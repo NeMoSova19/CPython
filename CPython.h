@@ -51,6 +51,26 @@
 								 public:																							   \
 								 static constexpr bool value = std::is_same<out, decltype(detect(std::declval<T>()))>::value;};
 
+typedef bool              _bool;     //bool													 
+
+typedef __int8            _i8;     //char													 
+typedef __int16           _i16;     //short													 
+typedef __int32           _i32;     //int												 
+typedef __int64           _i64;     //long long												 
+typedef unsigned __int8   _ui8;     //unsigned char											 
+typedef unsigned __int16  _ui16;     //unsigned short											 
+typedef unsigned __int32  _ui32;     //unsigned int										 
+typedef unsigned __int64  _ui64;     //unsigned long long										 
+
+typedef float             _f32;     //float										 
+typedef double            _f64;     //double													 
+typedef long double       _lf64;     //long double		
+
+typedef signed char       _sc8;     //signed char
+typedef char8_t           _uc8;     //char8_t												 
+typedef char16_t          _uc16;     //char16_t												 
+typedef char32_t          _uc32;     //char32_t												 
+typedef __wchar_t         _wc;     //__wchar_t												 
 
 template <typename T>
 struct has_output_operator {
@@ -67,27 +87,6 @@ struct has_output_operator {
 
 	static constexpr bool value = decltype(test1<T>(nullptr))::value || decltype(test2<T>(T()))::value;
 };
-
-typedef bool              _bool  ;     //bool													 
-								 																 									   															 
-typedef __int8            _i8    ;     //char													 
-typedef __int16           _i16   ;     //short													 
-typedef __int32           _i32   ;     //int												 
-typedef __int64           _i64   ;     //long long												 
-typedef unsigned __int8   _ui8   ;     //unsigned char											 
-typedef unsigned __int16  _ui16  ;     //unsigned short											 
-typedef unsigned __int32  _ui32  ;     //unsigned int										 
-typedef unsigned __int64  _ui64  ;     //unsigned long long										 
-								 	   															 
-typedef float             _f32   ;     //float										 
-typedef double            _f64   ;     //double													 
-typedef long double       _lf64  ;     //long double		
-
-typedef signed char       _sc8   ;     //signed char
-typedef char8_t           _uc8   ;     //char8_t												 
-typedef char16_t          _uc16  ;     //char16_t												 
-typedef char32_t          _uc32  ;     //char32_t												 
-typedef __wchar_t         _wc    ;     //__wchar_t												 
 
 /// input() - ¬вод 1 значени€ или контейнера до n или размером Size
 /// Text : —ообщение, которое выводитс€;

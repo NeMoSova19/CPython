@@ -52,9 +52,25 @@ ostream& operator << (ostream& o, B& b) {
 
 int main() {
 	//std::setlocale(0, "ru");
+	
+	fstream f;
 
-	A a; B b; C c;
-	print(a, b, c);
+	
+
+	f.open("Test.txt");
+
+	input::open(f);
+
+	string s1 = input();
+
+	f.close();
+
+	string s2 = input();
+
+	print(s1, s2);
+
+	
+	
 
 	return 0;
 }
