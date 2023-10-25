@@ -44,6 +44,24 @@ int main() {
 	//std::setlocale(0, "ru");
 	A a; B b;
 	print(a, b);
+	
+	ifstream f;
+
+	
+
+	input::open("Test.txt");
+
+	print(input::is_open());
+
+	string s = input();
+
+	input::close();
+
+	print(input::is_open());
+
+	print(s);
+
+
 
 	return 0;
 }

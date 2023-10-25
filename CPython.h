@@ -105,29 +105,39 @@ public:
 	input(std::string Text = "", _ui64 Size = npos) : _Size(Size) { std::cout << Text;}
 	input(_ui64 Size) : _Size(Size) {  }
 
-	static std::string GetLine                           () {
+	static std::string getline () {
 		std::string s;
 		_i8 c = _Input_In.get();
 		std::getline(_Input_In, s);
 		if (c != '\n' && c != EOF) s = c + s;
 		return s;
 	}
-	static void        Open          (std::string FileName) {
-		_File.open(FileName);
+	static void        open    (std::string FileName, std::ios_base::openmode Mode = std::ios_base::in, _i32 Prot = 64) {
+		_File.open(FileName, Mode, Prot);
 		_Input_In.rdbuf(_File.rdbuf());
 	}
-	static void        Open     (std::ifstream& FileStream) {
+	static void        open    (std::wstring FileName, std::ios_base::openmode Mode = std::ios_base::in, _i32 Prot = 64) {
+		_File.open(FileName, Mode, Prot);
+		_Input_In.rdbuf(_File.rdbuf());
+	}
+	static void        open    (std::fstream& FileStream) {
 		_Input_In.rdbuf(FileStream.rdbuf());
 	}
-	static void        Open            (std::streambuf* sb) {
+	static void        open    (std::ifstream& FileStream) {
+		_Input_In.rdbuf(FileStream.rdbuf());
+	}
+	static void        open    (std::streambuf* sb) {
 		_Input_In.rdbuf(sb);
 	}
-	static void        Close                             () {
+	static void        close   () {
 		_Input_In.rdbuf(CinBuf);
 		if (_File.is_open()) _File.close();
 	}
-	static bool        Eof                               () {
+	static bool        eof     () {
 		return _Input_In.eof();
+	}
+	static bool        is_open () {
+		return _File.is_open();
 	}
 
 	_Temp_T auto     operator +						  (T t) { T     v; _Input_In  >> v; return v + t;    }
@@ -219,7 +229,7 @@ public:
 			return v;
 		}
 		if constexpr (_If_No_Class_T) {
-			std::stringstream ss(GetLine());
+			std::stringstream ss(getline());
 			T t;
 			while (ss >> t) v.push_back(t);
 			return v;
@@ -234,7 +244,7 @@ public:
 			return v;
 		}
 		if constexpr (_If_No_Class_T) {
-			std::stringstream ss(GetLine());
+			std::stringstream ss(getline());
 			T t;
 			while (ss >> t) v.push_back(t);
 			return v;
@@ -249,7 +259,7 @@ public:
 			return v;
 		}
 		if constexpr (_If_No_Class_T) {
-			std::stringstream ss(GetLine());
+			std::stringstream ss(getline());
 			T t;
 			while (ss >> t) v.push_front(t);
 			return v;
@@ -267,7 +277,7 @@ public:
 			return v;
 		}
 		if constexpr (_If_No_Class_T) {
-			std::stringstream ss(GetLine());
+			std::stringstream ss(getline());
 			T t;
 			while (ss >> t) v.insert(t);
 			return v;
@@ -286,7 +296,7 @@ public:
 			return v;
 		}
 		if constexpr (_If_No_Class_T) {
-			std::stringstream ss(GetLine());
+			std::stringstream ss(getline());
 			T t;
 			while (ss >> t) v.insert(t);
 			return v;
@@ -305,7 +315,7 @@ public:
 			return v;
 		}
 		if constexpr (_If_No_Class_T) {
-			std::stringstream ss(GetLine());
+			std::stringstream ss(getline());
 			T t;
 			while (ss >> t) v.insert(t);
 			return v;
@@ -324,7 +334,7 @@ public:
 			return v;
 		}
 		if constexpr (_If_No_Class_T) {
-			std::stringstream ss(GetLine());
+			std::stringstream ss(getline());
 			T t;
 			while (ss >> t) v.insert(t);
 			return v;
@@ -340,7 +350,7 @@ public:
 			return v;
 		}
 		if constexpr (_If_No_Class_T) {
-			std::stringstream ss(GetLine());
+			std::stringstream ss(getline());
 			T t;
 			while (ss >> t) v.push(t);
 			return v;
@@ -355,7 +365,7 @@ public:
 			return v;
 		}
 		if constexpr (_If_No_Class_T) {
-			std::stringstream ss(GetLine());
+			std::stringstream ss(getline());
 			T t;
 			while (ss >> t) v.push(t);
 			return v;
@@ -370,7 +380,7 @@ public:
 			return v;
 		}
 		if constexpr (_If_No_Class_T) {
-			std::stringstream ss(GetLine());
+			std::stringstream ss(getline());
 			T t;
 			while (ss >> t) v.push_back(t);
 			return v;
@@ -385,7 +395,7 @@ public:
 			return v;
 		}
 		if constexpr (_If_No_Class_T) {
-			std::stringstream ss(GetLine());
+			std::stringstream ss(getline());
 			T t;
 			while (ss >> t) v.push(t);
 			return v;
@@ -408,29 +418,39 @@ public:
 	winput(std::string Text = "", _ui64 Size = npos) : _Size(Size) { std::cout << Text; }
 	winput(_ui64 Size) : _Size(Size) {  }
 
-	static std::wstring GetLine                          () {
+	static std::wstring getline () {
 		std::wstring s;
 		_wc c = _wInput_In.get();
 		std::getline(_wInput_In, s);
 		if (c != '\n' && c != EOF) s = c + s;
 		return s;
 	}
-	static void         Open                             (std::string FileName) {
-		_wFile.open(FileName);
+	static void         open    (std::string FileName, std::ios_base::openmode Mode = std::ios_base::in, _i32 Prot = 64) {
+		_wFile.open(FileName, Mode, Prot);
 		_wInput_In.rdbuf(_wFile.rdbuf());
 	}
-	static void         Open                             (std::wifstream& FileStream) {
+	static void         open    (std::wstring FileName, std::ios_base::openmode Mode = std::ios_base::in, _i32 Prot = 64) {
+		_wFile.open(FileName, Mode, Prot);
+		_wInput_In.rdbuf(_wFile.rdbuf());
+	}
+	static void         open    (std::wfstream& FileStream) {
 		_wInput_In.rdbuf(FileStream.rdbuf());
 	}
-	static void         Open                             (std::wstreambuf* wsb) {
+	static void         open    (std::wifstream& FileStream) {
+		_wInput_In.rdbuf(FileStream.rdbuf());
+	}
+	static void         open    (std::wstreambuf* wsb) {
 		_wInput_In.rdbuf(wsb);
 	}
-	static void         Close                            () {
+	static void         close   () {
 		_wInput_In.rdbuf(wCinBuf);
 		if (_wFile.is_open()) _wFile.close();
 	}
-	static bool         Eof                              () {
+	static bool         eof     () {
 		return _wInput_In.eof();
+	}
+	static bool         is_open () {
+		return _wFile.is_open();
 	}
 
 	_Temp_T auto     operator +						  (T t) { T     v; _wInput_In >> v; return v + t; }
@@ -519,7 +539,7 @@ public:
 			return v;
 		}
 		if constexpr (_If_No_Class_T) {
-			std::stringstream ss(GetLine());
+			std::stringstream ss(getline());
 			T t;
 			while (ss >> t) v.push_back(t);
 			return v;
@@ -534,7 +554,7 @@ public:
 			return v;
 		}
 		if constexpr (_If_No_Class_T) {
-			std::stringstream ss(GetLine());
+			std::stringstream ss(getline());
 			T t;
 			while (ss >> t) v.push_back(t);
 			return v;
@@ -549,7 +569,7 @@ public:
 			return v;
 		}
 		if constexpr (_If_No_Class_T) {
-			std::stringstream ss(GetLine());
+			std::stringstream ss(getline());
 			T t;
 			while (ss >> t) v.push_front(t);
 			return v;
@@ -567,7 +587,7 @@ public:
 			return v;
 		}
 		if constexpr (_If_No_Class_T) {
-			std::stringstream ss(GetLine());
+			std::stringstream ss(getline());
 			T t;
 			while (ss >> t) v.insert(t);
 			return v;
@@ -586,7 +606,7 @@ public:
 			return v;
 		}
 		if constexpr (_If_No_Class_T) {
-			std::stringstream ss(GetLine());
+			std::stringstream ss(getline());
 			T t;
 			while (ss >> t) v.insert(t);
 			return v;
@@ -605,7 +625,7 @@ public:
 			return v;
 		}
 		if constexpr (_If_No_Class_T) {
-			std::stringstream ss(GetLine());
+			std::stringstream ss(getline());
 			T t;
 			while (ss >> t) v.insert(t);
 			return v;
@@ -624,7 +644,7 @@ public:
 			return v;
 		}
 		if constexpr (_If_No_Class_T) {
-			std::stringstream ss(GetLine());
+			std::stringstream ss(getline());
 			T t;
 			while (ss >> t) v.insert(t);
 			return v;
@@ -640,7 +660,7 @@ public:
 			return v;
 		}
 		if constexpr (_If_No_Class_T) {
-			std::stringstream ss(GetLine());
+			std::stringstream ss(getline());
 			T t;
 			while (ss >> t) v.push(t);
 			return v;
@@ -655,7 +675,7 @@ public:
 			return v;
 		}
 		if constexpr (_If_No_Class_T) {
-			std::stringstream ss(GetLine());
+			std::stringstream ss(getline());
 			T t;
 			while (ss >> t) v.push(t);
 			return v;
@@ -670,7 +690,7 @@ public:
 			return v;
 		}
 		if constexpr (_If_No_Class_T) {
-			std::stringstream ss(GetLine());
+			std::stringstream ss(getline());
 			T t;
 			while (ss >> t) v.push_back(t);
 			return v;
@@ -685,7 +705,7 @@ public:
 			return v;
 		}
 		if constexpr (_If_No_Class_T) {
-			std::stringstream ss(GetLine());
+			std::stringstream ss(getline());
 			T t;
 			while (ss >> t) v.push(t);
 			return v;
