@@ -51,6 +51,7 @@
 								 public:																							   \
 								 static constexpr bool value = std::is_same<out, decltype(detect(std::declval<T>()))>::value;};
 
+typedef bool              _bool;     //bool													 
 
 typedef bool              _bool  ;     //bool													 
 								 																 									   															 
