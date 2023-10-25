@@ -51,25 +51,22 @@
 								 public:																							   \
 								 static constexpr bool value = std::is_same<out, decltype(detect(std::declval<T>()))>::value;};
 
-template<class T>
-class is_streamable {
 
-	// match if streaming is supported
-	template<class TT>
-	static auto test(int) ->
-		decltype(std::declval<std::ostream&>() << std::declval<TT>(), std::true_type());
+template <typename T>
+struct has_output_operator {
+	template <typename U>
+	static auto test1(U* u) -> decltype(std::cout << std::declval<U>(), std::true_type{});
+	
+	template <typename U>
+	static auto test2(U u) -> decltype(std::cout << u, std::true_type{});
 
-	// match if streaming is not supported:
-	template<class>
-	static auto test(...) -> std::false_type;
+	template <typename>
+	static std::false_type test1(...);
+	template <typename>
+	static std::false_type test2(...);
 
-public:
-	// check return value from the matching "test" overload:
-	static constexpr bool value = decltype(test<T>(0))::value;
+	static constexpr bool value = decltype(test1<T>(nullptr))::value || decltype(test2<T>(T()))::value;
 };
-
-template<class T> inline constexpr bool is_streamable_v = is_streamable<T>::value;
-
 
 typedef bool              _bool  ;     //bool													 
 								 																 									   															 
@@ -775,13 +772,12 @@ private:
 	std::string brakets_in_map{"{}"};
 
 	_Temp_T		 void _print(T t) {
-		if constexpr (_If_No_Class_T)
-			if constexpr (is_streamable_v<T>)
-				_Print_Out << t;
-		if constexpr (is_streamable_v<T>)
+		if constexpr (has_output_operator<T>::value)
 			_Print_Out << t;
-		else if constexpr (has1_ToString<T>().value) _Print_Out << t.ToString();
-		else _Print_Out << typeid(T).name();
+		else if constexpr (has1_ToString<T>::value) 
+			_Print_Out << t.ToString();
+		else 
+			_Print_Out << typeid(T).name();
 	}
 	_Temp_		 void _print(input t) {
 		_Print_Out << (std::string)t;

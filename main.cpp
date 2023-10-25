@@ -24,67 +24,42 @@ constexpr int _typeindefication(T t) {
 	return -1;
 }
 
-
-class B {
-
+class Base {
+protected:
+	int num{ 99 };
 };
-class A {
-	//friend ostream& operator << (ostream&, A&);
+class A : private Base {
+	friend ostream& operator << (ostream&, A const&);
 };
+class B : private Base {
+	friend ostream& operator << (ostream&, B&);
+};
+class C : private Base{
+public:
+	std::string ToString() const {
+		return "From C -> " + to_string(num);
+	}
+};
+
 
 ostream& operator << (ostream& o, A const& a) {
-	return o << "This is class A";
+	return o << "From A -> " << a.num;
+}
+ostream& operator << (ostream& o, B& b) {
+	return o << "From B -> " << b.num;
 }
 
 
-// точь в точь кроме имен переменных:
-// ostream& operator << (ostream& o, A const& a);
-// istream& operator >> (istream& i, B const& b);
 int main() {
 	//std::setlocale(0, "ru");
-	A a; B b;
-	print(a, b);
-	
-	ifstream f;
 
-	
-
-	input::open("Test.txt");
-
-	print(input::is_open());
-
-	string s = input();
-
-	input::close();
-
-	print(input::is_open());
-
-	print(s);
-
-
+	A a; B b; C c;
+	print(a, b, c);
 
 	return 0;
 }
 
-/*
 
-	std::ifstream in("in.txt");
-	std::streambuf *cinbuf = std::cin.rdbuf(); //save old buf
-	std::cin.rdbuf(in.rdbuf()); //redirect std::cin to in.txt!
-
-	std::string word;
-	std::cin >> word;           //input from the file in.txt
-
-	std::cin.rdbuf(cinbuf);   //reset to standard input again
-
-	std::cin >> word;   //input from the standard input
-
-*/
-
-	//std::apply([](auto&&... args) {((std::cin >> args), ...); }, t);
-
-
-	//std::apply([](auto&&... args) {((std::cout << args << '\n'), ...); }, t);
 
 /* Python code
 
