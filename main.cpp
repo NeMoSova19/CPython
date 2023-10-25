@@ -51,10 +51,38 @@ ostream& operator << (ostream& o, B& b) {
 
 
 int main() {
-	//std::setlocale(0, "ru");
+	wifstream f1("Test.txt");
+	wfstream f2("Test.txt", 1);
+	wstringstream ss(L"hello What is that ?");
+	
+	print(winput::is_open()); // false
 
-	A a; B b; C c;
-	print(a, b, c);
+	winput::open("Test.txt");
+
+	print(winput::is_open()); // true
+
+	winput::open(f1);
+
+	print(winput::is_open()); // true
+
+	winput::open(f2);
+
+	print(winput::is_open()); // true
+	
+	winput::open(ss.rdbuf());
+
+	print(winput::is_open()); // true
+
+
+	//input::open(f);
+	
+	//print(input::is_open());
+	
+	//f.close();
+	//input::close();
+	
+	//print(input::is_open());
+
 
 	return 0;
 }

@@ -52,22 +52,6 @@
 								 static constexpr bool value = std::is_same<out, decltype(detect(std::declval<T>()))>::value;};
 
 
-template <typename T>
-struct has_output_operator {
-	template <typename U>
-	static auto test1(U* u) -> decltype(std::cout << std::declval<U>(), std::true_type{});
-	
-	template <typename U>
-	static auto test2(U u) -> decltype(std::cout << u, std::true_type{});
-
-	template <typename>
-	static std::false_type test1(...);
-	template <typename>
-	static std::false_type test2(...);
-
-	static constexpr bool value = decltype(test1<T>(nullptr))::value || decltype(test2<T>(T()))::value;
-};
-
 typedef bool              _bool  ;     //bool													 
 								 																 									   															 
 typedef __int8            _i8    ;     //char													 
@@ -89,52 +73,213 @@ typedef char16_t          _uc16  ;     //char16_t
 typedef char32_t          _uc32  ;     //char32_t												 
 typedef __wchar_t         _wc    ;     //__wchar_t												 
 
-/// input() - ¬вод 1 значени€ или контейнера до n или размером Size
-/// Text : —ообщение, которое выводитс€;
-/// Size : ¬вод Size переменных в контейнер;
-class input {
-	static inline _ui64 npos{ (_ui64)-1 };
-	static inline std::ifstream _File{};
-	static inline std::istream _Input_In{ std::cin.rdbuf() };
-	static inline std::streambuf* CinBuf{ std::cin.rdbuf() };
-	_ui64 _Size{npos};
-public:
-	input(std::string Text = "", _ui64 Size = npos) : _Size(Size) { std::cout << Text;}
-	input(_ui64 Size) : _Size(Size) {  }
+template <typename T>
+struct has_output_operator {
+	template <typename U>
+	static auto test1(U* u) -> decltype(std::cout << std::declval<U>(), std::true_type{});
 
+	template <typename U>
+	static auto test2(U u) -> decltype(std::cout << u, std::true_type{});
+
+	template <typename>
+	static std::false_type test1(...);
+	template <typename>
+	static std::false_type test2(...);
+
+	static constexpr bool value = decltype(test1<T>(nullptr))::value || decltype(test2<T>(T()))::value;
+};
+
+
+
+
+
+class __IBuffer {
+	static inline std::ifstream* ifs{}; 
+	static inline std::fstream* fs{};
+	static inline std::streambuf* sb{ std::cin.rdbuf() };
+
+	static inline enum {
+		Stream,
+		FileName,
+		IfStream,
+		FStream,
+		StreamBuf
+	} open_by{Stream};
+	
+	static void _del() {
+		if (open_by == FileName) {
+			delete ifs;
+			ifs = nullptr;
+		}
+		open_by = Stream;
+	}
+
+	_Temp_T static void _open(T* t) {
+		if constexpr (std::is_same_v<T, std::ifstream>) { 
+			open_by = IfStream;
+			ifs = t;
+			_Input_In.rdbuf(ifs->rdbuf());
+		}
+		if constexpr (std::is_same_v<T, std::fstream>) { 
+			open_by = FStream;
+			fs = t;
+			_Input_In.rdbuf(fs->rdbuf());
+		}
+		if constexpr (std::is_same_v<T, std::streambuf>) {
+			open_by = StreamBuf;
+			_Input_In.rdbuf(t);
+		}
+	}
+	static void __open(std::ifstream* t) {
+		open_by = FileName;
+		ifs = t;
+		_Input_In.rdbuf(ifs->rdbuf());
+	}
+
+protected:
+
+	static inline std::istream _Input_In{ std::cin.rdbuf() };
+
+public:
+	static void open(std::string FileName, std::ios_base::openmode Mode = std::ios_base::in, _i32 Prot = 64) {
+		_del();
+		__open(new std::ifstream(FileName, Mode, Prot));
+	}
+	static void open(std::wstring FileName, std::ios_base::openmode Mode = std::ios_base::in, _i32 Prot = 64) {
+		_del();
+		__open(new std::ifstream(FileName, Mode, Prot));
+	}
+	static void open(std::fstream& FileStream) {
+		_del();
+		_open(&FileStream);
+	}
+	static void open(std::ifstream& FileStream) {
+		_del();
+		_open(&FileStream);
+	}
+	static void open(std::streambuf* StreamBuf) {
+		_del();
+		_open(StreamBuf);
+	}
+	static void close() {
+		_del();
+		_Input_In.rdbuf(sb);
+	}
+	static bool eof() {
+		return _Input_In.eof(); 
+	}
+	static bool is_open() {
+		return (open_by != Stream);
+	}
+};
+
+
+
+
+
+class __WIBuffer {
+	static inline std::wifstream* ifs{};
+	static inline std::wfstream* fs{};
+	static inline std::wstreambuf* sb{ std::wcin.rdbuf() };
+
+	static inline enum {
+		Stream,
+		FileName,
+		IfStream,
+		FStream,
+		StreamBuf
+	} open_by{ Stream };
+
+	static void _del() {
+		if (open_by == FileName) {
+			delete ifs;
+			ifs = nullptr;
+		}
+		open_by = Stream;
+	}
+
+	_Temp_T static void _open(T* t) {
+		if constexpr (std::is_same_v<T, std::wifstream>) {
+			open_by = IfStream;
+			ifs = t;
+			_wInput_In.rdbuf(ifs->rdbuf());
+		}
+		if constexpr (std::is_same_v<T, std::wfstream>) {
+			open_by = FStream;
+			fs = t;
+			_wInput_In.rdbuf(fs->rdbuf());
+		}
+		if constexpr (std::is_same_v<T, std::wstreambuf>) {
+			open_by = StreamBuf;
+			_wInput_In.rdbuf(t);
+		}
+	}
+	static void __open(std::wifstream* t) {
+		open_by = FileName;
+		ifs = t;
+		_wInput_In.rdbuf(ifs->rdbuf());
+	}
+
+
+
+protected:
+
+	static inline std::wistream _wInput_In{ std::wcin.rdbuf() };
+
+public:
+	static void open(std::string FileName, std::ios_base::openmode Mode = std::ios_base::in, _i32 Prot = 64) {
+		_del();
+		__open(new std::wifstream(FileName, Mode, Prot));
+	}
+	static void open(std::wstring FileName, std::ios_base::openmode Mode = std::ios_base::in, _i32 Prot = 64) {
+		_del();
+		__open(new std::wifstream(FileName, Mode, Prot));
+	}
+	static void open(std::wfstream& FileStream) {
+		_del();
+		_open(&FileStream);
+	}
+	static void open(std::wifstream& FileStream) {
+		_del();
+		_open(&FileStream);
+	}
+	static void open(std::wstreambuf* StreamBuf) {
+		_del();
+		_open(StreamBuf);
+	}
+	static void close() {
+		_del();
+		_wInput_In.rdbuf(sb);
+	}
+	static bool eof() {
+		return _wInput_In.eof();
+	}
+	static bool is_open() {
+		return (open_by != Stream);
+	}
+};
+
+
+
+
+
+class input : public __IBuffer {
+	static inline _ui64 npos{ (_ui64)-1 };
+	_ui64 _Size{npos};
+
+public:
+	/// <param name="Text">: —ообщение, которое выводитс€</param>
+	/// <param name="Size">: ¬вод Size переменных в контейнер</param>
+	input(std::string Text = "", _ui64 Size = npos) : _Size(Size) { std::cout << Text;}
+	/// <param name="Size">: ¬вод Size переменных в контейнер</param>
+	input(_ui64 Size) : _Size(Size) {  }
+	
 	static std::string getline () {
 		std::string s;
 		_i8 c = _Input_In.get();
 		std::getline(_Input_In, s);
 		if (c != '\n' && c != EOF) s = c + s;
 		return s;
-	}
-	static void        open    (std::string FileName, std::ios_base::openmode Mode = std::ios_base::in, _i32 Prot = 64) {
-		_File.open(FileName, Mode, Prot);
-		_Input_In.rdbuf(_File.rdbuf());
-	}
-	static void        open    (std::wstring FileName, std::ios_base::openmode Mode = std::ios_base::in, _i32 Prot = 64) {
-		_File.open(FileName, Mode, Prot);
-		_Input_In.rdbuf(_File.rdbuf());
-	}
-	static void        open    (std::fstream& FileStream) {
-		_Input_In.rdbuf(FileStream.rdbuf());
-	}
-	static void        open    (std::ifstream& FileStream) {
-		_Input_In.rdbuf(FileStream.rdbuf());
-	}
-	static void        open    (std::streambuf* sb) {
-		_Input_In.rdbuf(sb);
-	}
-	static void        close   () {
-		_Input_In.rdbuf(CinBuf);
-		if (_File.is_open()) _File.close();
-	}
-	static bool        eof     () {
-		return _Input_In.eof();
-	}
-	static bool        is_open () {
-		return _File.is_open();
 	}
 
 	_Temp_T auto     operator +						  (T t) { T     v; _Input_In  >> v; return v + t;    }
@@ -402,17 +547,19 @@ public:
 	}
 };
 
-/// winput() - ¬вод 1 значени€ или контейнера до n или размером Size
-/// Text : —ообщение, которое выводитс€;
-/// Size : ¬вод Size переменных в контейнер;
-class winput {
+
+
+
+
+class winput : public __WIBuffer {
 	static inline _ui64 npos{ (_ui64)-1 };
-	static inline std::wifstream _wFile{};
-	static inline std::wistream _wInput_In{ std::wcin.rdbuf() };
-	static inline std::wstreambuf* wCinBuf{ std::wcin.rdbuf() };
 	_ui64 _Size{ npos };
+
 public:
+	/// <param name="Text">: —ообщение, которое выводитс€</param>
+	/// <param name="Size">: ¬вод Size переменных в контейнер</param>
 	winput(std::string Text = "", _ui64 Size = npos) : _Size(Size) { std::cout << Text; }
+	/// <param name="Size">: ¬вод Size переменных в контейнер</param>
 	winput(_ui64 Size) : _Size(Size) {  }
 
 	static std::wstring getline () {
@@ -421,33 +568,6 @@ public:
 		std::getline(_wInput_In, s);
 		if (c != '\n' && c != EOF) s = c + s;
 		return s;
-	}
-	static void         open    (std::string FileName, std::ios_base::openmode Mode = std::ios_base::in, _i32 Prot = 64) {
-		_wFile.open(FileName, Mode, Prot);
-		_wInput_In.rdbuf(_wFile.rdbuf());
-	}
-	static void         open    (std::wstring FileName, std::ios_base::openmode Mode = std::ios_base::in, _i32 Prot = 64) {
-		_wFile.open(FileName, Mode, Prot);
-		_wInput_In.rdbuf(_wFile.rdbuf());
-	}
-	static void         open    (std::wfstream& FileStream) {
-		_wInput_In.rdbuf(FileStream.rdbuf());
-	}
-	static void         open    (std::wifstream& FileStream) {
-		_wInput_In.rdbuf(FileStream.rdbuf());
-	}
-	static void         open    (std::wstreambuf* wsb) {
-		_wInput_In.rdbuf(wsb);
-	}
-	static void         close   () {
-		_wInput_In.rdbuf(wCinBuf);
-		if (_wFile.is_open()) _wFile.close();
-	}
-	static bool         eof     () {
-		return _wInput_In.eof();
-	}
-	static bool         is_open () {
-		return _wFile.is_open();
 	}
 
 	_Temp_T auto     operator +						  (T t) { T     v; _wInput_In >> v; return v + t; }
@@ -712,11 +832,19 @@ public:
 	}
 };
 
+
+
+
+
 struct _cmd {
 	_cmd(std::string what, std::string on_what) :what(what), on_what(on_what) {}
 	_cmd(std::string what, char on_what) :what(what) { this->on_what += on_what; }
 	std::string what{}, on_what{};
 };
+
+
+
+
 
 class _Print {
 public:
@@ -995,8 +1123,7 @@ private:
 	_ui64 now_pos{ 0 };
 	_i32 useful_amount{ 0 };
 };
-_Temp_Args
-_Print print(Args... args) {
+_Temp_Args _Print print(Args... args) {
 	_Print st(args...);
 	return st;
 }
