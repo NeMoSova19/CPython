@@ -1,4 +1,5 @@
 #include "CPython.h"
+#include <Windows.h>
 using namespace std;
 
 template<typename T>
