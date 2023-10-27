@@ -2,17 +2,29 @@
 #include <chrono>
 using namespace std;
 
-int main() {
-	//auto t1 = std::chrono::system_clock::now();
-	//for (size_t i = 0; i < 10000; i++) {
-	//	print(1);
-	//	//cout << 1 << ' ';			
-	//}
-	//auto t2 = std::chrono::system_clock::now();
-	//
-	//print('\n', chrono::duration<double>(t2 - t1).count());
+class A{};
 
+
+int main() {
 	
+	A a;
+
+	ifstream f;
+
+	//cout << input().rdbuf()->getloc().name().size(); //прикольно)
+
+	vector<int> v = input("Text: ", 5);
+	
+	print(v, '\n');
+
+	v = input("Only text: ");
+
+	print(v, '\n');
+
+	v = input(3); //No text
+
+	print(v, '\n');
+
 
 	return 0;
 }

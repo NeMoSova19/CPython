@@ -18,7 +18,8 @@
 #include <stack>																				 
 #include <functional>		
 #include <tuple>
-																								 
+					
+//#define _What_Current_Version_VS ((defined(_MSVC_LANG) && _MSVC_LANG > 201703L) || __cplusplus > 201703L)
 #define _If_No_Class_T           (!std::is_class<T>::value || typeid(T) == typeid(std::string))  
 #define _Temp_			         template<>														 
 #define _Temp_T			         template<typename T>											 
@@ -49,32 +50,54 @@
 								 static inp detect(...);																			   \
 								 template<typename U> static decltype(std::declval<U>().##name##(inp())) detect(const U&);             \
 								 public:																							   \
-								 static constexpr bool value = std::is_same<out, decltype(detect(std::declval<T>()))>::value;};
+								 static constexpr bool value = std::is_same<out, decltype(detect(std::declval<T>()))>::value;};											 
 
+#if ((defined(_MSVC_LANG) && _MSVC_LANG > 201703L) || __cplusplus > 201703L)
 typedef bool              _bool;     //bool													 
 
-typedef bool              _bool  ;     //bool													 
-								 																 									   															 
-typedef __int8            _i8    ;     //char													 
-typedef __int16           _i16   ;     //short													 
-typedef __int32           _i32   ;     //int												 
-typedef __int64           _i64   ;     //long long												 
-typedef unsigned __int8   _ui8   ;     //unsigned char											 
-typedef unsigned __int16  _ui16  ;     //unsigned short											 
-typedef unsigned __int32  _ui32  ;     //unsigned int										 
-typedef unsigned __int64  _ui64  ;     //unsigned long long										 
-								 	   															 
-typedef float             _f32   ;     //float										 
-typedef double            _f64   ;     //double													 
-typedef long double       _lf64  ;     //long double		
+typedef __int8            _i8;     //char													 
+typedef __int16           _i16;     //short													 
+typedef __int32           _i32;     //int												 
+typedef __int64           _i64;     //long long												 
+typedef unsigned __int8   _ui8;     //unsigned char											 
+typedef unsigned __int16  _ui16;     //unsigned short											 
+typedef unsigned __int32  _ui32;     //unsigned int										 
+typedef unsigned __int64  _ui64;     //unsigned long long										 
 
-typedef signed char       _sc8   ;     //signed char
-#if ((defined(_MSVC_LANG) && _MSVC_LANG > 201703L) || __cplusplus > 201703L)
-typedef char8_t           _uc8   ;     //char8_t												 
+typedef float             _f32;     //float										 
+typedef double            _f64;     //double													 
+typedef long double       _lf64;     //long double		
+
+typedef signed char       _sc8;     //signed char
+typedef char8_t           _uc8;     //char8_t												 
+typedef char16_t          _uc16;     //char16_t												 
+typedef char32_t          _uc32;     //char32_t												 
+typedef __wchar_t         _wc;     //__wchar_t												 
+#else
+typedef bool              _bool;     //bool													 
+
+typedef __int8            _i8;     //char													 
+typedef __int16           _i16;     //short													 
+typedef __int32           _i32;     //int												 
+typedef __int64           _i64;     //long long												 
+typedef unsigned __int8   _ui8;     //unsigned char											 
+typedef unsigned __int16  _ui16;     //unsigned short											 
+typedef unsigned __int32  _ui32;     //unsigned int										 
+typedef unsigned __int64  _ui64;     //unsigned long long										 
+
+typedef float             _f32;     //float										 
+typedef double            _f64;     //double													 
+typedef long double       _lf64;     //long double		
+
+typedef signed char       _sc8;     //signed char											 
+typedef char16_t          _uc16;     //char16_t												 
+typedef char32_t          _uc32;     //char32_t												 
+typedef __wchar_t         _wc;     //__wchar_t												 
 #endif
-typedef char16_t          _uc16  ;     //char16_t												 
-typedef char32_t          _uc32  ;     //char32_t												 
-typedef __wchar_t         _wc    ;     //__wchar_t												 
+
+
+
+
 
 template <typename T>
 struct has_output_operator {
@@ -97,10 +120,10 @@ struct has_output_operator {
 
 
 class __IBuffer {
-	static std::ifstream* ifs; 
-	static std::fstream* fs;
-	static std::streambuf* sb;
 
+	static std::ifstream*       ifs; 
+	static std::fstream*        fs;
+	static std::streambuf*      sb;
 	static enum OpenBy {
 		Stream,
 		FileName,
@@ -109,15 +132,7 @@ class __IBuffer {
 		StreamBuf
 	} open_by;
 	
-	static void _del() {
-		if (open_by == FileName) {
-			delete ifs;
-			ifs = nullptr;
-		}
-		open_by = Stream;
-	}
-
-	_Temp_T static void _open(T* t) {
+	_Temp_T static void _open    (T* t) {
 		if constexpr (std::is_same_v<T, std::ifstream>) { 
 			open_by = IfStream;
 			ifs = t;
@@ -133,13 +148,12 @@ class __IBuffer {
 			_Input_In.rdbuf(t);
 		}
 	}
-	static void __open(std::ifstream* t) {
+	        static void __open   (std::ifstream* t) {
 		open_by = FileName;
 		ifs = t;
 		_Input_In.rdbuf(ifs->rdbuf());
 	}
-
-	static bool _is_open() {
+	        static bool _is_open () {
 		switch (open_by)
 		{
 		case __IBuffer::Stream: 
@@ -157,58 +171,74 @@ class __IBuffer {
 			return true;
 		}
 	}
+	        static void _del     () {
+		if (open_by == FileName) {
+			delete ifs;
+			ifs = nullptr;
+		}
+		open_by = Stream;
+	}
 
 protected:
 
 	static std::istream _Input_In;
 
 public:
-	static void open(std::string FileName, std::ios_base::openmode Mode = std::ios_base::in, _i32 Prot = 64) {
+
+	static std::streambuf* rdbuf   () {
+		return _Input_In.rdbuf();
+	}
+	static std::streambuf* rdbuf   (std::streambuf* StreamBuf) {
+		_del();
+		_open(StreamBuf);
+		return _Input_In.rdbuf();
+	}
+	static void            open    (std::string FileName, std::ios_base::openmode Mode = std::ios_base::in, _i32 Prot = 64) {
 		_del();
 		__open(new std::ifstream(FileName, Mode, Prot));
 	}
-	static void open(std::wstring FileName, std::ios_base::openmode Mode = std::ios_base::in, _i32 Prot = 64) {
+	static void            open    (std::wstring FileName, std::ios_base::openmode Mode = std::ios_base::in, _i32 Prot = 64) {
 		_del();
 		__open(new std::ifstream(FileName, Mode, Prot));
 	}
-	static void open(std::fstream& FileStream) {
+	static void            open    (std::fstream& FileStream) {
 		_del();
 		_open(&FileStream);
 	}
-	static void open(std::ifstream& FileStream) {
+	static void            open    (std::ifstream& FileStream) {
 		_del();
 		_open(&FileStream);
 	}
-	static void open(std::streambuf* StreamBuf) {
+	static void            open    (std::streambuf* StreamBuf) {
 		_del();
 		_open(StreamBuf);
 	}
-	static void close() {
+	static void            close   () {
 		_del();
 		_Input_In.rdbuf(sb);
 	}
-	static bool eof() {
+	static bool            eof     () {
 		return _Input_In.eof(); 
 	}
-	static bool is_open() {
+	static bool            is_open () {
 		return _is_open();
 	}
+
 };
-std::ifstream* __IBuffer::ifs{ nullptr };
-std::fstream* __IBuffer::fs{ nullptr };
-std::streambuf* __IBuffer::sb{ std::cin.rdbuf() };
-__IBuffer::OpenBy __IBuffer::open_by{ __IBuffer::Stream };
-std::istream __IBuffer::_Input_In{ std::cin.rdbuf() };
+__IBuffer::OpenBy __IBuffer::open_by   { __IBuffer::Stream };
+std::ifstream*    __IBuffer::ifs       { nullptr };
+std::fstream*     __IBuffer::fs        { nullptr };
+std::streambuf*   __IBuffer::sb        { std::cin.rdbuf() };
+std::istream      __IBuffer::_Input_In { std::cin.rdbuf() };
 
 
 
 
 
-class __WIBuffer {
-	static std::wifstream* ifs;
-	static std::wfstream* fs;
-	static std::wstreambuf* sb;
-
+class __wIBuffer {
+	static std::wifstream*      ifs;
+	static std::wfstream*       fs;
+	static std::wstreambuf*     sb;
 	static enum OpenBy {
 		Stream,
 		FileName,
@@ -217,15 +247,7 @@ class __WIBuffer {
 		StreamBuf
 	} open_by;
 
-	static void _del() {
-		if (open_by == FileName) {
-			delete ifs;
-			ifs = nullptr;
-		}
-		open_by = Stream;
-	}
-
-	_Temp_T static void _open(T* t) {
+	_Temp_T static void _open    (T* t) {
 		if constexpr (std::is_same_v<T, std::wifstream>) {
 			open_by = IfStream;
 			ifs = t;
@@ -241,81 +263,96 @@ class __WIBuffer {
 			_wInput_In.rdbuf(t);
 		}
 	}
-	static void __open(std::wifstream* t) {
+	        static void __open   (std::wifstream* t) {
 		open_by = FileName;
 		ifs = t;
 		_wInput_In.rdbuf(ifs->rdbuf());
 	}
-	static bool _is_open() {
+	        static bool _is_open () {
 		switch (open_by)
 		{
-		case __WIBuffer::Stream:
+		case __wIBuffer::Stream:
 			return false;
-		case __WIBuffer::FileName:
+		case __wIBuffer::FileName:
 			return true;
-		case __WIBuffer::IfStream:
+		case __wIBuffer::IfStream:
 			return ifs->is_open();
 			break;
-		case __WIBuffer::FStream:
+		case __wIBuffer::FStream:
 			return fs->is_open();
 			break;
-		case __WIBuffer::StreamBuf:
+		case __wIBuffer::StreamBuf:
 			return true;
 		}
 	}
-
+	        static void _del     () {
+		if (open_by == FileName) {
+			delete ifs;
+			ifs = nullptr;
+		}
+		open_by = Stream;
+	}
 
 protected:
 
 	static std::wistream _wInput_In;
 
 public:
-	static void open(std::string FileName, std::ios_base::openmode Mode = std::ios_base::in, _i32 Prot = 64) {
+
+	static std::wstreambuf* rdbuf   () {
+		return _wInput_In.rdbuf();
+	}
+	static std::wstreambuf* rdbuf   (std::wstreambuf* StreamBuf) {
+		_del();
+		_open(StreamBuf);
+		return _wInput_In.rdbuf();
+	}
+	static void             open    (std::string FileName, std::ios_base::openmode Mode = std::ios_base::in, _i32 Prot = 64) {
 		_del();
 		__open(new std::wifstream(FileName, Mode, Prot));
 	}
-	static void open(std::wstring FileName, std::ios_base::openmode Mode = std::ios_base::in, _i32 Prot = 64) {
+	static void             open    (std::wstring FileName, std::ios_base::openmode Mode = std::ios_base::in, _i32 Prot = 64) {
 		_del();
 		__open(new std::wifstream(FileName, Mode, Prot));
 	}
-	static void open(std::wfstream& FileStream) {
+	static void             open    (std::wfstream& FileStream) {
 		_del();
 		_open(&FileStream);
 	}
-	static void open(std::wifstream& FileStream) {
+	static void             open    (std::wifstream& FileStream) {
 		_del();
 		_open(&FileStream);
 	}
-	static void open(std::wstreambuf* StreamBuf) {
+	static void             open    (std::wstreambuf* StreamBuf) {
 		_del();
 		_open(StreamBuf);
 	}
-	static void close() {
+	static void             close   () {
 		_del();
 		_wInput_In.rdbuf(sb);
 	}
-	static bool eof() {
+	static bool             eof     () {
 		return _wInput_In.eof();
 	}
-	static bool is_open() {
+	static bool             is_open () {
 		return _is_open();
 	}
+
 };
-std::wifstream* __WIBuffer::ifs{ nullptr };
-std::wfstream* __WIBuffer::fs{ nullptr };
-std::wstreambuf* __WIBuffer::sb{ std::wcin.rdbuf() };
-__WIBuffer::OpenBy __WIBuffer::open_by{ __WIBuffer::Stream };
-std::wistream __WIBuffer::_wInput_In{ std::wcin.rdbuf() };
+__wIBuffer::OpenBy __wIBuffer::open_by    { __wIBuffer::Stream };
+std::wifstream*    __wIBuffer::ifs        { nullptr };
+std::wfstream*     __wIBuffer::fs         { nullptr };
+std::wstreambuf*   __wIBuffer::sb         { std::wcin.rdbuf() };
+std::wistream      __wIBuffer::_wInput_In { std::wcin.rdbuf() };
 
 
 
 
 
 class __PBuffer {
-	static std::ofstream* ifs;
-	static std::fstream* fs;
-	static std::streambuf* sb;
-
+	static std::ofstream*       ifs;
+	static std::fstream*        fs;
+	static std::streambuf*      sb;
 	static enum OpenBy {
 		Stream,
 		FileName,
@@ -324,15 +361,8 @@ class __PBuffer {
 		StreamBuf
 	} open_by;
 
-	static void _del() {
-		if (open_by == FileName) {
-			delete ifs;
-			ifs = nullptr;
-		}
-		open_by = Stream;
-	}
 
-	_Temp_T static void _open(T* t) {
+	_Temp_T static void _open    (T* t) {
 		if constexpr (std::is_same_v<T, std::ofstream>) {
 			open_by = OfStream;
 			ifs = t;
@@ -348,13 +378,12 @@ class __PBuffer {
 			_Print_Out.rdbuf(t);
 		}
 	}
-	static void __open(std::ofstream* t) {
+	        static void __open   (std::ofstream* t) {
 		open_by = FileName;
 		ifs = t;
 		_Print_Out.rdbuf(ifs->rdbuf());
 	}
-
-	static bool _is_open() {
+	        static bool _is_open () {
 		switch (open_by)
 		{
 		case __PBuffer::Stream:
@@ -371,64 +400,79 @@ class __PBuffer {
 			return true;
 		}
 	}
+	        static void _del     () {
+		if (open_by == FileName) {
+			delete ifs;
+			ifs = nullptr;
+		}
+		open_by = Stream;
+	}
 
 protected:
 
 	static std::ostream _Print_Out;
 
 public:
-	static void open(std::string FileName, std::ios_base::openmode Mode = std::ios_base::out, _i32 Prot = 64) {
+
+	static std::streambuf* rdbuf   () {
+		return _Print_Out.rdbuf();
+	}
+	static std::streambuf* rdbuf   (std::streambuf* StreamBuf) {
+		_del();
+		_open(StreamBuf);
+		return _Print_Out.rdbuf();
+	}
+	static void            open    (std::string FileName, std::ios_base::openmode Mode = std::ios_base::out, _i32 Prot = 64) {
 		_del();
 		__open(new std::ofstream(FileName, Mode, Prot));
 	}
-	static void open(std::wstring FileName, std::ios_base::openmode Mode = std::ios_base::out, _i32 Prot = 64) {
+	static void            open    (std::wstring FileName, std::ios_base::openmode Mode = std::ios_base::out, _i32 Prot = 64) {
 		_del();
 		__open(new std::ofstream(FileName, Mode, Prot));
 	}
-	static void open(std::fstream& FileStream) {
+	static void            open    (std::fstream& FileStream) {
 		_del();
 		_open(&FileStream);
 	}
-	static void open(std::ofstream& FileStream) {
+	static void            open    (std::ofstream& FileStream) {
 		_del();
 		_open(&FileStream);
 	}
-	static void open(std::streambuf* StreamBuf) {
+	static void            open    (std::streambuf* StreamBuf) {
 		_del();
 		_open(StreamBuf);
 	}
-	static void close() {
+	static void            close   () {
 		_del();
 		_Print_Out.rdbuf(sb);
 	}
-	static bool eof() {
+	static bool            eof     () {
 		return _Print_Out.eof();
 	}
-	static bool is_open() {
+	static bool            is_open () {
 		return _is_open();
 	}
+
 };
-std::ofstream* __PBuffer::ifs{nullptr};
-std::fstream* __PBuffer::fs{nullptr};
-std::streambuf* __PBuffer::sb{ std::cout.rdbuf() };
-__PBuffer::OpenBy __PBuffer::open_by{ __PBuffer::Stream };
-std::ostream __PBuffer::_Print_Out{ std::cout.rdbuf() };
+__PBuffer::OpenBy __PBuffer::open_by    { __PBuffer::Stream };
+std::ofstream*    __PBuffer::ifs        {nullptr};
+std::fstream*     __PBuffer::fs         {nullptr};
+std::streambuf*   __PBuffer::sb         { std::cout.rdbuf() };
+std::ostream      __PBuffer::_Print_Out { std::cout.rdbuf() };
 
 
 
 
 
-class input : public __IBuffer {
+class _Input : public __IBuffer {
+
 	static _ui64 npos;
 	_ui64 _Size{npos};
 
 public:
-	/// <param name="Text">: —ообщение, которое выводитс€</param>
-	/// <param name="Size">: ¬вод Size переменных в контейнер</param>
-	input(std::string Text = "", _ui64 Size = npos) : _Size(Size) { std::cout << Text;}
-	/// <param name="Size">: ¬вод Size переменных в контейнер</param>
-	input(_ui64 Size) : _Size(Size) {  }
 	
+	friend _Input&     input   (std::string Text, _ui64 Size);
+	friend _Input&     input   (_ui64 Size);
 	static std::string getline () {
 		std::string s;
 		_i8 c = _Input_In.get();
@@ -462,6 +506,7 @@ public:
 	_Temp_T auto     operator &&					  (T t) { T     v; _Input_In  >> v; return v && t;   }
 	_Temp_T auto     operator ||					  (T t) { T     v; _Input_In  >> v; return v || t;   }	
 	_Temp_T explicit operator T                          () { T     v; _Input_In  >> v; return v;        }
+#if ((defined(_MSVC_LANG) && _MSVC_LANG > 201703L) || __cplusplus > 201703L)
 				     operator _bool						 () { _bool v; _Input_In  >> v; return v;        }
 				     operator _i8						 () { _i8   v; _Input_In  >> v; return v;        }
 				     operator _i16						 () { _i16  v; _Input_In  >> v; return v;        }
@@ -474,12 +519,27 @@ public:
 				     operator _f32				         () { _f32  v; _Input_In  >> v; return v;        }
 				     operator _f64					     () { _f64  v; _Input_In  >> v; return v;        }
 				     operator _lf64					     () { _lf64 v; _Input_In  >> v; return v;        }
-				     operator _sc8                       () { _sc8  v; _Input_In  >> v; return v;        }
-					 #if ((defined(_MSVC_LANG) && _MSVC_LANG > 201703L) || __cplusplus > 201703L)
+				     operator _sc8                       () { _sc8  v; _Input_In  >> v; return v;        }			 
 					 operator _uc8						 () { _ui8  v; _Input_In  >> v; return (_uc8)v;  }
-					 #endif
 				     operator _uc16						 () { _ui16 v; _Input_In  >> v; return (_uc16)v; }
 				     operator _uc32						 () { _ui32 v; _Input_In  >> v; return (_uc32)v; }
+#else
+	                 operator _bool						 () { _bool v; _Input_In >> v; return v; }
+	                 operator _i8						 () { _i8   v; _Input_In >> v; return v; }
+	                 operator _i16						 () { _i16  v; _Input_In >> v; return v; }
+	                 operator _i32						 () { _i32  v; _Input_In >> v; return v; }
+	                 operator _i64						 () { _i64  v; _Input_In >> v; return v; }
+	                 operator _ui8						 () { _ui8  v; _Input_In >> v; return v; }
+	                 operator _ui16						 () { _ui16 v; _Input_In >> v; return v; }
+	                 operator _ui32						 () { _ui32 v; _Input_In >> v; return v; }
+	                 operator _ui64						 () { _ui64 v; _Input_In >> v; return v; }
+	                 operator _f32				         () { _f32  v; _Input_In >> v; return v; }
+	                 operator _f64					     () { _f64  v; _Input_In >> v; return v; }
+	                 operator _lf64					     () { _lf64 v; _Input_In >> v; return v; }
+	                 operator _sc8                       () { _sc8  v; _Input_In >> v; return v; }
+	                 operator _uc16						 () { _ui16 v; _Input_In >> v; return (_uc16)v; }
+	                 operator _uc32						 () { _ui32 v; _Input_In >> v; return (_uc32)v; }
+#endif
 				     operator std::string                () {
 		std::string v; _Input_In >> v;
 		return v;
@@ -505,20 +565,20 @@ public:
 	_Temp_T1_T2	     operator std::unordered_map<T1, T2> (){
 		std::unordered_map<T1, T2> v;
 		if (_Size == npos) {
-			T1 t1 = input(); T2 t2 = input();
+			T1 t1 = *this; T2 t2 = *this;
 			v.insert({ t1, t2 });
 			return v;
 		}
 		for (_ui64 i = 0; i < _Size; i++) {
-			T1 t1 = input(); T2 t2 = input();
+			T1 t1 = *this; T2 t2 = *this;
 			v.insert({ t1, t2 });
 		}
 		return v;
 	}
 	_Temp_T_N        operator std::array<T, N>           (){
 		std::array<T, N> v;
-		if (_Size >= N) for (_ui64 i = 0; i < N; i++) v[i] = input();
-		else for (_ui64 i = 0; i < _Size; i++) v[i] = input();
+		if (_Size >= N) for (_ui64 i = 0; i < N; i++) v[i] = *this;
+		else for (_ui64 i = 0; i < _Size; i++) v[i] = *this;
 		return v;
 	}
 	_Temp_T		     operator std::vector<T>             () {
@@ -702,24 +762,37 @@ public:
 		v.push(*this);
 		return v;
 	}
+
 };
-_ui64 input::npos{ (_ui64)-1 };
+_ui64 _Input::npos{ (_ui64)-1 };
+/// <param name="Text">: —ообщение, которое выводитс€</param>
+/// <param name="Size">: ¬вод Size переменных в контейнер</param>
+_Input& input(std::string Text = "", _ui64 Size = _Input::npos) {
+	std::cout << Text;
+	static _Input st;
+	st._Size = Size;
+	return st;
+}
+/// <param name="Size">: ¬вод Size переменных в контейнер</param>
+_Input& input(_ui64 Size){
+	static _Input st;
+	st._Size = Size;
+	return st;
+}
 
 
 
 
 
-class winput : public __WIBuffer {
+class _wInput : public __wIBuffer {
+
 	static _ui64 npos;
 	_ui64 _Size{ npos };
 
 public:
-	/// <param name="Text">: —ообщение, которое выводитс€</param>
-	/// <param name="Size">: ¬вод Size переменных в контейнер</param>
-	winput(std::string Text = "", _ui64 Size = npos) : _Size(Size) { std::cout << Text; }
-	/// <param name="Size">: ¬вод Size переменных в контейнер</param>
-	winput(_ui64 Size) : _Size(Size) {  }
 
+	friend _wInput&     winput  (std::string Text, _ui64 Size);
+	friend _wInput&     winput  (_ui64 Size);
 	static std::wstring getline () {
 		std::wstring s;
 		_wc c = _wInput_In.get();
@@ -791,20 +864,20 @@ public:
 	_Temp_T1_T2	     operator std::unordered_map<T1, T2>() {
 		std::unordered_map<T1, T2> v;
 		if (_Size == npos) {
-			T1 t1 = input(); T2 t2 = input();
+			T1 t1 = *this; T2 t2 = *this;
 			v.insert({ t1, t2 });
 			return v;
 		}
 		for (_ui64 i = 0; i < _Size; i++) {
-			T1 t1 = input(); T2 t2 = input();
+			T1 t1 = *this; T2 t2 = *this;
 			v.insert({ t1, t2 });
 		}
 		return v;
 	}
 	_Temp_T_N        operator std::array<T, N>() {
 		std::array<T, N> v;
-		if (_Size >= N) for (_ui64 i = 0; i < N; i++) v[i] = input();
-		else for (_ui64 i = 0; i < _Size; i++) v[i] = input();
+		if (_Size >= N) for (_ui64 i = 0; i < N; i++) v[i] = *this;
+		else for (_ui64 i = 0; i < _Size; i++) v[i] = *this;
 		return v;
 	}
 	_Temp_T		     operator std::vector<T>() {
@@ -988,8 +1061,26 @@ public:
 		v.push(*this);
 		return v;
 	}
+
 };
-_ui64 winput::npos{ (_ui64)-1 };
+_ui64 _wInput::npos{ (_ui64)-1 };
+/// <param name="Text">: —ообщение, которое выводитс€</param>
+/// <param name="Size">: ¬вод Size переменных в контейнер</param>
+/// <returns></returns>
+_wInput& winput(std::string Text = "", _ui64 Size = _wInput::npos) {
+	std::cout << Text;
+	static _wInput st;
+	st._Size = Size;
+	return st;
+}
+/// <param name="Size">: ¬вод Size переменных в контейнер</param>
+/// <returns></returns>
+_wInput& winput(_ui64 Size) {
+	static _wInput st;
+	st._Size = Size;
+	return st;
+}
+
 
 
 
@@ -1006,8 +1097,8 @@ struct _cmd {
 
 class _Print : public __PBuffer {
 public:
-	~_Print() { if(imsomewrite) _Print_Out << end;}
-	_Temp_Args friend _Print print(Args...);
+	~_Print() { if(imsomewrite) _Print_Out << end; }
+	_Temp_Args friend _Print& print(Args...);
 	
 private:
 	bool imsomewrite{ false };
@@ -1047,9 +1138,12 @@ private:
 		else 
 			_Print_Out << typeid(T).name();
 	}
-	_Temp_		 void _print(input t) {
+	_Temp_		 void _print(_Input t) {
 		_Print_Out << (std::string)t;
 	}
+	//_Temp_		 void _print(_wInput t) {
+	//	_Print_Out << (std::wstring)t;
+	//}
 	_Temp_		 void _print(_cmd t) {}
 	_Temp_		 void _print(bool t) {
 		_Print_Out << std::boolalpha << t;
@@ -1263,7 +1357,7 @@ private:
 	_ui64 now_pos{ 0 };
 	_i32 useful_amount{ 0 };
 };
-_Temp_Args _Print print(Args... args) {
+_Temp_Args _Print& print(Args... args) {
 	_Print st(args...);
 	return st;
 }
