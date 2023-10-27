@@ -1358,23 +1358,20 @@ class _Print : public __PBuffer {
 	static _ui64 now_pos;
 	static _i32 useful_amount;
 };
-
-std::string _Print::end{ '\n' };
-std::string _Print::separator{ " " };
-std::string _Print::separator_in_containers{ ", " };
-std::string _Print::separator_in_map{ ": " };
-std::string _Print::brakets_in_array{ "[]" };
-std::string _Print::brakets_in_tuple{ "()" };
-std::string _Print::brakets_in_map{ "{}" };
-std::map<std::string, std::function<void(std::string)>> 
-			_Print::__cmd{
+std::map<std::string, std::function<void(std::string)>> _Print::__cmd{
 		{"end", [&](std::string s) {end = s; }},
 		{"sep", [&](std::string s) {separator = s; }}
 };
+std::string _Print::end                     { '\n' };
+std::string _Print::separator_in_containers { ", " };
+std::string _Print::separator_in_map        { ": " };
+std::string _Print::separator               { " " };
 std::string _Print::need_separator;
-_ui64       _Print::now_pos{ 0 };
-_i32		_Print::useful_amount{ 0 };
-
+std::string _Print::brakets_in_array        { "[]" };
+std::string _Print::brakets_in_tuple        { "()" };
+std::string _Print::brakets_in_map          { "{}" };
+_ui64       _Print::now_pos                 { 0 };
+_i32		_Print::useful_amount           { 0 };
 _Temp_Args void print(Args... args) {
 	_Print::Start(args...);
 }
