@@ -56,7 +56,7 @@
 								 public:																							   \
 								 static constexpr bool value = std::is_same<out, decltype(detect(std::declval<T>()))>::value;};											 
 
-#if ((defined(_MSVC_LANG) && _MSVC_LANG > 201703L) || __cplusplus > 201703L)
+#if (_Version_CPP_17)
 typedef bool              _bool;     //bool													 
 
 typedef __int8            _i8;     //char													 
@@ -508,7 +508,7 @@ public:
 	_Temp_T auto     operator &&					  (T t) { T     v; _Input_In  >> v; return v && t;   }
 	_Temp_T auto     operator ||					  (T t) { T     v; _Input_In  >> v; return v || t;   }	
 	_Temp_T explicit operator T                          () { T     v; _Input_In  >> v; return v;        }
-#if ((defined(_MSVC_LANG) && _MSVC_LANG > 201703L) || __cplusplus > 201703L)
+	#if (_Version_CPP_17)
 				     operator _bool						 () { _bool v; _Input_In  >> v; return v;        }
 				     operator _i8						 () { _i8   v; _Input_In  >> v; return v;        }
 				     operator _i16						 () { _i16  v; _Input_In  >> v; return v;        }
@@ -525,7 +525,7 @@ public:
 					 operator _uc8						 () { _ui8  v; _Input_In  >> v; return (_uc8)v;  }
 				     operator _uc16						 () { _ui16 v; _Input_In  >> v; return (_uc16)v; }
 				     operator _uc32						 () { _ui32 v; _Input_In  >> v; return (_uc32)v; }
-#else
+	#else
 	                 operator _bool						 () { _bool v; _Input_In >> v; return v; }
 	                 operator _i8						 () { _i8   v; _Input_In >> v; return v; }
 	                 operator _i16						 () { _i16  v; _Input_In >> v; return v; }
@@ -541,7 +541,7 @@ public:
 	                 operator _sc8                       () { _sc8  v; _Input_In >> v; return v; }
 	                 operator _uc16						 () { _ui16 v; _Input_In >> v; return (_uc16)v; }
 	                 operator _uc32						 () { _ui32 v; _Input_In >> v; return (_uc32)v; }
-#endif
+	#endif
 				     operator std::string                () {
 		std::string v; _Input_In >> v;
 		return v;
