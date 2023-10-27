@@ -7,28 +7,19 @@ class A{};
 
 int main() {
 	
-	A a;
-
-	ifstream f;
-
-	//cout << input().rdbuf()->getloc().name().size(); //прикольно)
-
-	vector<int> v = input("Text: ", 5);
-	
-	print(v, '\n');
-
-	v = input("Only text: ");
-
-	print(v, '\n');
-
-	v = input(3); //No text
-
-	print(v, '\n');
-
-
+	print(1);
 	return 0;
 }
 
+
+//auto t1 = std::chrono::system_clock::now(); 
+	//for (size_t i = 0; i < 10000; i++) { 
+	//	//print(1); //  4.77261  //  4.37907  //  4.47151
+	//	//cout << 1 << '\n'; //  4.61076  // 4.53652  //  4.51189			
+	//}
+	//auto t2 = std::chrono::system_clock::now(); 
+	//
+	//print('\n', chrono::duration<double>(t2 - t1).count()); 
 
 
 /* Python code

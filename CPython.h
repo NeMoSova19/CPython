@@ -18,8 +18,12 @@
 #include <stack>																				 
 #include <functional>		
 #include <tuple>
-					
-//#define _What_Current_Version_VS ((defined(_MSVC_LANG) && _MSVC_LANG > 201703L) || __cplusplus > 201703L)
+
+#ifndef _MSVC_LANG
+#define _MSVC_LANG 199711L
+#endif // !_MSVC_LANG
+
+#define _Version_CPP_17			 (_MSVC_LANG > 201703L || __cplusplus > 201703L)
 #define _If_No_Class_T           (!std::is_class<T>::value || typeid(T) == typeid(std::string))  
 #define _Temp_			         template<>														 
 #define _Temp_T			         template<typename T>											 
@@ -94,9 +98,6 @@ typedef char16_t          _uc16;     //char16_t
 typedef char32_t          _uc32;     //char32_t												 
 typedef __wchar_t         _wc;     //__wchar_t												 
 #endif
-
-
-
 
 
 template <typename T>
@@ -473,6 +474,7 @@ public:
 	
 	friend _Input&     input   (std::string Text, _ui64 Size);
 	friend _Input&     input   (_ui64 Size);
+
 	static std::string getline () {
 		std::string s;
 		_i8 c = _Input_In.get();
@@ -1096,41 +1098,43 @@ struct _cmd {
 
 
 class _Print : public __PBuffer {
-public:
-	~_Print() { if(imsomewrite) _Print_Out << end; }
-	_Temp_Args friend _Print& print(Args...);
+	Has1(std::string, ToString);
+	_Temp_Args friend void print(Args...);
+
+	static void Restart() {
+		end = '\n';
+		separator = " ";
+	}
 	
-private:
-	bool imsomewrite{ false };
-	_Print() = default;
-	_Temp_Args _Print(Args... args) {
-		imsomewrite = true;
+	_Temp_Args static void Start(Args... args) {
+		Restart();
 		__Test(args...);
 		__Print(args...);
+		_Print_Out << end;
 	} 
-	Has1(std::string, ToString);
 	
-	_Temp_Args void __Print(Args... t) {
+	_Temp_Args static void __Print(Args... t) {
 		now_pos = 0;
 		_print(t...);
 	}
-	_Temp_Args void __Test(Args... t) {
+
+	_Temp_Args static void __Test(Args... t) {
 		need_separator.assign(sizeof...(Args), '0');
 		now_pos = 0;
 		_test(t...);
 		need_separator.back() = '0';
 	}
 
-	std::string end{ '\n' };
-	std::string separator{" "};
-	std::string separator_in_containers{", "};
-	std::string separator_in_map{": "};
+	static std::string end;
+	static std::string separator;
+	static std::string separator_in_containers;
+	static std::string separator_in_map;
 
-	std::string brakets_in_array{"[]"};
-	std::string brakets_in_tuple{"()"};
-	std::string brakets_in_map{"{}"};
+	static std::string brakets_in_array;
+	static std::string brakets_in_tuple;
+	static std::string brakets_in_map;
 
-	_Temp_T		 void _print(T t) {
+	_Temp_T		 static void _print(T t) {
 		if constexpr (has_output_operator<T>::value)
 			_Print_Out << t;
 		else if constexpr (has1_ToString<T>::value) 
@@ -1138,24 +1142,24 @@ private:
 		else 
 			_Print_Out << typeid(T).name();
 	}
-	_Temp_		 void _print(_Input t) {
+	_Temp_		 static void _print(_Input t) {
 		_Print_Out << (std::string)t;
 	}
-	//_Temp_		 void _print(_wInput t) {
-	//	_Print_Out << (std::wstring)t;
-	//}
-	_Temp_		 void _print(_cmd t) {}
-	_Temp_		 void _print(bool t) {
+	_Temp_		 static void _print(_wInput t) {
+		std::wcout << (std::wstring)t;
+	}
+	_Temp_		 static void _print(_cmd t) {}
+	_Temp_		 static void _print(bool t) {
 		_Print_Out << std::boolalpha << t;
 	}
-	_Temp_T1_T2	 void _print(std::pair<T1, T2> t) {
+	_Temp_T1_T2	 static void _print(std::pair<T1, T2> t) {
 		_Print_Out << brakets_in_array[0];
 		_print(t.first);
 		_Print_Out << separator_in_containers;
 		_print(t.second);
 		_Print_Out << brakets_in_array[1];
 	}
-	_Temp_T1_T2	 void _print(std::map<T1, T2> v) {
+	_Temp_T1_T2	 static void _print(std::map<T1, T2> v) {
 		_Print_Out << brakets_in_map[0];
 		_ui64 cnt{ 0 };
 		for (auto i : v) {
@@ -1169,7 +1173,7 @@ private:
 		}
 		_Print_Out << brakets_in_map[1];
 	}
-	_Temp_T1_T2	 void _print(std::unordered_map<T1, T2> v) {
+	_Temp_T1_T2	 static void _print(std::unordered_map<T1, T2> v) {
 		_Print_Out << brakets_in_map[0];
 		_ui64 cnt{ 0 };
 		for (auto i : v) {
@@ -1183,7 +1187,7 @@ private:
 		}
 		_Print_Out << brakets_in_map[1];
 	}
-	_Temp_T_N	 void _print(std::array<T, N> v) {
+	_Temp_T_N	 static void _print(std::array<T, N> v) {
 		_Print_Out << brakets_in_array[0];
 		_ui64 cnt{ 0 };
 		for (auto i : v) {
@@ -1195,7 +1199,7 @@ private:
 		}
 		_Print_Out << brakets_in_array[1];
 	}
-	_Temp_T		 void _print(std::vector<T> v) {
+	_Temp_T		 static void _print(std::vector<T> v) {
 		_Print_Out << brakets_in_array[0];
 		_ui64 cnt{ 0 };
 		for (auto i : v) {
@@ -1207,7 +1211,7 @@ private:
 		}
 		_Print_Out << brakets_in_array[1];
 	}
-	_Temp_T		 void _print(std::list<T> v) {
+	_Temp_T		 static void _print(std::list<T> v) {
 		_Print_Out << brakets_in_array[0];
 		_ui64 cnt{ 0 };
 		for (auto i : v) {
@@ -1219,7 +1223,7 @@ private:
 		}
 		_Print_Out << brakets_in_array[1];
 	}
-	_Temp_T		 void _print(std::forward_list<T> v) {
+	_Temp_T		 static void _print(std::forward_list<T> v) {
 		_Print_Out << brakets_in_array[0];
 		_ui64 cnt{ 0 };
 		for (auto i : v) {
@@ -1231,7 +1235,7 @@ private:
 		}
 		_Print_Out << brakets_in_array[1];
 	}
-	_Temp_T		 void _print(std::set<T> v) {
+	_Temp_T		 static void _print(std::set<T> v) {
 		_Print_Out << brakets_in_array[0];
 		_ui64 cnt{ 0 };
 		for (auto i : v) {
@@ -1243,7 +1247,7 @@ private:
 		}
 		_Print_Out << brakets_in_array[1];
 	}
-	_Temp_T		 void _print(std::multiset<T> v) {
+	_Temp_T		 static void _print(std::multiset<T> v) {
 		_Print_Out << brakets_in_array[0];
 		_ui64 cnt{ 0 };
 		for (auto i : v) {
@@ -1255,7 +1259,7 @@ private:
 		}
 		_Print_Out << brakets_in_array[1];
 	}
-	_Temp_T		 void _print(std::unordered_set<T> v) {
+	_Temp_T		 static void _print(std::unordered_set<T> v) {
 		_Print_Out << brakets_in_array[0];
 		_ui64 cnt{ 0 };
 		for (auto i : v) {
@@ -1267,7 +1271,7 @@ private:
 		}
 		_Print_Out << brakets_in_array[1];
 	}
-	_Temp_T		 void _print(std::unordered_multiset<T> v) {
+	_Temp_T		 static void _print(std::unordered_multiset<T> v) {
 		_Print_Out << brakets_in_array[0];
 		_ui64 cnt{ 0 };
 		for (auto i : v) {
@@ -1279,7 +1283,7 @@ private:
 		}
 		_Print_Out << brakets_in_array[1];
 	}
-	_Temp_T		 void _print(std::queue<T> v) {
+	_Temp_T		 static void _print(std::queue<T> v) {
 		_Print_Out << brakets_in_array[0];
 		auto vnew = v;
 		while (true) {
@@ -1290,7 +1294,7 @@ private:
 		}
 		_Print_Out << brakets_in_array[1];
 	}
-	_Temp_T		 void _print(std::priority_queue<T> v) {
+	_Temp_T		 static void _print(std::priority_queue<T> v) {
 		_Print_Out << brakets_in_array[0];
 		auto vnew = v;
 		while (true) {
@@ -1301,7 +1305,7 @@ private:
 		}
 		_Print_Out << brakets_in_array[1];
 	}
-	_Temp_T		 void _print(std::deque<T> v) {
+	_Temp_T		 static void _print(std::deque<T> v) {
 		_Print_Out << brakets_in_array[0];
 		_ui64 cnt{ 0 };
 		for (auto i : v) {
@@ -1313,7 +1317,7 @@ private:
 		}
 		_Print_Out << brakets_in_array[1];
 	}
-	_Temp_T		 void _print(std::stack<T> v) {
+	_Temp_T		 static void _print(std::stack<T> v) {
 		_Print_Out << brakets_in_array[0];
 		auto vnew = v;
 		while (true) {
@@ -1324,7 +1328,7 @@ private:
 		}
 		_Print_Out << brakets_in_array[1];
 	}
-	_Temp_T_Args void _print(T v, Args... w) {
+	_Temp_T_Args static void _print(T v, Args... w) {
 		if (need_separator[now_pos] == '0') {
 			now_pos++;
 			_print(w...);
@@ -1336,30 +1340,43 @@ private:
 		_print(w...);
 	}
 
-	_Temp_T		 void _test(T t) {
+	_Temp_T		 static void _test(T t) {
 		need_separator[now_pos] = '1';
 		now_pos++;
 		useful_amount++;
 	}
-	_Temp_		 void _test(_cmd t) {
+	_Temp_		 static void _test(_cmd t) {
 		__cmd[t.what](t.on_what);
 		now_pos++;
 	}
-	_Temp_T_Args void _test(T t, Args... args) {
+	_Temp_T_Args static void _test(T t, Args... args) {
 		_test(t); _test(args...);
 	}
 
-	std::map<std::string, std::function<void(std::string)>> __cmd{ 
+	static std::map<std::string, std::function<void(std::string)>> __cmd;
+	static std::string need_separator;
+	static _ui64 now_pos;
+	static _i32 useful_amount;
+};
+
+std::string _Print::end{ '\n' };
+std::string _Print::separator{ " " };
+std::string _Print::separator_in_containers{ ", " };
+std::string _Print::separator_in_map{ ": " };
+std::string _Print::brakets_in_array{ "[]" };
+std::string _Print::brakets_in_tuple{ "()" };
+std::string _Print::brakets_in_map{ "{}" };
+std::map<std::string, std::function<void(std::string)>> 
+			_Print::__cmd{
 		{"end", [&](std::string s) {end = s; }},
 		{"sep", [&](std::string s) {separator = s; }}
-	};
-	std::string need_separator;
-	_ui64 now_pos{ 0 };
-	_i32 useful_amount{ 0 };
 };
-_Temp_Args _Print& print(Args... args) {
-	_Print st(args...);
-	return st;
+std::string _Print::need_separator;
+_ui64       _Print::now_pos{ 0 };
+_i32		_Print::useful_amount{ 0 };
+
+_Temp_Args void print(Args... args) {
+	_Print::Start(args...);
 }
 
 
