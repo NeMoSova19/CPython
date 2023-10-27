@@ -2,13 +2,29 @@
 #include <chrono>
 using namespace std;
 
+class A{};
+
+
 int main() {
 	
+	A a;
 
-	print(input(), _cmd("end", (char)input()));
+	ifstream f;
 
+	//cout << input().rdbuf()->getloc().name().size(); //прикольно)
 
+	vector<int> v = input("Text: ", 5);
 	
+	print(v, '\n');
+
+	v = input("Only text: ");
+
+	print(v, '\n');
+
+	v = input(3); //No text
+
+	print(v, '\n');
+
 
 	return 0;
 }
