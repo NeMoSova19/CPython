@@ -1377,102 +1377,286 @@ _Temp_Args void print(Args... args) {
 }
 
 
-// SearchIn
-// 
-//namespace _In {
-//	class OperatorIn {};
-//	template<typename Tin>
-//	struct InSearch {
-//		const Tin& m_in;
-//		InSearch(const Tin& val) : m_in(val) {};
-//		template<typename T> bool operator *(T& what) { return _in(m_in, what); }
-//	private:
-//		template<typename T1, typename T2> bool _in(std::pair<T1, T2> p1, std::pair<T1, T2> p2) {
-//			return (p1.first == p2.first) && (p1.second == p2.second);
-//		}
-//		
-//		template<typename Search, typename T1, typename T2> bool _in(Search t, std::pair<T1, T2> V) {
-//			if constexpr (typeid(Search) == typeid(T1)) return _in(t, V.first);
-//			if constexpr (typeid(Search) == typeid(T2)) return _in(t, V.second);
-//			return false;
-//		}
-//		
-//		template<typename Search, typename T1, typename T2> bool _in(Search t, std::map<T1, T2> V) {
-//			return false;
-//		}
-//		
-//		template<typename Search, typename T1, typename T2> bool _in(Search t, std::unordered_map<T1, T2> V) {
-//			return false;
-//		}
-//		
-//		template<typename T, size_t N1, size_t N2> bool _in(std::array<T, N1> V1, std::array<T, N2> V2) {
-//			if (N1 != N2) return false;
-//			bool opt = true;
-//			for (size_t i = 0; i < N1; i++) {
-//				opt &= _in(V1[i], V2[i]);
-//				if (!opt) return false;
-//			}
-//			return opt;
-//		}
-//		template<typename Search, typename T, size_t N> bool _in(Search t, std::array<T, N> V) {
-//			bool opt = false;
-//			for (size_t i = 0; i < N; i++) {
-//				opt |= _in(t, V[i]);
-//				if (opt) return true;
-//			}
-//			return opt;
-//		}
-//	
-//		template<typename T> bool _in(std::vector<T> V1, std::vector<T> V2) {
-//			if (V1.size() != V2.size()) return false;
-//			bool opt = true;
-//			for (size_t i = 0; i < V1.size(); i++) {
-//				opt &= _in(V1[i], V2[i]);
-//				if (!opt) return false;
-//			}
-//			return opt;
-//		}
-//		template<typename Search, typename T> bool _in(Search t, std::vector<T> V) {
-//			bool opt = false;
-//			for (size_t i = 0; i < V.size(); i++) {
-//				opt |= _in(t, V[i]);
-//				if (opt) return true;
-//			}
-//			return opt;
-//		}
-//
-//		template<typename Search, typename T> bool _in(Search t, std::list<T> V) {
-//			return false;
-//		}
-//		
-//		template<typename Search, typename T> bool _in(Search t, std::forward_list<T> V) {
-//			return false;
-//		}
-//		
-//		template<typename Search, typename T> bool _in(Search t, std::set<T> V) {
-//			return false;
-//		}
-//		
-//		template<typename Search, typename T> bool _in(Search t, std::multiset<T> V) {
-//			return false;
-//		}
-//		
-//		template<typename Search, typename T> bool _in(Search t, std::unordered_set<T> V) {
-//			return false;
-//		}
-//		
-//		template<typename Search, typename T> bool _in(Search t, std::unordered_multiset<T> V) {
-//			return false;
-//		}
-//		
-//		template<typename Search, typename T> bool _in(Search t, T V) { return t == V; }
-//
-//	};
-//	template<typename T> InSearch<T> operator *(const T& data, const OperatorIn&) { return InSearch<T>(data); }
-//}
-//#define in *_In::OperatorIn{}*
 
-int64_t random(int64_t const less, int64_t const more) {
+
+
+
+struct _SearchIn {
+	
+	//_Temp_T_N     _ui64     _is_conteiner_T                  (T t, N){
+	//	constexpr type_info a = typeid(T);
+	//	if constexpr (a == typeid(std::string))             return _is_conteiner_T(t, N);
+	//	if constexpr (a == typeid(std::pair))               return _is_conteiner_T(t, N);
+	//	if constexpr (a == typeid(std::map))                return _is_conteiner_T(t, N);
+	//	if constexpr (a == typeid(std::unordered_map))      return _is_conteiner_T(t, N);
+	//	if constexpr (a == typeid(std::array))              return _is_conteiner_T(t, N);
+	//	if constexpr (a == typeid(std::vector))             return _is_conteiner_T(t, N);
+	//	if constexpr (a == typeid(std::list))               return _is_conteiner_T(t, N);
+	//	if constexpr (a == typeid(std::forward_list))       return _is_conteiner_T(t, N);
+	//	if constexpr (a == typeid(std::set))                return _is_conteiner_T(t, N);
+	//	if constexpr (a == typeid(std::unordered_set))      return _is_conteiner_T(t, N);
+	//	if constexpr (a == typeid(std::multiset))           return _is_conteiner_T(t, N);
+	//	if constexpr (a == typeid(std::unordered_multiset)) return _is_conteiner_T(t, N);
+	//	if constexpr (a == typeid(std::queue))              return _is_conteiner_T(t, N);
+	//	if constexpr (a == typeid(std::deque))              return _is_conteiner_T(t, N);
+	//	if constexpr (a == typeid(std::stack))              return _is_conteiner_T(t, N);
+	//	if constexpr (!std::is_class<T>::value)             return _is_conteiner_T(t, N);
+	//	return -1;
+	//
+	//}
+
+	//_Temp_T_N     _bool       _is_conteiner_T                  (T t, N){
+	//	
+	//
+	//}
+
+	_Temp_T_N static _bool _cycle_T           (std::string _STR, std::array<T, N> V, _ui64 I) {
+		if (!!I) {
+			_bool _Flag{ false };
+			if constexpr (std::is_class<T>::value) for (auto u : V) _Flag |= _cycle_T(_STR, u, I - 1);
+			else for (auto u : V) _Flag |= (_STR == _to_string_T(u));
+			return _Flag;
+		}
+		return _STR == _to_string_T(V);
+	}
+	_Temp_T   static _bool _cycle_T             (std::string _STR, std::vector<T> V, _ui64 I) {
+		if (!!I) {
+			_bool _Flag{ false };
+			if constexpr (std::is_class<T>::value) for (auto u : V) _Flag |= _cycle_T(_STR, u, I - 1);
+			else for (auto u : V) _Flag |= (_STR == _to_string_T(u));
+			return _Flag;
+		}
+		return _STR == _to_string_T(V);
+	}
+	_Temp_T   static _bool _cycle_T               (std::string _STR, std::list<T> V, _ui64 I) {
+		if (!!I) {
+			_bool _Flag{ false };
+			if constexpr (std::is_class<T>::value) for (auto u : V) _Flag |= _cycle_T(_STR, u, I - 1);
+			else for (auto u : V) _Flag |= (_STR == _to_string_T(u));
+			return _Flag;
+		}
+		return _STR == _to_string_T(V);
+	}
+	_Temp_T   static _bool _cycle_T       (std::string _STR, std::forward_list<T> V, _ui64 I) {
+		if (!!I) {
+			_bool _Flag{ false };
+			if constexpr (std::is_class<T>::value) for (auto u : V) _Flag |= _cycle_T(_STR, u, I - 1);
+			else for (auto u : V) _Flag |= (_STR == _to_string_T(u));
+			return _Flag;
+		}
+		return _STR == _to_string_T(V);
+	}
+	_Temp_T   static _bool _cycle_T                (std::string _STR, std::set<T> V, _ui64 I) {
+		if (!!I) {
+			_bool _Flag{ false };
+			if constexpr (std::is_class<T>::value) for (auto u : V) _Flag |= _cycle_T(_STR, u, I - 1);
+			else for (auto u : V) _Flag |= (_STR == _to_string_T(u));
+			return _Flag;
+		}
+		return _STR == _to_string_T(V);
+	}
+	_Temp_T   static _bool _cycle_T           (std::string _STR, std::multiset<T> V, _ui64 I) {
+		if (!!I) {
+			_bool _Flag{ false };
+			if constexpr (std::is_class<T>::value) for (auto u : V) _Flag |= _cycle_T(_STR, u, I - 1);
+			else for (auto u : V) _Flag |= (_STR == _to_string_T(u));
+			return _Flag;
+		}
+		return _STR == _to_string_T(V);
+	}
+	_Temp_T   static _bool _cycle_T      (std::string _STR, std::unordered_set<T> V, _ui64 I) {
+		if (!!I) {
+			_bool _Flag{ false };
+			if constexpr (std::is_class<T>::value) for (auto u : V) _Flag |= _cycle_T(_STR, u, I - 1);
+			else for (auto u : V) _Flag |= (_STR == _to_string_T(u));
+			return _Flag;
+		}
+		return _STR == _to_string_T(V);
+	}
+	_Temp_T   static _bool _cycle_T (std::string _STR, std::unordered_multiset<T> V, _ui64 I) {
+		if (!!I) {
+			_bool _Flag{ false };
+			if constexpr (std::is_class<T>::value) for (auto u : V) _Flag |= _cycle_T(_STR, u, I - 1);
+			else for (auto u : V) _Flag |= (_STR == _to_string_T(u));
+			return _Flag;
+		}
+		return _STR == _to_string_T(V);
+	}
+	          static _bool _cycle_T                (std::string _STR, std::string V, _ui64 I) {
+		
+		return _STR == _to_string_T(V);
+	}
+
+	///
+	_Temp_T1_T2 static        _ui64 _is_class_T           (std::pair<T1, T2> V, _ui64 I) {}
+	_Temp_T1_T2 static        _ui64 _is_class_T            (std::map<T1, T2> V, _ui64 I) {}
+	_Temp_T1_T2 static        _ui64 _is_class_T  (std::unordered_map<T1, T2> V, _ui64 I) {}
+	///			
+
+	_Temp_T_N   static        _ui64 _is_class_T            (std::array<T, N> V, _ui64 I) { T v{}; return _is_class_T(v, I) + 1; }
+	_Temp_T     static        _ui64 _is_class_T              (std::vector<T> V, _ui64 I) { T v{}; return _is_class_T(v, I) + 1; }
+	_Temp_T     static        _ui64 _is_class_T                (std::list<T> V, _ui64 I) { T v{}; return _is_class_T(v, I) + 1; }
+	_Temp_T     static        _ui64 _is_class_T        (std::forward_list<T> V, _ui64 I) { T v{}; return _is_class_T(v, I) + 1; }
+	_Temp_T     static        _ui64 _is_class_T                 (std::set<T> V, _ui64 I) { T v{}; return _is_class_T(v, I) + 1; }
+	_Temp_T     static        _ui64 _is_class_T            (std::multiset<T> V, _ui64 I) { T v{}; return _is_class_T(v, I) + 1; }
+	_Temp_T     static        _ui64 _is_class_T       (std::unordered_set<T> V, _ui64 I) { T v{}; return _is_class_T(v, I) + 1; }
+	_Temp_T     static        _ui64 _is_class_T  (std::unordered_multiset<T> V, _ui64 I) { T v{}; return _is_class_T(v, I) + 1; }
+	_Temp_T     static        _ui64 _is_class_T                 (std::string V, _ui64 I) { return I + 1; }
+					    
+	///
+	_Temp_T1_T2 static  std::string _to_string_T             (std::pair<T1, T2> V) {
+		return _to_string_T(T1) + _to_string_T(T1);
+	}
+	_Temp_T1_T2 static  std::string _to_string_T              (std::map<T1, T2> V) {
+		
+		
+	}
+	_Temp_T1_T2 static  std::string _to_string_T    (std::unordered_map<T1, T2> V) {
+		
+
+	}
+	///											          
+												          
+	_Temp_T_N   static  std::string _to_string_T           (std::array<T, N> V) {
+		std::string _str;
+		for (auto u : V) _str += _to_string_T(u);
+		return _str;
+	}
+	_Temp_T     static  std::string _to_string_T             (std::vector<T> V) {
+		std::string _str;
+		for (auto u : V) _str += _to_string_T(u);
+		return _str;
+	}	    
+	_Temp_T     static  std::string _to_string_T               (std::list<T> V) {
+		std::string _str;
+		for (auto u : V) _str += _to_string_T(u);
+		return _str;
+	}	    
+	_Temp_T     static  std::string _to_string_T       (std::forward_list<T> V) {
+		std::string _str;
+		for (auto u : V) _str += _to_string_T(u);
+		return _str;
+	}
+	_Temp_T     static  std::string _to_string_T                (std::set<T> V) {
+		std::string _str;
+		for (auto u : V) _str += _to_string_T(u);
+		return _str;
+	}
+	_Temp_T     static  std::string _to_string_T           (std::multiset<T> V) {
+		std::string _str;
+		for (auto u : V) _str += _to_string_T(u);
+		return _str;
+	}
+	_Temp_T     static  std::string _to_string_T      (std::unordered_set<T> V) {
+		std::string _str;
+		for (auto u : V) _str += _to_string_T(u);
+		return _str;
+	}
+	_Temp_T     static  std::string _to_string_T (std::unordered_multiset<T> V) {
+		std::string _str;
+		for (auto u : V) _str += _to_string_T(u);
+		return _str;
+	}
+	            static  std::string _to_string_T                (std::string V) { return V; }
+
+#if (_Version_CPP_17)
+
+	            static  std::string _to_string_T	                    (_bool V) { return std::to_string(V); }
+	            static  std::string _to_string_T	                    (_i8   V) { return std::to_string(V); }
+	            static  std::string _to_string_T	                    (_i16  V) { return std::to_string(V); }
+	            static  std::string _to_string_T	                    (_i32  V) { return std::to_string(V); }
+	            static  std::string _to_string_T	                    (_i64  V) { return std::to_string(V); }
+	            static  std::string _to_string_T	                    (_ui8  V) { return std::to_string(V); }
+	            static  std::string _to_string_T	                    (_ui16 V) { return std::to_string(V); }
+	            static  std::string _to_string_T	                    (_ui32 V) { return std::to_string(V); }
+	            static  std::string _to_string_T	                    (_ui64 V) { return std::to_string(V); }
+	            static  std::string _to_string_T	                    (_f32  V) { return std::to_string(V); }
+	            static  std::string _to_string_T	                    (_f64  V) { return std::to_string(V); }
+	            static  std::string _to_string_T	                    (_lf64 V) { return std::to_string(V); }
+	            static  std::string _to_string_T	                    (_sc8  V) { return std::to_string(V); }
+	            static  std::string _to_string_T	                    (_uc8  V) { return std::to_string(V); }
+	            static  std::string _to_string_T	                    (_uc16 V) { return std::to_string(V); }
+	            static  std::string _to_string_T	                    (_uc32 V) { return std::to_string(V); }
+
+	            static        _ui64 _is_class_T	               (_bool V, _ui64 I) { return I; }
+	            static        _ui64 _is_class_T	               (_i8   V, _ui64 I) { return I; }
+	            static        _ui64 _is_class_T	               (_i16  V, _ui64 I) { return I; }
+	            static        _ui64 _is_class_T	               (_i32  V, _ui64 I) { return I; }
+	            static        _ui64 _is_class_T	               (_i64  V, _ui64 I) { return I; }
+	            static        _ui64 _is_class_T	               (_ui8  V, _ui64 I) { return I; }
+	            static        _ui64 _is_class_T	               (_ui16 V, _ui64 I) { return I; }
+	            static        _ui64 _is_class_T	               (_ui32 V, _ui64 I) { return I; }
+	            static        _ui64 _is_class_T	               (_ui64 V, _ui64 I) { return I; }
+	            static        _ui64 _is_class_T	               (_f32  V, _ui64 I) { return I; }
+	            static        _ui64 _is_class_T	               (_f64  V, _ui64 I) { return I; }
+	            static        _ui64 _is_class_T	               (_lf64 V, _ui64 I) { return I; }
+	            static        _ui64 _is_class_T	               (_sc8  V, _ui64 I) { return I; }
+	            static        _ui64 _is_class_T	               (_uc8  V, _ui64 I) { return I; }
+	            static        _ui64 _is_class_T	               (_uc16 V, _ui64 I) { return I; }
+	            static        _ui64 _is_class_T	               (_uc32 V, _ui64 I) { return I; }									 
+
+#else
+
+	            static  std::string _to_string_T                       (_bool V) { return std::to_string(V); }
+	            static  std::string _to_string_T                       (_i8   V) { return std::to_string(V); }
+	            static  std::string _to_string_T                       (_i16  V) { return std::to_string(V); }
+	            static  std::string _to_string_T                       (_i32  V) { return std::to_string(V); }
+	            static  std::string _to_string_T                       (_i64  V) { return std::to_string(V); }
+	            static  std::string _to_string_T                       (_ui8  V) { return std::to_string(V); }
+	            static  std::string _to_string_T                       (_ui16 V) { return std::to_string(V); }
+	            static  std::string _to_string_T                       (_ui32 V) { return std::to_string(V); }
+	            static  std::string _to_string_T                       (_ui64 V) { return std::to_string(V); }
+	            static  std::string _to_string_T                       (_f32  V) { return std::to_string(V); }
+	            static  std::string _to_string_T                       (_f64  V) { return std::to_string(V); }
+	            static  std::string _to_string_T                       (_lf64 V) { return std::to_string(V); }
+	            static  std::string _to_string_T                       (_sc8  V) { return std::to_string(V); }
+	            static  std::string _to_string_T                       (_uc16 V) { return std::to_string(V); }
+	            static  std::string _to_string_T                       (_uc32 V) { return std::to_string(V); }
+
+	            static        _ui64 _is_class_T               (_bool V, _ui64 I) { return I; }
+	            static        _ui64 _is_class_T               (_i8   V, _ui64 I) { return I; }
+	            static        _ui64 _is_class_T               (_i16  V, _ui64 I) { return I; }
+	            static        _ui64 _is_class_T               (_i32  V, _ui64 I) { return I; }
+	            static        _ui64 _is_class_T               (_i64  V, _ui64 I) { return I; }
+	            static        _ui64 _is_class_T               (_ui8  V, _ui64 I) { return I; }
+	            static        _ui64 _is_class_T               (_ui16 V, _ui64 I) { return I; }
+	            static        _ui64 _is_class_T               (_ui32 V, _ui64 I) { return I; }
+	            static        _ui64 _is_class_T               (_ui64 V, _ui64 I) { return I; }
+	            static        _ui64 _is_class_T               (_f32  V, _ui64 I) { return I; }
+	            static        _ui64 _is_class_T               (_f64  V, _ui64 I) { return I; }
+	            static        _ui64 _is_class_T               (_lf64 V, _ui64 I) { return I; }
+	            static        _ui64 _is_class_T               (_sc8  V, _ui64 I) { return I; }
+	            static        _ui64 _is_class_T               (_uc16 V, _ui64 I) { return I; }
+	            static        _ui64 _is_class_T               (_uc32 V, _ui64 I) { return I; }
+	            								 		 
+#endif
+
+	_Temp_T1_T2 static _bool       _in                          (T1 t1, T2 t2) {
+		_ui64 _dim1 = _is_class_T(t1, 0),
+			  _dim2 = _is_class_T(t2, 0);
+		if (_dim1 == _dim2) return (_to_string_T(t1) == _to_string_T(t2));
+		if (_dim1 > _dim2) return false;
+		return _cycle_T(_to_string_T(t1), t2, _dim2 - _dim1);
+	}
+
+public:
+	
+	_Temp_T1_T2 friend _bool search_in(T1 What, T2 Where);
+	_Temp_T friend _ui64 dimensial_size(T t);
+
+};
+	
+_Temp_T1_T2 _bool search_in(T1 What, T2 Where) {
+	return _SearchIn::_in(What, Where);
+};
+
+_Temp_T _ui64 dimensial_size(T t) {
+	return _SearchIn::_is_class_T(t, 0);
+};
+
+
+
+_i64 random(_i64 const less, _i64 const more) {
 	return rand() % (more - less) + less;
 }
 

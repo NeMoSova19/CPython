@@ -7,7 +7,28 @@ class A{};
 
 int main() {
 	
-	print(1);
+	vector<int> v1 = { 1, 2, 3 };
+	array<int, 3> v2 = { 1, 2, 3 };
+
+	vector<vector<vector<int>>> vIN2 = { 
+		{ {1, 3, 3}, {1, 2, 2} }, 
+		{ {1, 4, 3}, {1, 5, 3}, {1, 2, 1} }, 
+		{ {1, 1, 1} }, 
+		{ {1, 2, 6}, {5, 5, 3} }, 
+		{ {1, 9, 3}, {1, 10, 3}, {1, 2, 3} },
+		{ {1, 2, 11}, {1, 2, 12}, {13, 2, 3} }
+	};
+
+	//print(v1 SearchIn v2);
+
+	map<int, int> m;
+
+	set<int> l = { 1, 2, 3 };
+
+	
+
+	print(search_in("20", vIN2), dimensial_size(vIN2));
+
 	return 0;
 }
 
