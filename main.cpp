@@ -10,24 +10,7 @@ int main() {
 	vector<int> v1 = { 1, 2, 3 };
 	array<int, 3> v2 = { 1, 2, 3 };
 
-	vector<vector<vector<int>>> vIN2 = { 
-		{ {1, 3, 3}, {1, 2, 2} }, 
-		{ {1, 4, 3}, {1, 5, 3}, {1, 2, 1} }, 
-		{ {1, 1, 1} }, 
-		{ {1, 2, 6}, {5, 5, 3} }, 
-		{ {1, 9, 3}, {1, 10, 3}, {1, 2, 3} },
-		{ {1, 2, 11}, {1, 2, 12}, {13, 2, 3} }
-	};
-
-	//print(v1 SearchIn v2);
-
-	map<int, int> m;
-
-	set<int> l = { 1, 2, 3 };
-
-	
-
-	print(search_in("20", vIN2), dimensial_size(vIN2));
+	print(v1, "Hello", v2);
 
 	return 0;
 }
@@ -73,24 +56,4 @@ c = ('w','h','t','f',1,2,3)
 <queue>
 <deque>
 <stack>
-*/
-
-/*
-* print(1)
-* 
-$LN4@main:
-  lea rcx, QWORD PTR $T4[rsp]
-  call _Print print<int>(int) ; print<int>
-  lea rcx, QWORD PTR $T4[rsp]
-  call _Print::~_Print(void) ; _Print::~_Print
-
-* cout << 1 << ' '
-* 
-$LN4@main:
-  lea rcx, OFFSET FLAT:std::basic_ostream<char,std::char_traits<char> > std::cout ; std::cout
-  call std::basic_ostream<char,std::char_traits<char> > & std::basic_ostream<char,std::char_traits<char> >::operator<<(int) ; std::basic_ostream<char,std::char_traits<char> >::operator<<
-  mov QWORD PTR tv73[rsp], rax
-  mov dl, 32 ; 00000020H
-  mov rcx, QWORD PTR tv73[rsp]
-  call std::basic_ostream<char,std::char_traits<char> > & std::operator<<<std::char_traits<char> >(std::basic_ostream<char,std::char_traits<char> > &,char) ; std::operator<<<std::char_traits<char> >
 */
