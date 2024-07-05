@@ -35,3 +35,10 @@
 /x64/Release
 /x64/Debug
 /x64
+/CPython/x64/Release/CPython.tlog
+/CPython/x64/Release/microsoft/STL
+*.log
+*.ipdb
+*.iobj
+*.recipe
+*.pdb
